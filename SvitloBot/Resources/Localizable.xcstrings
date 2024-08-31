@@ -1,0 +1,294 @@
+{
+  "sourceLanguage" : "uk",
+  "strings" : {
+    "*" : {
+
+    },
+    "%@ %@" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "auto_requests_toggle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматичні запити"
+          }
+        }
+      }
+    },
+    "channel_key_placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Код"
+          }
+        }
+      }
+    },
+    "charging_status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Статус зарядки:"
+          }
+        }
+      }
+    },
+    "disclaimer_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "* Для коректної роботи чату, всі індикатори повинні бути активні та показувати зелене. Переконайтесь, що статуси відповідають нормам для безперебійної функціональності."
+          }
+        }
+      }
+    },
+    "event_date" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дата:"
+          }
+        }
+      }
+    },
+    "event_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Опис:"
+          }
+        }
+      }
+    },
+    "event_log_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Журнал подій"
+          }
+        }
+      }
+    },
+    "event_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подія:"
+          }
+        }
+      }
+    },
+    "internet_status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інтернет статус:"
+          }
+        }
+      }
+    },
+    "last_request" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Останній запит:"
+          }
+        }
+      }
+    },
+    "logs_api_request" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "API запит %{status}, код: %{statusCode}"
+          }
+        }
+      }
+    },
+    "logs_api_request_failure" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "з помилкою"
+          }
+        }
+      }
+    },
+    "logs_api_request_success" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "успішний"
+          }
+        }
+      }
+    },
+    "logs_auto_request" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматичні запити: %{status}"
+          }
+        }
+      }
+    },
+    "logs_auto_request_disabled" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вимкнені"
+          }
+        }
+      }
+    },
+    "logs_auto_request_enabled" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Увімкнені"
+          }
+        }
+      }
+    },
+    "logs_charging" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пристрій %{status}"
+          }
+        }
+      }
+    },
+    "logs_charging_status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "заряджається"
+          }
+        }
+      }
+    },
+    "logs_internet_connected_status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Підключено"
+          }
+        }
+      }
+    },
+    "logs_internet_disconnected_status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не підключено"
+          }
+        }
+      }
+    },
+    "logs_internet_status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інтернет статус: %{status}"
+          }
+        }
+      }
+    },
+    "logs_not_charging_status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "не заряджається"
+          }
+        }
+      }
+    },
+    "logs_test_request_triggered" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Користувач зробив тестовий запит"
+          }
+        }
+      }
+    },
+    "not_available" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "N/A"
+          }
+        }
+      }
+    },
+    "test_request_button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тестовий запит"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
