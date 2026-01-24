@@ -102,6 +102,127 @@
         }
       }
     },
+    "intents.cycles_number.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повертає число 10000 як змінну для використання у Командах."
+          }
+        }
+      }
+    },
+    "intents.cycles_number.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отримати число циклів"
+          }
+        }
+      }
+    },
+    "intents.delay_seconds.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повертає число 60 як затримку (у секундах) для використання у Командах."
+          }
+        }
+      }
+    },
+    "intents.delay_seconds.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отримати затримку між ітераціями"
+          }
+        }
+      }
+    },
+    "intents.is_charging.description" : {
+        "extractionState" : "manual",
+        "localizations" : {
+          "uk" : {
+            "stringUnit" : {
+              "state" : "translated",
+              "value" : "Повертає true, якщо пристрій заряджається або повністю заряджений, інакше — false."
+            }
+          }
+        }
+    },
+    "intents.is_charging.title" : {
+        "extractionState" : "manual",
+        "localizations" : {
+          "uk" : {
+            "stringUnit" : {
+              "state" : "translated",
+              "value" : "Перевірити стан заряджання"
+            }
+          }
+        }
+    },
+    "intents.perform_request.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відправити запит через СвітлоБот. Можна використовувати у Shortcuts."
+          }
+        }
+      }
+    },
+    "intents.perform_request.error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помилка (%@). %@"
+          }
+        }
+      }
+    },
+    "intents.perform_request.no_channel_key" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вказано channelKey у налаштуваннях застосунку."
+          }
+        }
+      }
+    },
+    "intents.perform_request.success" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Успіх (%@)."
+          }
+        }
+      }
+    },
+    "intents.perform_request.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виконати запит у СвітлоБот"
+          }
+        }
+      }
+    },
     "internet_status" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -288,6 +409,20 @@
           }
         }
       }
+    },
+    "ui.install_shortcut_button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Встановити Команду"
+          }
+        }
+      }
+    },
+    "Встановити Команду" : {
+
     }
   },
   "version" : "1.0"

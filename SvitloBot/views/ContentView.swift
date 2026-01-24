@@ -12,6 +12,8 @@ struct ContentView: View {
     
     @State private var showingLogs = false
     
+    private let shortcutURL = URL(string: "https://www.icloud.com/shortcuts/2dc277dd94c14fbcbaa1ec81fff50575")!
+    
     var body: some View {
         ScrollView {
             
@@ -74,6 +76,14 @@ struct ContentView: View {
                 .disabled(viewModel.channelKey.isEmpty)
                 .padding()
                 .buttonStyle(TestRequestButtonStyle(isDisabled: viewModel.channelKey.isEmpty))
+                
+                if #available(iOS 16.0, *) {
+                    Button("ui.install_shortcut_button".localized) {
+                        UIApplication.shared.open(shortcutURL, options: [:], completionHandler: nil)
+                    }
+                    .padding(.top, 8)
+                    .buttonStyle(TestRequestButtonStyle(isDisabled: false))
+                }
             }
             .padding()
             .sheet(isPresented: $showingLogs) {
