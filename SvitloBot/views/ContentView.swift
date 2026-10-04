@@ -174,6 +174,9 @@ private struct PrimaryActionButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
+            .font(.headline)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 10)
             .foregroundColor(.white)
             .background(configuration.isPressed ? color.opacity(0.75) : color)
             .cornerRadius(12)
@@ -287,7 +290,7 @@ private struct OnboardingView: View {
     @ObservedObject var viewModel: ContentViewModel
     let onFinish: () -> Void
     @State private var page = 0
-    private let botURL = URL(string: "https://t.me/SvitloUkraineBot")!
+    private let faqURL = URL(string: "https://svitlobot.in.ua/instructions?idx=5")!
 
     var body: some View {
         VStack(spacing: 0) {
@@ -307,18 +310,25 @@ private struct OnboardingView: View {
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
 
-            HStack(spacing: 12) {
-                if page > 0 {
-                    Button("Назад") { withAnimation { page -= 1 } }
-                        .buttonStyle(PlainButtonStyle())
+            ZStack {
+                HStack {
+                    if page > 0 {
+                        Button("Назад") { withAnimation { page -= 1 } }
+                            .buttonStyle(PlainButtonStyle())
+                            .transition(.opacity)
+                    }
+                    Spacer(minLength: 0)
                 }
+
                 Button(page == 2 ? "Почати" : "Далі") {
                     if page < 2 { withAnimation { page += 1 } } else { onFinish() }
                 }
                 .buttonStyle(PrimaryActionButtonStyle(color: .blue))
-                .frame(maxWidth: .infinity)
+                .fixedSize()
             }
-            .padding()
+            .frame(maxWidth: .infinity, minHeight: 56)
+            .padding(.horizontal)
+            .padding(.vertical, 8)
         }
         .background(Color(UIColor.systemGroupedBackground).ignoresSafeArea())
     }
@@ -362,7 +372,7 @@ private struct OnboardingView: View {
             .autocapitalization(.allCharacters)
             .disableAutocorrection(true)
             .textFieldStyle(.roundedBorder)
-            Link("Як отримати ключ у боті Світлобота", destination: botURL)
+            Link("Як отримати ключ у боті Світлобота", destination: faqURL)
                 .font(.subheadline)
             Text("На iPhone для регулярних сигналів залишайте застосунок відкритим. Екран буде затемнений, а автоматичне блокування вимкнене.")
                 .font(.footnote)
