@@ -169,9 +169,9 @@ enum TelegramAPIError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidToken:
-            return "Перевірте токен Telegram-бота."
+            return "telegram.error.invalid_token".localized
         case .requestFailed:
-            return "Не вдалося зв’язатися з Telegram."
+            return "telegram.error.request_failed".localized
         case .apiFailure(let message):
             return message
         }

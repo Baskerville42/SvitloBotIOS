@@ -22,6 +22,18 @@ enum SharedMonitoringState {
     static let telegramFallbackEnabledKey = "telegramFallbackEnabled"
     static let telegramChatIDKey = "telegramChatID"
     static let telegramConfigurationVerifiedKey = "telegramConfigurationVerified"
+    static let pendingChargingTransitionsKey = "pendingTelegramChargingTransitions"
+}
+
+private struct ChargingTransitionSnapshot: Codable {
+    let id: UUID
+    let previous: Bool
+    let current: Bool
+    let occurredAt: Date
+    let uptime: TimeInterval
+    let shouldSendTelegram: Bool
+    let telegramChatID: String
+    var hasLoggedSaveFailure: Bool
 }
 
 @objc(EventLog)
@@ -83,16 +95,19 @@ class ContentViewModel: ObservableObject {
             updateAppIcon(forTelegramFallback: isTelegramFallbackEnabled)
             let toggleInfo: String
             if isTelegramFallbackEnabled {
-                toggleInfo = "Telegram-fallback увімкнено"
+                toggleInfo = "telegram.fallback.enabled".localized
             } else if pendingTelegramMessageCount > 0 {
-                toggleInfo = "Telegram-fallback вимкнено; черга з \(pendingTelegramMessageCount) повідомлень призупинена"
+                toggleInfo = "telegram.fallback.disabled_queue_paused".localizedWithParams(["count": String(pendingTelegramMessageCount)])
             } else {
-                toggleInfo = "Telegram-fallback вимкнено"
+                toggleInfo = "telegram.fallback.disabled".localized
             }
             logEvent(eventType: .telegramFallbackToggled, additionalInfo: toggleInfo)
             validateConditions()
             if isTelegramFallbackEnabled {
                 startTelegramRetryTimerIfNeeded()
+                if !oldValue && isTelegramConfigured {
+                    validateTelegramConfiguration()
+                }
                 drainPendingTelegramMessages()
             } else {
                 telegramRetryTimer?.cancel()
@@ -102,17 +117,24 @@ class ContentViewModel: ObservableObject {
     }
     @Published var telegramBotToken: String {
         didSet {
-            _ = TelegramTokenStore.save(telegramBotToken.trimmingCharacters(in: .whitespacesAndNewlines))
-            isTelegramConfigurationVerified = false
+            let token = telegramBotToken.trimmingCharacters(in: .whitespacesAndNewlines)
+            _ = TelegramTokenStore.save(token)
+            if oldValue.trimmingCharacters(in: .whitespacesAndNewlines) != token {
+                isTelegramConfigurationVerified = false
+            }
         }
     }
     @Published var telegramChatID: String {
         didSet {
-            UserDefaults.standard.set(telegramChatID.trimmingCharacters(in: .whitespacesAndNewlines), forKey: SharedMonitoringState.telegramChatIDKey)
-            isTelegramConfigurationVerified = false
+            let chatID = telegramChatID.trimmingCharacters(in: .whitespacesAndNewlines)
+            UserDefaults.standard.set(chatID, forKey: SharedMonitoringState.telegramChatIDKey)
+            if oldValue.trimmingCharacters(in: .whitespacesAndNewlines) != chatID {
+                isTelegramConfigurationVerified = false
+            }
         }
     }
-    @Published var telegramStatusMessage = "Налаштування Telegram не перевірені"
+    @Published var telegramStatusMessage = "telegram.configuration.not_checked".localized
+    @Published var isTelegramConfigurationCheckInProgress = false
     @Published var isTelegramConfigurationVerified = false {
         didSet {
             UserDefaults.standard.set(isTelegramConfigurationVerified, forKey: SharedMonitoringState.telegramConfigurationVerifiedKey)
@@ -135,9 +157,11 @@ class ContentViewModel: ObservableObject {
     private var batteryObserver: AnyCancellable?
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "NetworkMonitor")
-    private var hasInitialChargingStatus = false
     private var isSendingTelegramMessage = false
     private var didEstablishTelegramBaselineThisSession = false
+    private var lastObservedChargingStatus: Bool?
+    private var pendingChargingTransitions: [ChargingTransitionSnapshot] = []
+    private var chargingTransitionRetryTimer: AnyCancellable?
     
     init() {
         UIApplication.shared.isIdleTimerDisabled = true
@@ -146,6 +170,15 @@ class ContentViewModel: ObservableObject {
         self.isTelegramFallbackEnabled = UserDefaults.standard.bool(forKey: SharedMonitoringState.telegramFallbackEnabledKey)
         self.telegramBotToken = TelegramTokenStore.read()
         self.telegramChatID = UserDefaults.standard.string(forKey: SharedMonitoringState.telegramChatIDKey) ?? ""
+        if let data = UserDefaults.standard.data(forKey: SharedMonitoringState.pendingChargingTransitionsKey),
+           let transitions = try? JSONDecoder().decode([ChargingTransitionSnapshot].self, from: data) {
+            self.pendingChargingTransitions = transitions
+        }
+        if let latestTransition = pendingChargingTransitions.last {
+            self.isCharging = latestTransition.current
+            self.didEstablishTelegramBaselineThisSession = true
+            self.lastObservedChargingStatus = latestTransition.current
+        }
         self.pendingTelegramMessageCount = pendingTelegramCount()
         self.isTelegramConfigurationVerified = UserDefaults.standard.bool(forKey: SharedMonitoringState.telegramConfigurationVerifiedKey)
         let savedTelegramMessageDate = UserDefaults.standard.object(forKey: "telegramLastMessageDate") as? Date
@@ -153,6 +186,7 @@ class ContentViewModel: ObservableObject {
         self.lastTelegramMessageDate = [savedTelegramMessageDate, loggedTelegramMessageDate].compactMap { $0 }.max()
         updateAppIcon(forTelegramFallback: isTelegramFallbackEnabled)
         startMonitoringNetwork()
+        retryPendingChargingTransitions()
         startMonitoringBattery()
         if isTelegramFallbackEnabled { startTelegramRetryTimerIfNeeded() }
         validateChannelKey()
@@ -213,22 +247,44 @@ class ContentViewModel: ObservableObject {
         if !didEstablishTelegramBaselineThisSession {
             establishTelegramBaseline(isCharging: newChargingStatus)
             didEstablishTelegramBaselineThisSession = true
-        }
-
-        guard isCharging != newChargingStatus else {
-            let lastObserved = defaults.object(forKey: SharedMonitoringState.lastObservedChargingStateKey) as? Bool
-            if !newChargingStatus, lastObserved == true, !isTelegramFallbackEnabled {
-                sendImmediateOffRequestIfNeeded()
-            }
+            lastObservedChargingStatus = newChargingStatus
+            isCharging = newChargingStatus
             defaults.set(newChargingStatus, forKey: SharedMonitoringState.lastObservedChargingStateKey)
-            if newChargingStatus {
-                defaults.set(false, forKey: SharedMonitoringState.immediateOffSentKey)
-            }
-            hasInitialChargingStatus = true
+            defaults.set(false, forKey: SharedMonitoringState.immediateOffSentKey)
             return
         }
 
-        let wasCharging = isCharging
+        guard let previousStatus = lastObservedChargingStatus else {
+            lastObservedChargingStatus = newChargingStatus
+            isCharging = newChargingStatus
+            defaults.set(newChargingStatus, forKey: SharedMonitoringState.lastObservedChargingStateKey)
+            return
+        }
+
+        guard previousStatus != newChargingStatus else {
+            retryPendingChargingTransitions()
+            if newChargingStatus {
+                defaults.set(false, forKey: SharedMonitoringState.immediateOffSentKey)
+            }
+            return
+        }
+
+        let occurredAt = Date()
+        let shouldSendTelegram = isTelegramFallbackEnabled && isTelegramConfigured
+        let transition = ChargingTransitionSnapshot(
+            id: UUID(),
+            previous: previousStatus,
+            current: newChargingStatus,
+            occurredAt: occurredAt,
+            uptime: ProcessInfo.processInfo.systemUptime,
+            shouldSendTelegram: shouldSendTelegram,
+            telegramChatID: telegramChatID.trimmingCharacters(in: .whitespacesAndNewlines),
+            hasLoggedSaveFailure: false
+        )
+        pendingChargingTransitions.append(transition)
+        savePendingChargingTransitions()
+
+        lastObservedChargingStatus = newChargingStatus
         isCharging = newChargingStatus
         logChargingStatus(isCharging: newChargingStatus)
         defaults.set(newChargingStatus, forKey: SharedMonitoringState.lastObservedChargingStateKey)
@@ -236,18 +292,72 @@ class ContentViewModel: ObservableObject {
             defaults.set(false, forKey: SharedMonitoringState.immediateOffSentKey)
         }
 
-        guard hasInitialChargingStatus else {
-            hasInitialChargingStatus = true
-            return
-        }
+        retryPendingChargingTransitions()
 
-        persistChargingTransition(from: wasCharging, to: newChargingStatus, at: Date())
-
-        if wasCharging && !newChargingStatus {
+        if previousStatus && !newChargingStatus {
             if !isTelegramFallbackEnabled {
                 sendImmediateOffRequestIfNeeded()
             }
         }
+    }
+
+    private func savePendingChargingTransitions() {
+        let key = SharedMonitoringState.pendingChargingTransitionsKey
+        guard !pendingChargingTransitions.isEmpty else {
+            UserDefaults.standard.removeObject(forKey: key)
+            return
+        }
+        guard let data = try? JSONEncoder().encode(pendingChargingTransitions) else {
+            print("Failed to encode pending charging transitions")
+            return
+        }
+        UserDefaults.standard.set(data, forKey: key)
+    }
+
+    private func startChargingTransitionRetryTimerIfNeeded() {
+        guard chargingTransitionRetryTimer == nil else { return }
+        chargingTransitionRetryTimer = Timer.publish(every: 15, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                self?.retryPendingChargingTransitions()
+            }
+    }
+
+    private func retryPendingChargingTransitions() {
+        while let transition = pendingChargingTransitions.first {
+            if let error = persistChargingTransition(transition) {
+                telegramStatusMessage = "telegram.charging_state.save_failed_retrying".localized
+                if !transition.hasLoggedSaveFailure {
+                    pendingChargingTransitions[0].hasLoggedSaveFailure = true
+                    savePendingChargingTransitions()
+                    logEvent(
+                        eventType: .telegramMessageFailure,
+                        additionalInfo: "telegram.charging_state.save_failed_details".localizedWithParams(["details": error.localizedDescription]),
+                        timestamp: transition.occurredAt
+                    )
+                }
+                startChargingTransitionRetryTimerIfNeeded()
+                return
+            }
+
+            pendingChargingTransitions.removeFirst()
+            savePendingChargingTransitions()
+            if telegramStatusMessage == "telegram.charging_state.save_failed_retrying".localized {
+                telegramStatusMessage = "telegram.charging_state.saved".localized
+            }
+            if transition.shouldSendTelegram {
+                pendingTelegramMessageCount = pendingTelegramCount()
+                logEvent(
+                    eventType: .telegramMessageQueued,
+                    additionalInfo: (transition.current ? "telegram.queue.light_restored" : "telegram.queue.power_lost").localized,
+                    timestamp: transition.occurredAt
+                )
+                drainPendingTelegramMessages()
+            }
+        }
+
+        chargingTransitionRetryTimer?.cancel()
+        chargingTransitionRetryTimer = nil
     }
 
     private func establishTelegramBaseline(isCharging: Bool) {
@@ -276,82 +386,67 @@ class ContentViewModel: ObservableObject {
                 if telegramStoreContext.hasChanges { try telegramStoreContext.save() }
             } catch {
                 telegramStoreContext.rollback()
-                logEvent(eventType: .telegramMessageFailure, additionalInfo: "Не вдалося зберегти початковий стан зарядки")
+                logEvent(eventType: .telegramMessageFailure, additionalInfo: "telegram.charging_state.initial_save_failed".localized)
             }
         }
     }
 
-    private func persistChargingTransition(from previous: Bool, to current: Bool, at date: Date) {
-        let uptime = ProcessInfo.processInfo.systemUptime
-        let tokenIsConfigured = isTelegramConfigured && isTelegramConfigurationVerified
-        let destination = telegramChatID.trimmingCharacters(in: .whitespacesAndNewlines)
-        var didQueueMessage = false
-        var saveSucceeded = false
+    private func persistChargingTransition(_ transition: ChargingTransitionSnapshot) -> Error? {
+        var saveError: Error?
 
         telegramStoreContext.performAndWait {
             let stateRequest = NSFetchRequest<TelegramMonitoringStateItem>(entityName: "TelegramMonitoringStateItem")
             stateRequest.fetchLimit = 1
             stateRequest.predicate = NSPredicate(format: "id == %@", "current")
-            let states = (try? telegramStoreContext.fetch(stateRequest)) ?? []
-            let state = states.first ?? TelegramMonitoringStateItem(context: telegramStoreContext)
-            if state.id == nil { state.id = "current" }
-
-            let savedPrevious = state.isCharging?.boolValue ?? previous
-            let known = state.isPhaseDurationKnown?.boolValue ?? false
-            let priorUptime = state.phaseStartedUptime?.doubleValue
-            let elapsed: TimeInterval? = {
-                guard known, let priorUptime, uptime >= priorUptime else { return nil }
-                return uptime - priorUptime
-            }()
-
-            // If persistent state disagrees with the observed prior state, its interval boundary
-            // is unreliable. Keep the event but mark its duration unknown instead of guessing.
-            let measuredElapsed = savedPrevious == previous ? elapsed : nil
-            if isTelegramFallbackEnabled && tokenIsConfigured {
-                let message = telegramMessage(isCharging: current, duration: measuredElapsed, at: date)
-                let sequence = nextTelegramSequence()
-                let queued = PendingTelegramMessageItem(context: telegramStoreContext)
-                queued.id = UUID()
-                queued.createdAt = date
-                queued.deliveryState = "queued"
-                queued.isCharging = NSNumber(value: current)
-                queued.sequence = NSNumber(value: sequence)
-                queued.text = message
-                queued.chatID = destination
-                didQueueMessage = true
-            }
-
-            state.isCharging = NSNumber(value: current)
-            state.phaseStartedAt = date
-            state.phaseStartedUptime = NSNumber(value: uptime)
-            state.isPhaseDurationKnown = NSNumber(value: true)
-
             do {
+                let states = try telegramStoreContext.fetch(stateRequest)
+                let state = states.first ?? TelegramMonitoringStateItem(context: telegramStoreContext)
+                if state.id == nil { state.id = "current" }
+
+                let savedPrevious = state.isCharging?.boolValue ?? transition.previous
+                let known = state.isPhaseDurationKnown?.boolValue ?? false
+                let priorUptime = state.phaseStartedUptime?.doubleValue
+                let elapsed: TimeInterval? = {
+                    guard known, let priorUptime, transition.uptime >= priorUptime else { return nil }
+                    return transition.uptime - priorUptime
+                }()
+
+                // If persistent state disagrees with the observed prior state, its interval boundary
+                // is unreliable. Keep the event but mark its duration unknown instead of guessing.
+                let measuredElapsed = savedPrevious == transition.previous ? elapsed : nil
+                if transition.shouldSendTelegram {
+                    let existingMessageRequest = NSFetchRequest<PendingTelegramMessageItem>(entityName: "PendingTelegramMessageItem")
+                    existingMessageRequest.fetchLimit = 1
+                    existingMessageRequest.predicate = NSPredicate(format: "id == %@", transition.id as NSUUID)
+                    if try telegramStoreContext.fetch(existingMessageRequest).isEmpty {
+                        let sequenceRequest = NSFetchRequest<PendingTelegramMessageItem>(entityName: "PendingTelegramMessageItem")
+                        sequenceRequest.sortDescriptors = [NSSortDescriptor(key: "sequence", ascending: false)]
+                        sequenceRequest.fetchLimit = 1
+                        let sequence = (try telegramStoreContext.fetch(sequenceRequest).first?.sequence?.int64Value ?? 0) + 1
+                        let message = telegramMessage(isCharging: transition.current, duration: measuredElapsed, at: transition.occurredAt)
+                        let queued = PendingTelegramMessageItem(context: telegramStoreContext)
+                        queued.id = transition.id
+                        queued.createdAt = transition.occurredAt
+                        queued.deliveryState = "queued"
+                        queued.isCharging = NSNumber(value: transition.current)
+                        queued.sequence = NSNumber(value: sequence)
+                        queued.text = message
+                        queued.chatID = transition.telegramChatID
+                    }
+                }
+
+                state.isCharging = NSNumber(value: transition.current)
+                state.phaseStartedAt = transition.occurredAt
+                state.phaseStartedUptime = NSNumber(value: transition.uptime)
+                state.isPhaseDurationKnown = NSNumber(value: true)
+
                 try telegramStoreContext.save()
-                saveSucceeded = true
             } catch {
                 telegramStoreContext.rollback()
+                saveError = error
             }
         }
-
-        guard saveSucceeded else {
-            telegramStatusMessage = "Не вдалося зберегти зміну стану зарядки"
-            logEvent(eventType: .telegramMessageFailure, additionalInfo: "Не вдалося зберегти подію Telegram у базі даних")
-            return
-        }
-
-        if isTelegramFallbackEnabled {
-            if didQueueMessage {
-                pendingTelegramMessageCount = pendingTelegramCount()
-                logEvent(eventType: .telegramMessageQueued, additionalInfo: current ? "Повідомлення про появу світла додано до черги" : "Повідомлення про зникнення світла додано до черги")
-                drainPendingTelegramMessages()
-            } else {
-                telegramStatusMessage = isTelegramConfigured
-                    ? "Перевірте налаштування Telegram перед надсиланням"
-                    : "Додайте токен бота й ID або @назву каналу в налаштуваннях"
-                logEvent(eventType: .telegramMessageFailure, additionalInfo: "Повідомлення не поставлено в чергу: налаштування Telegram не завершені або не перевірені")
-            }
-        }
+        return saveError
     }
 
     private func telegramMessage(isCharging: Bool, duration: TimeInterval?, at date: Date) -> String {
@@ -360,23 +455,23 @@ class ContentViewModel: ObservableObject {
         clock.dateFormat = "HH:mm"
 
         if isCharging {
-            let durationText = duration.map { "Його не було \(formattedDuration($0))" } ?? "Тривалість відключення невідома"
-            return "🟢 \(clock.string(from: date)) Світло з'явилося\n🕒 \(durationText)"
+            let durationText = duration.map { "telegram.message.light_restored.duration_known".localizedWithParams(["duration": formattedDuration($0)]) } ?? "telegram.message.light_restored.duration_unknown".localized
+            return "telegram.message.light_restored".localizedWithParams(["time": clock.string(from: date), "duration": durationText])
         }
 
-        let durationText = duration.map { "Воно було \(formattedDuration($0))" } ?? "Тривалість до цього невідома"
-        return "🔴 \(clock.string(from: date)) Світло зникло\n🕒 \(durationText)"
+        let durationText = duration.map { "telegram.message.power_lost.duration_known".localizedWithParams(["duration": formattedDuration($0)]) } ?? "telegram.message.power_lost.duration_unknown".localized
+        return "telegram.message.power_lost".localizedWithParams(["time": clock.string(from: date), "duration": durationText])
     }
 
     private func formattedDuration(_ duration: TimeInterval) -> String {
         let units: [(seconds: TimeInterval, label: String)] = [
-            (365 * 24 * 60 * 60, "р"),
-            (30 * 24 * 60 * 60, "міс"),
-            (7 * 24 * 60 * 60, "тиж"),
-            (24 * 60 * 60, "д"),
-            (60 * 60, "год"),
-            (60, "хв"),
-            (1, "с")
+            (365 * 24 * 60 * 60, "telegram.duration.year"),
+            (30 * 24 * 60 * 60, "telegram.duration.month"),
+            (7 * 24 * 60 * 60, "telegram.duration.week"),
+            (24 * 60 * 60, "telegram.duration.day"),
+            (60 * 60, "telegram.duration.hour"),
+            (60, "telegram.duration.minute"),
+            (1, "telegram.duration.second")
         ]
 
         var remaining = max(0, Int(duration))
@@ -384,19 +479,11 @@ class ContentViewModel: ObservableObject {
         for unit in units {
             let value = remaining / Int(unit.seconds)
             guard value > 0 else { continue }
-            parts.append("\(value)\(unit.label)")
+            parts.append("telegram.duration.value".localizedWithParams(["value": String(value), "unit": unit.label.localized]))
             remaining %= Int(unit.seconds)
             if parts.count == 2 { break }
         }
-        return parts.isEmpty ? "0с" : parts.joined(separator: " ")
-    }
-
-    private func nextTelegramSequence() -> Int64 {
-        let request = NSFetchRequest<PendingTelegramMessageItem>(entityName: "PendingTelegramMessageItem")
-        request.sortDescriptors = [NSSortDescriptor(key: "sequence", ascending: false)]
-        request.fetchLimit = 1
-        let results = (try? telegramStoreContext.fetch(request)) ?? []
-        return (results.first?.sequence?.int64Value ?? 0) + 1
+        return parts.isEmpty ? "telegram.duration.zero_seconds".localized : parts.joined(separator: " ")
     }
 
     private func pendingTelegramCount() -> Int {
@@ -423,10 +510,12 @@ class ContentViewModel: ObservableObject {
     }
 
     private func drainPendingTelegramMessages() {
-        guard isTelegramFallbackEnabled, !isSendingTelegramMessage else { return }
+        guard isTelegramFallbackEnabled,
+              !isSendingTelegramMessage,
+              !isTelegramConfigurationCheckInProgress else { return }
         guard isConnected else {
             if pendingTelegramMessageCount > 0 {
-                telegramStatusMessage = "Немає мережі. Повідомлення збережені й чекають на повторне надсилання."
+                telegramStatusMessage = "telegram.delivery.offline_waiting".localized
             }
             return
         }
@@ -460,7 +549,7 @@ class ContentViewModel: ObservableObject {
         }
 
         isSendingTelegramMessage = true
-        telegramStatusMessage = "Надсилаємо повідомлення до Telegram…"
+        telegramStatusMessage = "telegram.delivery.sending".localized
         Task {
             do {
                 _ = try await TelegramAPI().sendMessage(token: token, chatID: message.chatID, text: message.text)
@@ -470,7 +559,7 @@ class ContentViewModel: ObservableObject {
                     if saved {
                         self.drainPendingTelegramMessages()
                     } else {
-                        self.telegramStatusMessage = "Telegram підтвердив повідомлення, але не вдалося оновити чергу на телефоні"
+                        self.telegramStatusMessage = "telegram.delivery.sent_queue_update_failed".localized
                     }
                 }
             } catch {
@@ -498,7 +587,7 @@ class ContentViewModel: ObservableObject {
             } else {
                 shouldLogFailure = item.lastError == nil
                 item.deliveryState = "queued"
-                item.lastError = "Не вдалося зв’язатися з Telegram"
+                item.lastError = "telegram.delivery.connection_failed".localized
             }
             do {
                 try telegramStoreContext.save()
@@ -517,32 +606,33 @@ class ContentViewModel: ObservableObject {
             UserDefaults.standard.set(deliveredAt, forKey: "telegramLastMessageDate")
             isTelegramConfigurationVerified = true
             telegramStatusMessage = pendingTelegramMessageCount > 0
-                ? "Повідомлення надіслано; у черзі ще \(pendingTelegramMessageCount)"
-                : "Telegram-повідомлення надіслано"
+                ? "telegram.delivery.sent_queue_remaining".localizedWithParams(["count": String(pendingTelegramMessageCount)])
+                : "telegram.delivery.sent".localized
             logEvent(
                 eventType: .telegramMessageSuccess,
-                additionalInfo: isCharging ? "Надіслано повідомлення про появу світла" : "Надіслано повідомлення про зникнення світла",
+                additionalInfo: (isCharging ? "telegram.log.light_restored_sent" : "telegram.log.power_lost_sent").localized,
                 timestamp: deliveredAt
             )
         } else {
-            telegramStatusMessage = "Повідомлення очікує на відновлення з’єднання"
+            telegramStatusMessage = "telegram.delivery.waiting_for_connection".localized
             if shouldLogFailure {
-                logEvent(eventType: .telegramMessageFailure, additionalInfo: "Не вдалося надіслати повідомлення; воно залишилося в черзі")
+                logEvent(eventType: .telegramMessageFailure, additionalInfo: "telegram.delivery.failed_queued".localized)
             }
         }
         return true
     }
 
     func validateTelegramConfiguration() {
+        guard !isTelegramConfigurationCheckInProgress else { return }
         let token = telegramBotToken.trimmingCharacters(in: .whitespacesAndNewlines)
         let destination = telegramChatID.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !token.isEmpty, !destination.isEmpty else {
-            telegramStatusMessage = "Вкажіть токен бота й ID або @назву каналу"
+            telegramStatusMessage = "telegram.configuration.enter_token_and_channel".localized
             return
         }
 
-        telegramStatusMessage = "Перевіряємо бота й доступ до каналу…"
-        isTelegramConfigurationVerified = false
+        telegramStatusMessage = "telegram.configuration.checking".localized
+        isTelegramConfigurationCheckInProgress = true
         Task {
             do {
                 let api = TelegramAPI()
@@ -550,18 +640,20 @@ class ContentViewModel: ObservableObject {
                 let chat = try await api.getChat(token: token, chatID: destination)
                 let member = try await api.getChatMember(token: token, chatID: String(chat.id), userID: bot.id)
                 guard member.status == "creator" || (member.status == "administrator" && member.canPostMessages != false) else {
-                    throw TelegramAPIError.apiFailure("Додайте бота до каналу адміністратором із правом публікації.")
+                    throw TelegramAPIError.apiFailure("telegram.configuration.bot_needs_admin_rights".localized)
                 }
                 await MainActor.run {
+                    self.isTelegramConfigurationCheckInProgress = false
                     self.telegramBotUsername = bot.username.map { "@\($0)" }
                     self.isTelegramConfigurationVerified = true
-                    self.telegramStatusMessage = "Бот має право публікувати в каналі"
-                    self.logEvent(eventType: .telegramConfigurationSuccess, additionalInfo: "Бот має право публікувати в каналі")
+                    self.telegramStatusMessage = "telegram.configuration.bot_can_post".localized
+                    self.logEvent(eventType: .telegramConfigurationSuccess, additionalInfo: "telegram.configuration.bot_can_post".localized)
                     self.retryPendingTelegramMessages()
                 }
             } catch {
                 await MainActor.run {
-                    self.telegramStatusMessage = "Не вдалося перевірити Telegram. Перевірте токен, канал і права бота."
+                    self.isTelegramConfigurationCheckInProgress = false
+                    self.telegramStatusMessage = "telegram.configuration.validation_failed".localized
                     self.logEvent(eventType: .telegramConfigurationFailure, additionalInfo: self.telegramStatusMessage)
                 }
             }

@@ -78,19 +78,23 @@ private struct StatusHomeView: View {
 
     private var headline: String {
         if viewModel.isTelegramFallbackEnabled {
-            if !viewModel.isTelegramConfigured { return "Налаштуйте Telegram-fallback" }
-            if !viewModel.isTelegramConfigurationVerified { return "Перевірте налаштування Telegram" }
-            if !viewModel.isConnected { return "Немає з’єднання з мережею" }
-            if viewModel.pendingTelegramMessageCount > 0 { return "Telegram-повідомлення очікують надсилання" }
-            if viewModel.telegramStatusMessage.hasPrefix("Не вдалося") { return "Telegram-fallback потребує уваги" }
-            return "Telegram-fallback увімкнено"
+            if !viewModel.isTelegramConfigured { return "status.headline.telegram_setup".localized }
+            if !viewModel.isTelegramConfigurationVerified {
+                return viewModel.telegramStatusMessage.hasPrefix("telegram.error.prefix".localized)
+                    ? "status.headline.telegram_check_settings".localized
+                    : "status.headline.telegram_restoring".localized
+            }
+            if !viewModel.isConnected { return "status.headline.network_unavailable".localized }
+            if viewModel.pendingTelegramMessageCount > 0 { return "status.headline.telegram_pending".localized }
+            if viewModel.telegramStatusMessage.hasPrefix("telegram.error.prefix".localized) { return "status.headline.telegram_attention".localized }
+            return "status.headline.telegram_enabled".localized
         }
-        if viewModel.channelKey.isEmpty { return "Додайте ключ каналу" }
-        guard viewModel.isAutoRequestEnabled else { return "Моніторинг зупинено" }
-        if !viewModel.isCharging { return "Очікується зарядка" }
-        if !viewModel.isConnected { return "Очікується мережа" }
-        if case .warning = viewModel.requestStatus { return "Не вдалося зв’язатися із сервером" }
-        return "Моніторинг працює"
+        if viewModel.channelKey.isEmpty { return "status.headline.channel_key_missing".localized }
+        guard viewModel.isAutoRequestEnabled else { return "status.headline.monitoring_stopped".localized }
+        if !viewModel.isCharging { return "status.headline.waiting_for_charging".localized }
+        if !viewModel.isConnected { return "status.headline.waiting_for_network".localized }
+        if case .warning = viewModel.requestStatus { return "status.headline.server_unavailable".localized }
+        return "status.headline.monitoring_active".localized
     }
 
     private var statusSymbol: String {
@@ -120,35 +124,37 @@ private struct StatusHomeView: View {
     private var statusDescription: String {
         if viewModel.isTelegramFallbackEnabled {
             if !viewModel.isTelegramConfigured {
-                return "Додайте токен бота й ID або @назву каналу в налаштуваннях. До цього часу автоматичні повідомлення не надсилатимуться."
+                return "status.description.telegram_setup".localized
             }
             if !viewModel.isTelegramConfigurationVerified {
-                return "Перевірте налаштування бота й каналу в розділі «Налаштування»."
+                return viewModel.telegramStatusMessage.hasPrefix("telegram.error.prefix".localized)
+                    ? "status.description.telegram_validation_failed".localized
+                    : "status.description.telegram_validating".localized
             }
             if !viewModel.isConnected {
                 return viewModel.pendingTelegramMessageCount > 0
-                    ? "Немає доступу до мережі. Повідомлення збережені й будуть надіслані після відновлення зв’язку."
-                    : "Немає доступу до мережі. Наступні повідомлення буде збережено до відновлення зв’язку."
+                    ? "status.description.telegram_offline_pending".localized
+                    : "status.description.telegram_offline_no_pending".localized
             }
-            let chargingStatus = viewModel.isCharging ? "Телефон заряджається" : "Телефон не заряджається"
-            return "\(chargingStatus). \(viewModel.telegramStatusMessage). Повідомлення надсилаються лише під час зміни стану зарядки; запити Світлобота вимкнені."
+            let chargingStatus = (viewModel.isCharging ? "status.description.phone_charging" : "status.description.phone_not_charging").localized
+            return "status.description.telegram_active".localizedWithParams(["chargingStatus": chargingStatus, "statusMessage": viewModel.telegramStatusMessage])
         }
         if viewModel.channelKey.isEmpty {
-            return "Додайте ключ у налаштуваннях, щоб під’єднати цей телефон до вашого каналу Світлобота."
+            return "status.description.channel_key_missing".localized
         }
         guard viewModel.isAutoRequestEnabled else {
-            return "Запити не надсилаються. Увімкніть моніторинг, коли телефон буде під’єднаний до потрібної зарядки."
+            return "status.description.monitoring_stopped".localized
         }
         if !viewModel.isCharging {
-            return "Телефон зараз не заряджається, тому сигнали серверу тимчасово не надсилаються."
+            return "status.description.waiting_for_charging".localized
         }
         if !viewModel.isConnected {
-            return "Немає підключення до мережі. Моніторинг продовжиться, щойно зв’язок відновиться."
+            return "status.description.waiting_for_network".localized
         }
         if case .warning = viewModel.requestStatus {
-            return "Перевірте інтернет або доступність сервера. Деталі останніх подій є в журналі."
+            return "status.description.server_unavailable".localized
         }
-        return "Телефон надсилає серверу сигнал приблизно раз на хвилину. Сповіщення про світло сервер публікує у ваш Telegram-канал."
+        return "status.description.monitoring_active".localized
     }
 
     var body: some View {
@@ -173,15 +179,15 @@ private struct StatusHomeView: View {
                 .cornerRadius(18)
 
                 VStack(spacing: 0) {
-                    ConditionRow(title: "Телефон заряджається", detail: "\(viewModel.isTelegramFallbackEnabled ? "Зміна зарядки надсилає повідомлення" : "Зарядка використовується як ознака наявності живлення")", isActive: viewModel.isCharging, symbol: "battery.100")
+                    ConditionRow(title: "Телефон заряджається".localized, detail: (viewModel.isTelegramFallbackEnabled ? "status.condition.charging.telegram" : "status.condition.charging.svitlobot").localized, isActive: viewModel.isCharging, symbol: "battery.100")
                     Divider().padding(.leading, 56)
-                    ConditionRow(title: "Мережа доступна", detail: "Потрібна для надсилання повідомлень", isActive: viewModel.isConnected, symbol: "wifi")
+                    ConditionRow(title: "Мережа доступна".localized, detail: "status.condition.network.description".localized, isActive: viewModel.isConnected, symbol: "wifi")
                     if !viewModel.isTelegramFallbackEnabled {
                         Divider().padding(.leading, 56)
-                        ConditionRow(title: "Ключ каналу", detail: viewModel.channelKey.isEmpty ? "Не додано" : "Збережено на цьому телефоні", isActive: !viewModel.channelKey.isEmpty, symbol: "key.fill")
+                        ConditionRow(title: "Ключ каналу".localized, detail: (viewModel.channelKey.isEmpty ? "status.condition.channel_key.missing" : "status.condition.channel_key.saved").localized, isActive: !viewModel.channelKey.isEmpty, symbol: "key.fill")
                     } else {
                         Divider().padding(.leading, 56)
-                        ConditionRow(title: "Канал Telegram", detail: viewModel.telegramChatID.isEmpty ? "Не налаштовано" : viewModel.telegramChatID, isActive: viewModel.isTelegramConfigured, symbol: "paperplane.fill")
+                        ConditionRow(title: "Канал Telegram".localized, detail: viewModel.telegramChatID.isEmpty ? "status.condition.telegram_channel.missing".localized : viewModel.telegramChatID, isActive: viewModel.isTelegramConfigured, symbol: "paperplane.fill")
                     }
                 }
                 .padding(.horizontal, 16)
@@ -229,7 +235,7 @@ private struct StatusHomeView: View {
                         .foregroundColor(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 } else {
-                    Label(viewModel.isTelegramFallbackEnabled ? "Telegram-повідомлень ще не було" : "Сигнал ще не надсилався", systemImage: "clock")
+                    Label((viewModel.isTelegramFallbackEnabled ? "Telegram-повідомлень ще не було" : "Сигнал ще не надсилався").localized, systemImage: "clock")
                         .font(.footnote)
                         .foregroundColor(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -247,7 +253,7 @@ private struct StatusHomeView: View {
                     guard !viewModel.channelKey.isEmpty else { return }
                     viewModel.isAutoRequestEnabled.toggle()
                 } label: {
-                    Label(viewModel.isAutoRequestEnabled ? "Зупинити моніторинг" : "Увімкнути моніторинг",
+                    Label((viewModel.isAutoRequestEnabled ? "Зупинити моніторинг" : "Увімкнути моніторинг").localized,
                           systemImage: viewModel.isAutoRequestEnabled ? "stop.fill" : "play.fill")
                         .font(.headline)
                         .frame(maxWidth: .infinity)
@@ -257,9 +263,9 @@ private struct StatusHomeView: View {
                 .disabled(viewModel.channelKey.isEmpty)
                 }
 
-                Text(viewModel.isTelegramFallbackEnabled
+                Text((viewModel.isTelegramFallbackEnabled
                      ? "Telegram-fallback надсилає повідомлення безпосередньо від вашого бота. Світлобот у цьому режимі не використовується."
-                     : "Цей застосунок є клієнтом моніторингу. Він сам не надсилає сповіщення про відключення — це робить сервер Світлобота у Telegram.")
+                     : "Цей застосунок є клієнтом моніторингу. Він сам не надсилає сповіщення про відключення — це робить сервер Світлобота у Telegram.").localized)
                     .font(.footnote)
                     .foregroundColor(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -329,6 +335,7 @@ private struct SettingsView: View {
     @State private var testResultMessage = ""
     @State private var showingTelegramGuide = false
     @AppStorage("hasSeenTelegramFallbackGuide") private var hasSeenTelegramFallbackGuide = false
+    private let projectGitHubURL = URL(string: "https://github.com/Baskerville42/SvitloBotIOS")!
     private let botURL: URL = {
         var components = URLComponents(string: "https://t.me/SvitloUkraineBot")!
         components.queryItems = [URLQueryItem(name: "text", value: "📊 Статус")]
@@ -369,68 +376,11 @@ private struct SettingsView: View {
             }
             }
 
-            Section {
-                Toggle("Увімкнути Telegram-fallback", isOn: Binding(
-                    get: { viewModel.isTelegramFallbackEnabled },
-                    set: { enabled in
-                        viewModel.isTelegramFallbackEnabled = enabled
-                        if enabled && !hasSeenTelegramFallbackGuide {
-                            showingTelegramGuide = true
-                            hasSeenTelegramFallbackGuide = true
-                        }
-                    }
-                ))
-
-                if viewModel.isTelegramFallbackEnabled {
-                    SecureField("Токен Telegram-бота", text: $viewModel.telegramBotToken)
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
-                    TextField("ID або @назва каналу", text: $viewModel.telegramChatID)
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
-
-                    Button("Перевірити налаштування") {
-                        viewModel.validateTelegramConfiguration()
-                    }
-                    .disabled(!viewModel.isTelegramConfigured)
-
-                    Text(viewModel.telegramStatusMessage)
-                        .font(.footnote)
-                        .foregroundColor(.secondary)
-
-                    if viewModel.pendingTelegramMessageCount > 0 {
-                        Button {
-                            viewModel.retryPendingTelegramMessages()
-                        } label: {
-                            Label("Повторити надсилання (\(viewModel.pendingTelegramMessageCount))", systemImage: "arrow.clockwise")
-                        }
-                        .disabled(!viewModel.isConnected)
-                    }
-
-                    Button {
-                        showingTelegramGuide = true
-                    } label: {
-                        Label("Як налаштувати Telegram-fallback", systemImage: "questionmark.circle")
-                    }
-                } else if viewModel.pendingTelegramMessageCount > 0 {
-                    Text("У черзі залишилося повідомлень: \(viewModel.pendingTelegramMessageCount). Черга призупинена, доки Telegram-fallback вимкнено.")
-                        .font(.footnote)
-                        .foregroundColor(.secondary)
-                }
-            } header: {
-                Text("Telegram-fallback")
-            } footer: {
-                Text("Надсилає повідомлення в канал лише під час від’єднання або поновлення зарядки. У цьому режимі запити Світлобота вимкнені.")
-            }
-            .sheet(isPresented: $showingTelegramGuide) {
-                TelegramFallbackGuideView()
-            }
-
             Section(header: Text("Перевірка")) {
                 if !viewModel.isTelegramFallbackEnabled {
                 Button {
                     viewModel.performTestRequest()
-                    testResultMessage = viewModel.isConnected ? "Тестовий запит надіслано. Перевірте результат у журналі подій." : "Немає підключення до мережі."
+                    testResultMessage = (viewModel.isConnected ? "settings.test_request.sent" : "settings.test_request.offline").localized
                     showingTestResult = true
                 } label: {
                     Label("Надіслати тестовий запит", systemImage: "paperplane.fill")
@@ -465,6 +415,95 @@ private struct SettingsView: View {
             } header: {
                 Text("Як це працює")
             }
+
+            Section {
+                Toggle("Увімкнути Telegram-fallback", isOn: Binding(
+                    get: { viewModel.isTelegramFallbackEnabled },
+                    set: { enabled in
+                        viewModel.isTelegramFallbackEnabled = enabled
+                        if enabled && !hasSeenTelegramFallbackGuide {
+                            showingTelegramGuide = true
+                            hasSeenTelegramFallbackGuide = true
+                        }
+                    }
+                ))
+
+                if viewModel.isTelegramFallbackEnabled {
+                    SecureField("Токен Telegram-бота", text: $viewModel.telegramBotToken)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                    TextField("ID або @назва каналу", text: $viewModel.telegramChatID)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+
+                    Button("Перевірити налаштування") {
+                        viewModel.validateTelegramConfiguration()
+                    }
+                    .disabled(
+                        !viewModel.isTelegramConfigured
+                            || viewModel.isTelegramConfigurationVerified
+                            || viewModel.isTelegramConfigurationCheckInProgress
+                    )
+
+                    if viewModel.isTelegramConfigurationCheckInProgress {
+                        ProgressView()
+                            .scaleEffect(0.8)
+                    }
+
+                    Text(viewModel.telegramStatusMessage)
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+
+                    if viewModel.pendingTelegramMessageCount > 0 {
+                        Button {
+                            viewModel.retryPendingTelegramMessages()
+                        } label: {
+                            Label("Повторити надсилання (\(viewModel.pendingTelegramMessageCount))", systemImage: "arrow.clockwise")
+                        }
+                        .disabled(!viewModel.isConnected)
+                    }
+
+                    Button {
+                        showingTelegramGuide = true
+                    } label: {
+                        Label("Як налаштувати Telegram-fallback", systemImage: "questionmark.circle")
+                    }
+                } else if viewModel.pendingTelegramMessageCount > 0 {
+                    Text("У черзі залишилося повідомлень: \(viewModel.pendingTelegramMessageCount). Черга призупинена, доки Telegram-fallback вимкнено.")
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                }
+            } header: {
+                Text("Telegram-fallback")
+            } footer: {
+                Text("Надсилає повідомлення в канал лише під час від’єднання або поновлення зарядки. У цьому режимі запити Світлобота вимкнені.")
+            }
+            .sheet(isPresented: $showingTelegramGuide) {
+                TelegramFallbackGuideView()
+            }
+
+            Section {
+                VStack(spacing: 12) {
+                    Image("LongLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: 180)
+                        .accessibilityLabel("Світлобот")
+
+                    Text("Версія \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—") • Збірка \(Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "—")")
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+
+                    Link(destination: projectGitHubURL) {
+                        Text("Автор iOS-застосунку — Alexander Tartmin")
+                            .font(.footnote)
+                    }
+
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 12)
+                .listRowBackground(Color.clear)
+            }
         }
     }
 }
@@ -479,25 +518,25 @@ private struct TelegramFallbackGuideView: View {
         NavigationView {
             List {
                 Section(header: Text("Створіть бота")) {
-                    Text("1. Відкрийте BotFather у Telegram і надішліть команду /newbot.")
+                    Text("1. Відкрийте BotFather у Telegram і надішліть команду /newbot.".localized)
                     Link(destination: botFatherURL) {
                         Label("Відкрити BotFather", systemImage: "arrow.up.right.square")
                     }
-                    Text("2. Задайте ім’я та username бота. BotFather видасть токен — скопіюйте його в поле «Токен Telegram-бота». Не передавайте токен іншим: він дає повний доступ до бота.")
+                    Text("2. Задайте ім’я та username бота. BotFather видасть токен — скопіюйте його в поле «Токен Telegram-бота». Не передавайте токен іншим: він дає повний доступ до бота.".localized)
                 }
 
                 Section(header: Text("Додайте бота до каналу")) {
-                    Text("3. Додайте бота до свого каналу як адміністратора з правом публікувати повідомлення.")
-                    Text("4. Для публічного каналу вкажіть його @username. Для приватного каналу скопіюйте посилання на будь-яке повідомлення: у посиланні формату t.me/c/1234567890/… використайте ID як -1001234567890.")
-                    Text("5. Натисніть «Перевірити налаштування». Перевірка підтвердить, що бот існує та може публікувати в цьому каналі.")
+                    Text("3. Додайте бота до свого каналу як адміністратора з правом публікувати повідомлення.".localized)
+                    Text("4. Для публічного каналу вкажіть його @username. Для приватного каналу скопіюйте посилання на будь-яке повідомлення: у посиланні формату t.me/c/1234567890/… використайте ID як -1001234567890.".localized)
+                    Text("5. Натисніть «Перевірити налаштування». Перевірка підтвердить, що бот існує та може публікувати в цьому каналі.".localized)
                     Link(destination: botAPIDocsURL) {
                         Label("Документація Telegram Bot API", systemImage: "book")
                     }
                 }
 
                 Section(header: Text("Як працює fallback")) {
-                    Text("Коли телефон перестає заряджатися, бот надсилає повідомлення про зникнення світла. Коли зарядка поновлюється — повідомлення про появу. Зміни мережі окремих повідомлень не створюють.")
-                    Text("У режимі Telegram-fallback запити до сервера Світлобота вимкнені. Застосунок має залишатися відкритим, щоб відстежувати зарядку.")
+                    Text("Коли телефон перестає заряджатися, бот надсилає повідомлення про зникнення світла. Коли зарядка поновлюється — повідомлення про появу. Зміни мережі окремих повідомлень не створюють.".localized)
+                    Text("У режимі Telegram-fallback запити до сервера Світлобота вимкнені. Застосунок має залишатися відкритим, щоб відстежувати зарядку.".localized)
                 }
             }
             .listStyle(InsetGroupedListStyle())
@@ -528,9 +567,9 @@ private struct OnboardingView: View {
             }
 
             TabView(selection: $page) {
-                introPage(symbol: "bolt.heart.fill", title: "Що таке Світлобот?", text: "Світлобот допомагає визначати наявність електроенергії у вашому помешканні. Цей застосунок перетворює старий iPhone на пристрій моніторингу.")
+                introPage(symbol: "bolt.heart.fill", title: "Що таке Світлобот?".localized, text: "Світлобот допомагає визначати наявність електроенергії у вашому помешканні. Цей застосунок перетворює старий iPhone на пристрій моніторингу.".localized, showsLogo: true)
                     .tag(0)
-                introPage(symbol: "iphone.gen3.radiowaves.left.and.right", title: "Як працює моніторинг", text: "Поки телефон заряджається та має доступ до мережі, застосунок надсилає серверу сигнал приблизно раз на хвилину. Сервер визначає зміну стану й публікує сповіщення у вашому Telegram-каналі. Зазвичай сервер чекає близько чотирьох хвилин; миттєве повідомлення можна ввімкнути в налаштуваннях.")
+                introPage(symbol: "iphone.gen3.radiowaves.left.and.right", title: "Як працює моніторинг".localized, text: "Поки телефон заряджається та має доступ до мережі, застосунок надсилає серверу сигнал приблизно раз на хвилину. Сервер визначає зміну стану й публікує сповіщення у вашому Telegram-каналі. Зазвичай сервер чекає близько чотирьох хвилин; миттєве повідомлення можна ввімкнути в налаштуваннях.".localized)
                     .tag(1)
                 keyPage.tag(2)
             }
@@ -546,7 +585,7 @@ private struct OnboardingView: View {
                     Spacer(minLength: 0)
                 }
 
-                Button(page == 2 ? "Почати" : "Далі") {
+                Button(Text((page == 2 ? "Почати" : "Далі").localized)) {
                     if page < 2 { withAnimation { page += 1 } } else { onFinish() }
                 }
                 .buttonStyle(PrimaryActionButtonStyle(color: .blue))
@@ -559,13 +598,21 @@ private struct OnboardingView: View {
         .background(Color(UIColor.systemGroupedBackground).ignoresSafeArea())
     }
 
-    private func introPage(symbol: String, title: String, text: String) -> some View {
+    private func introPage(symbol: String, title: String, text: String, showsLogo: Bool = false) -> some View {
         VStack(spacing: 22) {
             Spacer()
-            Image(systemName: symbol)
-                .font(.system(size: 54, weight: .medium))
-                .foregroundColor(.blue)
-                .accessibilityHidden(true)
+            if showsLogo {
+                Image("LongLogo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: 260, maxHeight: 58)
+                    .accessibilityLabel("Світлобот")
+            } else {
+                Image(systemName: symbol)
+                    .font(.system(size: 54, weight: .medium))
+                    .foregroundColor(.blue)
+                    .accessibilityHidden(true)
+            }
             Text(title)
                 .font(.largeTitle.weight(.bold))
                 .multilineTextAlignment(.center)
@@ -623,8 +670,8 @@ private struct ChannelStatusView: View {
                 if channelKey.isEmpty {
                     messageView(
                         symbol: "key.fill",
-                        title: "Потрібен ключ каналу",
-                        message: "Додайте ключ у налаштуваннях, щоб переглянути статус каналу."
+                        title: "Потрібен ключ каналу".localized,
+                        message: "Додайте ключ у налаштуваннях, щоб переглянути статус каналу.".localized
                     )
                 } else if let html {
                     ChannelStatusHTMLView(html: html)
@@ -636,7 +683,7 @@ private struct ChannelStatusView: View {
                         Spacer()
                         messageView(
                             symbol: "exclamationmark.icloud",
-                            title: "Не вдалося завантажити статус",
+                            title: "Не вдалося завантажити статус".localized,
                             message: errorMessage
                         )
                         Button("Спробувати ще раз", action: loadStatus)
@@ -690,7 +737,7 @@ private struct ChannelStatusView: View {
                 html = response
                 isLoading = false
             } catch {
-                errorMessage = "Перевірте з’єднання та спробуйте ще раз."
+                errorMessage = "status.error.retry".localized
                 isLoading = false
             }
         }

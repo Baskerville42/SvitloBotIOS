@@ -10,7 +10,6 @@
 		3711F2332C9039540010A51F /* APIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3711F2322C9039540010A51F /* APIUtils.swift */; };
 		3711F23B2C9042450010A51F /* BaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3711F23A2C9042450010A51F /* BaseAPI.swift */; };
 		3711F23D2C9046BD0010A51F /* SvitloBotAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3711F23C2C9046BD0010A51F /* SvitloBotAPI.swift */; };
-		7A2B61D03000000000000001 /* TelegramAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2B61D03000000000000002 /* TelegramAPI.swift */; };
 		37599CBB2C937B2A00773C28 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 37599CBA2C937B2A00773C28 /* Localizable.xcstrings */; };
 		37599CBE2C937BAB00773C28 /* String+Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37599CBD2C937BAB00773C28 /* String+Extra.swift */; };
 		3790E6A12C83649200B79923 /* SvitloBotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3790E6A02C83649200B79923 /* SvitloBotApp.swift */; };
@@ -21,6 +20,7 @@
 		37FFDB612C948E6D0063342C /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FFDB5D2C948E6A0063342C /* IconView.swift */; };
 		37FFDB622C948E6D0063342C /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FFDB5E2C948E6B0063342C /* ContentViewModel.swift */; };
 		37FFDB632C948E6D0063342C /* LogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FFDB5F2C948E6D0063342C /* LogsView.swift */; };
+		7A2B61D03000000000000001 /* TelegramAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2B61D03000000000000002 /* TelegramAPI.swift */; };
 		9FD3DEEB2F2406BF00859743 /* СвітлоБот.shortcut in Resources */ = {isa = PBXBuildFile; fileRef = 9FD3DEEA2F2406BF00859743 /* СвітлоБот.shortcut */; };
 /* End PBXBuildFile section */
 
@@ -28,14 +28,13 @@
 		3711F2322C9039540010A51F /* APIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUtils.swift; sourceTree = "<group>"; };
 		3711F23A2C9042450010A51F /* BaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAPI.swift; sourceTree = "<group>"; };
 		3711F23C2C9046BD0010A51F /* SvitloBotAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SvitloBotAPI.swift; sourceTree = "<group>"; };
-		7A2B61D03000000000000002 /* TelegramAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelegramAPI.swift; sourceTree = "<group>"; };
 		3711F2402C90510E0010A51F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37599CBA2C937B2A00773C28 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		37599CBD2C937BAB00773C28 /* String+Extra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extra.swift"; sourceTree = "<group>"; };
 		3790E69D2C83649200B79923 /* SvitloBot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SvitloBot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3790E6A02C83649200B79923 /* SvitloBotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SvitloBotApp.swift; sourceTree = "<group>"; };
 		3790E6A92C83649500B79923 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		3790E6AC2C83649500B79923 /* SvitloBot.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SvitloBot.xcdatamodel; sourceTree = "<group>"; };
+		3790E6AC2C83649500B79923 /* SvitloBotV2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SvitloBotV2.xcdatamodel"; sourceTree = "<group>"; };
 		37FFDB372C948A6C0063342C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		37FFDB382C948BFB0063342C /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		37FFDB392C948CE00063342C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -43,7 +42,9 @@
 		37FFDB5D2C948E6A0063342C /* IconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		37FFDB5E2C948E6B0063342C /* ContentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		37FFDB5F2C948E6D0063342C /* LogsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogsView.swift; sourceTree = "<group>"; };
+		7A2B61D03000000000000002 /* TelegramAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelegramAPI.swift; sourceTree = "<group>"; };
 		9FD3DEEA2F2406BF00859743 /* СвітлоБот.shortcut */ = {isa = PBXFileReference; lastKnownFileType = file; path = "СвітлоБот.shortcut"; sourceTree = "<group>"; };
+		A17E3A1A2C83649500B79923 /* SvitloBotV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SvitloBotV1.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -358,8 +359,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				API_BASE_URL = "https://api.svitlobot.in.ua";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = TelegramFallback;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -374,13 +375,12 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ua.in.svitlobot.SvitloBot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -397,8 +397,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				API_BASE_URL = "https://api.svitlobot.in.ua";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = TelegramFallback;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -413,13 +413,12 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ua.in.svitlobot.SvitloBot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -459,9 +458,10 @@
 		3790E6AB2C83649500B79923 /* SvitloBot.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				3790E6AC2C83649500B79923 /* SvitloBot.xcdatamodel */,
+				A17E3A1A2C83649500B79923 /* SvitloBotV1.xcdatamodel */,
+				3790E6AC2C83649500B79923 /* SvitloBotV2.xcdatamodel */,
 			);
-			currentVersion = 3790E6AC2C83649500B79923 /* SvitloBot.xcdatamodel */;
+			currentVersion = 3790E6AC2C83649500B79923 /* SvitloBotV2.xcdatamodel */;
 			path = SvitloBot.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

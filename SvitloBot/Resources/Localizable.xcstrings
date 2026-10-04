@@ -1,858 +1,2439 @@
 {
-  "sourceLanguage" : "uk",
-  "strings" : {
-    "*" : {
-
+  "sourceLanguage": "uk",
+  "strings": {
+    "1. Відкрийте BotFather у Telegram і надішліть команду /newbot.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Відкрийте BotFather у Telegram і надішліть команду /newbot."
+          }
+        }
+      }
+    },
+    "2. Задайте ім’я та username бота. BotFather видасть токен — скопіюйте його в поле «Токен Telegram-бота». Не передавайте токен іншим: він дає повний доступ до бота.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2. Задайте ім’я та username бота. BotFather видасть токен — скопіюйте його в поле «Токен Telegram-бота». Не передавайте токен іншим: він дає повний доступ до бота."
+          }
+        }
+      }
+    },
+    "3. Додайте бота до свого каналу як адміністратора з правом публікувати повідомлення.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3. Додайте бота до свого каналу як адміністратора з правом публікувати повідомлення."
+          }
+        }
+      }
+    },
+    "4. Для публічного каналу вкажіть його @username. Для приватного каналу скопіюйте посилання на будь-яке повідомлення: у посиланні формату t.me/c/1234567890/… використайте ID як -1001234567890.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "4. Для публічного каналу вкажіть його @username. Для приватного каналу скопіюйте посилання на будь-яке повідомлення: у посиланні формату t.me/c/1234567890/… використайте ID як -1001234567890."
+          }
+        }
+      }
+    },
+    "5. Натисніть «Перевірити налаштування». Перевірка підтвердить, що бот існує та може публікувати в цьому каналі.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5. Натисніть «Перевірити налаштування». Перевірка підтвердить, що бот існує та може публікувати в цьому каналі."
+          }
+        }
+      }
+    },
+    "ID або @назва каналу": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ID або @назва каналу"
+          }
+        }
+      }
+    },
+    "Telegram-fallback": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram-fallback"
+          }
+        }
+      }
+    },
+    "Telegram-fallback надсилає повідомлення безпосередньо від вашого бота. Світлобот у цьому режимі не використовується.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram-fallback надсилає повідомлення безпосередньо від вашого бота. Світлобот у цьому режимі не використовується."
+          }
+        }
+      }
+    },
+    "Telegram-повідомлень ще не було": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram-повідомлень ще не було"
+          }
+        }
+      }
+    },
+    "auto_requests_toggle": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автоматичні запити"
+          }
+        }
+      }
+    },
+    "channel_key_placeholder": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Код"
+          }
+        }
+      }
+    },
+    "charging_status": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Статус зарядки:"
+          }
+        }
+      }
+    },
+    "disclaimer_text": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "* Для коректної роботи чату, всі індикатори повинні бути активні та показувати зелене. Переконайтесь, що статуси відповідають нормам для безперебійної функціональності."
+          }
+        }
+      }
+    },
+    "event_date": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дата:"
+          }
+        }
+      }
+    },
+    "event_description": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Опис:"
+          }
+        }
+      }
+    },
+    "event_log_title": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Журнал подій"
+          }
+        }
+      }
+    },
+    "event_title": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подія:"
+          }
+        }
+      }
+    },
+    "instant_off_description": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Працює разом з автоматичними запитами. При втраті зарядки одразу повідомляє сервер і сповіщає канал про відсутність світла."
+          }
+        }
+      }
+    },
+    "instant_off_toggle": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Миттєво сповіщати про зникнення світла"
+          }
+        }
+      }
+    },
+    "intents.cycles_number.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повертає число 10000 як змінну для використання у Командах."
+          }
+        }
+      }
+    },
+    "intents.cycles_number.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отримати число циклів"
+          }
+        }
+      }
+    },
+    "intents.delay_seconds.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повертає число 60 як затримку (у секундах) для використання у Командах."
+          }
+        }
+      }
+    },
+    "intents.delay_seconds.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отримати затримку між ітераціями"
+          }
+        }
+      }
+    },
+    "intents.is_charging.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повертає true, якщо пристрій заряджається або повністю заряджений, інакше — false."
+          }
+        }
+      }
+    },
+    "intents.is_charging.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевірити стан заряджання"
+          }
+        }
+      }
+    },
+    "intents.perform_request.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Відправити запит через СвітлоБот. Можна використовувати у Shortcuts."
+          }
+        }
+      }
+    },
+    "intents.perform_request.error": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Помилка (%@). %@"
+          }
+        }
+      }
+    },
+    "intents.perform_request.no_channel_key": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вказано channelKey у налаштуваннях застосунку."
+          }
+        }
+      }
+    },
+    "intents.perform_request.success": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Успіх (%@)."
+          }
+        }
+      }
+    },
+    "intents.perform_request.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Виконати запит у СвітлоБот"
+          }
+        }
+      }
+    },
+    "internet_status": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Інтернет статус:"
+          }
+        }
+      }
+    },
+    "last_request": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Останній запит:"
+          }
+        }
+      }
+    },
+    "logs.empty.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тут з’являться записи про роботу моніторингу."
+          }
+        }
+      }
+    },
+    "logs.empty.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подій поки немає"
+          }
+        }
+      }
+    },
+    "logs.event.charging_changed": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Змінився стан зарядки"
+          }
+        }
+      }
+    },
+    "logs.event.generic": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подія застосунку"
+          }
+        }
+      }
+    },
+    "logs.event.monitoring_changed": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Змінено режим моніторингу"
+          }
+        }
+      }
+    },
+    "logs.event.network_changed": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Змінився стан мережі"
+          }
+        }
+      }
+    },
+    "logs.event.request_failed": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося надіслати запит"
+          }
+        }
+      }
+    },
+    "logs.event.request_succeeded": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запит до сервера успішний"
+          }
+        }
+      }
+    },
+    "logs.event.telegram_configuration_checked": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налаштування Telegram перевірено"
+          }
+        }
+      }
+    },
+    "logs.event.telegram_configuration_failed": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося перевірити Telegram"
+          }
+        }
+      }
+    },
+    "logs.event.telegram_fallback_changed": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Змінено режим Telegram-fallback"
+          }
+        }
+      }
+    },
+    "logs.event.telegram_message_failed": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося надіслати в Telegram"
+          }
+        }
+      }
+    },
+    "logs.event.telegram_message_queued": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повідомлення чекає на надсилання"
+          }
+        }
+      }
+    },
+    "logs.event.telegram_message_sent": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram-повідомлення надіслано"
+          }
+        }
+      }
+    },
+    "logs.event.test_request": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Виконано тестовий запит"
+          }
+        }
+      }
+    },
+    "logs.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Журнал подій"
+          }
+        }
+      }
+    },
+    "logs_api_request": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API запит %{status}, код: %{statusCode}"
+          }
+        }
+      }
+    },
+    "logs_api_request_failure": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "з помилкою"
+          }
+        }
+      }
+    },
+    "logs_api_request_success": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "успішний"
+          }
+        }
+      }
+    },
+    "logs_auto_request": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автоматичні запити: %{status}"
+          }
+        }
+      }
+    },
+    "logs_auto_request_disabled": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вимкнені"
+          }
+        }
+      }
+    },
+    "logs_auto_request_enabled": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Увімкнені"
+          }
+        }
+      }
+    },
+    "logs_charging": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пристрій %{status}"
+          }
+        }
+      }
+    },
+    "logs_charging_status": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "заряджається"
+          }
+        }
+      }
+    },
+    "logs_immediate_off_request": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Миттєвий запит про зникнення світла: %{status}, код: %{statusCode}"
+          }
+        }
+      }
+    },
+    "logs_internet_connected_status": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Підключено"
+          }
+        }
+      }
+    },
+    "logs_internet_disconnected_status": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не підключено"
+          }
+        }
+      }
+    },
+    "logs_internet_status": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Інтернет статус: %{status}"
+          }
+        }
+      }
+    },
+    "logs_not_charging_status": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "не заряджається"
+          }
+        }
+      }
+    },
+    "logs_test_request_triggered": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Користувач зробив тестовий запит"
+          }
+        }
+      }
+    },
+    "not_available": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "N/A"
+          }
+        }
+      }
+    },
+    "settings.test_request.offline": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Немає підключення до мережі."
+          }
+        }
+      }
+    },
+    "settings.test_request.sent": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тестовий запит надіслано. Перевірте результат у журналі подій."
+          }
+        }
+      }
+    },
+    "status.condition.channel_key.missing": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не додано"
+          }
+        }
+      }
+    },
+    "status.condition.channel_key.saved": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Збережено на цьому телефоні"
+          }
+        }
+      }
+    },
+    "status.condition.charging.svitlobot": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зарядка використовується як ознака наявності живлення"
+          }
+        }
+      }
+    },
+    "status.condition.charging.telegram": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зміна зарядки надсилає повідомлення"
+          }
+        }
+      }
+    },
+    "status.condition.network.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Потрібна для надсилання повідомлень"
+          }
+        }
+      }
+    },
+    "status.condition.telegram_channel.missing": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не налаштовано"
+          }
+        }
+      }
+    },
+    "status.description.channel_key_missing": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Додайте ключ у налаштуваннях, щоб під’єднати цей телефон до вашого каналу Світлобота."
+          }
+        }
+      }
+    },
+    "status.description.monitoring_active": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Телефон надсилає серверу сигнал приблизно раз на хвилину. Сповіщення про світло сервер публікує у ваш Telegram-канал."
+          }
+        }
+      }
+    },
+    "status.description.monitoring_stopped": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запити не надсилаються. Увімкніть моніторинг, коли телефон буде під’єднаний до потрібної зарядки."
+          }
+        }
+      }
+    },
+    "status.description.phone_charging": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Телефон заряджається"
+          }
+        }
+      }
+    },
+    "status.description.phone_not_charging": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Телефон не заряджається"
+          }
+        }
+      }
+    },
+    "status.description.server_unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевірте інтернет або доступність сервера. Деталі останніх подій є в журналі."
+          }
+        }
+      }
+    },
+    "status.description.telegram_active": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%{chargingStatus}. %{statusMessage}. Повідомлення надсилаються лише під час зміни стану зарядки; запити Світлобота вимкнені."
+          }
+        }
+      }
+    },
+    "status.description.telegram_offline_no_pending": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Немає доступу до мережі. Наступні повідомлення буде збережено до відновлення зв’язку."
+          }
+        }
+      }
+    },
+    "status.description.telegram_offline_pending": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Немає доступу до мережі. Повідомлення збережені й будуть надіслані після відновлення зв’язку."
+          }
+        }
+      }
+    },
+    "status.description.telegram_setup": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Додайте токен бота й ID або @назву каналу в налаштуваннях. До цього часу автоматичні повідомлення не надсилатимуться."
+          }
+        }
+      }
+    },
+    "status.description.telegram_unverified": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевірте налаштування бота й каналу в розділі «Налаштування»."
+          }
+        }
+      }
+    },
+    "status.description.telegram_validating": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевіряємо збережені налаштування Telegram. Автоматичні повідомлення почнуть надсилатися після перевірки."
+          }
+        }
+      }
+    },
+    "status.description.telegram_validation_failed": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося підтвердити збережені налаштування. Перевірте токен, канал і права бота в розділі «Налаштування»."
+          }
+        }
+      }
+    },
+    "status.description.waiting_for_charging": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Телефон зараз не заряджається, тому сигнали серверу тимчасово не надсилаються."
+          }
+        }
+      }
+    },
+    "status.description.waiting_for_network": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Немає підключення до мережі. Моніторинг продовжиться, щойно зв’язок відновиться."
+          }
+        }
+      }
+    },
+    "status.error.retry": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевірте з’єднання та спробуйте ще раз."
+          }
+        }
+      }
     },
-    "%@ %@" : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ %2$@"
+    "status.headline.channel_key_missing": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Додайте ключ каналу"
           }
         }
       }
     },
-    "auto_requests_toggle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Автоматичні запити"
+    "status.headline.monitoring_active": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Моніторинг працює"
           }
         }
       }
     },
-    "channel_key_placeholder" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Код"
+    "status.headline.monitoring_stopped": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Моніторинг зупинено"
           }
         }
       }
     },
-    "charging_status" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Статус зарядки:"
+    "status.headline.network_unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Немає з’єднання з мережею"
           }
         }
       }
     },
-    "disclaimer_text" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "* Для коректної роботи чату, всі індикатори повинні бути активні та показувати зелене. Переконайтесь, що статуси відповідають нормам для безперебійної функціональності."
+    "status.headline.server_unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося зв’язатися із сервером"
           }
         }
       }
     },
-    "event_date" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Дата:"
+    "status.headline.telegram_attention": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram-fallback потребує уваги"
           }
         }
       }
     },
-    "event_description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Опис:"
+    "status.headline.telegram_check_settings": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевірте налаштування Telegram"
           }
         }
       }
     },
-    "event_log_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Журнал подій"
+    "status.headline.telegram_enabled": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram-fallback увімкнено"
           }
         }
       }
     },
-    "event_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Подія:"
+    "status.headline.telegram_pending": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram-повідомлення очікують надсилання"
           }
         }
       }
     },
-    "instant_off_description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Працює разом з автоматичними запитами. При втраті зарядки одразу повідомляє сервер і сповіщає канал про відсутність світла."
+    "status.headline.telegram_restoring": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Відновлюємо Telegram-fallback"
           }
         }
       }
     },
-    "instant_off_toggle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Миттєво сповіщати про зникнення світла"
+    "status.headline.telegram_setup": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налаштуйте Telegram-fallback"
           }
         }
       }
     },
-    "intents.cycles_number.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Повертає число 10000 як змінну для використання у Командах."
+    "status.headline.waiting_for_charging": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очікується зарядка"
           }
         }
       }
     },
-    "intents.cycles_number.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Отримати число циклів"
+    "status.headline.waiting_for_network": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очікується мережа"
           }
         }
       }
     },
-    "intents.delay_seconds.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Повертає число 60 як затримку (у секундах) для використання у Командах."
+    "telegram.charging_state.event_save_failed": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося зберегти подію Telegram у базі даних"
           }
         }
       }
     },
-    "intents.delay_seconds.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Отримати затримку між ітераціями"
+    "telegram.charging_state.initial_save_failed": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося зберегти початковий стан зарядки"
           }
         }
       }
     },
-    "intents.is_charging.description" : {
-        "extractionState" : "manual",
-        "localizations" : {
-          "uk" : {
-            "stringUnit" : {
-              "state" : "translated",
-              "value" : "Повертає true, якщо пристрій заряджається або повністю заряджений, інакше — false."
-            }
+    "telegram.charging_state.save_failed": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося зберегти зміну стану зарядки"
           }
         }
+      }
+    },
+    "telegram.charging_state.save_failed_details": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося зберегти зміну статусу зарядки: %{details}"
+          }
+        }
+      }
+    },
+    "telegram.charging_state.save_failed_retrying": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося зберегти зміну статусу зарядки. Повторимо спробу автоматично."
+          }
+        }
+      }
+    },
+    "telegram.charging_state.saved": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зміну статусу зарядки збережено"
+          }
+        }
+      }
+    },
+    "telegram.configuration.add_token_and_channel": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Додайте токен бота й ID або @назву каналу в налаштуваннях"
+          }
+        }
+      }
+    },
+    "telegram.configuration.bot_can_post": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бот має право публікувати в каналі"
+          }
+        }
+      }
+    },
+    "telegram.configuration.bot_needs_admin_rights": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Додайте бота до каналу адміністратором із правом публікації."
+          }
+        }
+      }
+    },
+    "telegram.configuration.checking": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевіряємо бота й доступ до каналу…"
+          }
+        }
+      }
+    },
+    "telegram.configuration.enter_token_and_channel": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вкажіть токен бота й ID або @назву каналу"
+          }
+        }
+      }
+    },
+    "telegram.configuration.not_checked": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налаштування Telegram не перевірені"
+          }
+        }
+      }
+    },
+    "telegram.configuration.validation_failed": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося перевірити Telegram. Перевірте токен, канал і права бота."
+          }
+        }
+      }
+    },
+    "telegram.configuration.verify_before_send": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевірте налаштування Telegram перед надсиланням"
+          }
+        }
+      }
+    },
+    "telegram.delivery.connection_failed": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося зв’язатися з Telegram"
+          }
+        }
+      }
+    },
+    "telegram.delivery.failed_queued": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося надіслати повідомлення; воно залишилося в черзі"
+          }
+        }
+      }
+    },
+    "telegram.delivery.offline_waiting": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Немає мережі. Повідомлення збережені й чекають на повторне надсилання."
+          }
+        }
+      }
+    },
+    "telegram.delivery.sending": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Надсилаємо повідомлення до Telegram…"
+          }
+        }
+      }
+    },
+    "telegram.delivery.sent": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram-повідомлення надіслано"
+          }
+        }
+      }
+    },
+    "telegram.delivery.sent_queue_remaining": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повідомлення надіслано; у черзі ще %{count}"
+          }
+        }
+      }
+    },
+    "telegram.delivery.sent_queue_update_failed": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram підтвердив повідомлення, але не вдалося оновити чергу на телефоні"
+          }
+        }
+      }
+    },
+    "telegram.delivery.waiting_for_connection": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повідомлення очікує на відновлення з’єднання"
+          }
+        }
+      }
+    },
+    "telegram.duration.day": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "д"
+          }
+        }
+      }
+    },
+    "telegram.duration.hour": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "год"
+          }
+        }
+      }
+    },
+    "telegram.duration.minute": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "хв"
+          }
+        }
+      }
+    },
+    "telegram.duration.month": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "міс"
+          }
+        }
+      }
+    },
+    "telegram.duration.second": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "с"
+          }
+        }
+      }
+    },
+    "telegram.duration.value": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%{value}%{unit}"
+          }
+        }
+      }
+    },
+    "telegram.duration.week": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "тиж"
+          }
+        }
+      }
+    },
+    "telegram.duration.year": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "р"
+          }
+        }
+      }
+    },
+    "telegram.duration.zero_seconds": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0с"
+          }
+        }
+      }
+    },
+    "telegram.error.invalid_token": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевірте токен Telegram-бота."
+          }
+        }
+      }
+    },
+    "telegram.error.prefix": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося"
+          }
+        }
+      }
+    },
+    "telegram.error.request_failed": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося зв’язатися з Telegram."
+          }
+        }
+      }
+    },
+    "telegram.fallback.disabled": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram-fallback вимкнено"
+          }
+        }
+      }
+    },
+    "telegram.fallback.disabled_queue_paused": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram-fallback вимкнено; черга з %{count} повідомлень призупинена"
+          }
+        }
+      }
+    },
+    "telegram.fallback.enabled": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram-fallback увімкнено"
+          }
+        }
+      }
+    },
+    "telegram.log.light_restored_sent": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Надіслано повідомлення про появу світла"
+          }
+        }
+      }
+    },
+    "telegram.log.power_lost_sent": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Надіслано повідомлення про зникнення світла"
+          }
+        }
+      }
+    },
+    "telegram.message.light_restored": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🟢 %{time} Світло з'явилося\n🕒 %{duration}"
+          }
+        }
+      }
+    },
+    "telegram.message.light_restored.duration_known": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Його не було %{duration}"
+          }
+        }
+      }
+    },
+    "telegram.message.light_restored.duration_unknown": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тривалість відключення невідома"
+          }
+        }
+      }
+    },
+    "telegram.message.power_lost": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "🔴 %{time} Світло зникло\n🕒 %{duration}"
+          }
+        }
+      }
+    },
+    "telegram.message.power_lost.duration_known": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Воно було %{duration}"
+          }
+        }
+      }
+    },
+    "telegram.message.power_lost.duration_unknown": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тривалість до цього невідома"
+          }
+        }
+      }
+    },
+    "telegram.queue.light_restored": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повідомлення про появу світла додано до черги"
+          }
+        }
+      }
+    },
+    "telegram.queue.not_enqueued": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повідомлення не поставлено в чергу: налаштування Telegram не завершені або не перевірені"
+          }
+        }
+      }
+    },
+    "telegram.queue.power_lost": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повідомлення про зникнення світла додано до черги"
+          }
+        }
+      }
+    },
+    "test_request_button": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тестовий запит"
+          }
+        }
+      }
+    },
+    "ui.install_shortcut_button": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Встановити Команду"
+          }
+        }
+      }
+    },
+    "Автоматичні запити вимкнено в налаштуваннях Світлобота.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автоматичні запити вимкнено в налаштуваннях Світлобота."
+          }
+        }
+      }
+    },
+    "Автор iOS-застосунку — Alexander Tartmin": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автор iOS-застосунку — Alexander Tartmin"
+          }
+        }
+      }
+    },
+    "Введіть ключ каналу зараз або зробіть це пізніше в налаштуваннях. Без ключа можна ознайомитися із застосунком, але сигнали надсилатися не будуть.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Введіть ключ каналу зараз або зробіть це пізніше в налаштуваннях. Без ключа можна ознайомитися із застосунком, але сигнали надсилатися не будуть."
+          }
+        }
+      }
+    },
+    "Версія %@ • Збірка %@": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "new",
+            "value": "Версія %1$@ • Збірка %2$@"
+          }
+        }
+      }
+    },
+    "Вимкнено за замовчуванням. Опція доступна, коли моніторинг запущено.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вимкнено за замовчуванням. Опція доступна, коли моніторинг запущено."
+          }
+        }
+      }
+    },
+    "Встановити команду «Світлобот»": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Встановити команду «Світлобот»"
+          }
+        }
+      }
+    },
+    "Відкрити BotFather": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Відкрити BotFather"
+          }
+        }
+      }
+    },
+    "Гаразд": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Гаразд"
+          }
+        }
+      }
+    },
+    "Готово": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готово"
+          }
+        }
+      }
+    },
+    "Далі": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Далі"
+          }
+        }
+      }
+    },
+    "Для моніторингу залиште застосунок відкритим, телефон під’єднаним до зарядки та мережі. На iPhone екран залишається увімкненим із мінімальною яскравістю.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для моніторингу залиште застосунок відкритим, телефон під’єднаним до зарядки та мережі. На iPhone екран залишається увімкненим із мінімальною яскравістю."
+          }
+        }
+      }
+    },
+    "Додайте бота до каналу": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Додайте бота до каналу"
+          }
+        }
+      }
+    },
+    "Додайте ключ у налаштуваннях, щоб переглянути статус каналу.": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Додайте ключ у налаштуваннях, щоб переглянути статус каналу."
+          }
+        }
+      }
+    },
+    "Документація Telegram Bot API": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Документація Telegram Bot API"
+          }
+        }
+      }
+    },
+    "Журнал подій": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Журнал подій"
+          }
+        }
+      }
+    },
+    "Завантаження статусу…": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завантаження статусу…"
+          }
+        }
+      }
     },
-    "intents.is_charging.title" : {
-        "extractionState" : "manual",
-        "localizations" : {
-          "uk" : {
-            "stringUnit" : {
-              "state" : "translated",
-              "value" : "Перевірити стан заряджання"
-            }
+    "Запит": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запит"
           }
         }
+      }
     },
-    "intents.perform_request.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Відправити запит через СвітлоБот. Можна використовувати у Shortcuts."
+    "Зупинити моніторинг": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зупинити моніторинг"
           }
         }
       }
     },
-    "intents.perform_request.error" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помилка (%@). %@"
+    "Зупиніть моніторинг, щоб змінити ключ.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зупиніть моніторинг, щоб змінити ключ."
           }
         }
       }
     },
-    "intents.perform_request.no_channel_key" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не вказано channelKey у налаштуваннях застосунку."
+    "Канал Telegram": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Канал Telegram"
           }
         }
       }
     },
-    "intents.perform_request.success" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Успіх (%@)."
+    "Канал Світлобота": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Канал Світлобота"
           }
         }
       }
     },
-    "intents.perform_request.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Виконати запит у СвітлоБот"
+    "Ключ каналу": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ключ каналу"
           }
         }
       }
     },
-    "internet_status" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Інтернет статус:"
+    "Ключ каналу (необов’язково)": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ключ каналу (необов’язково)"
           }
         }
       }
     },
-    "last_request" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Останній запит:"
+    "Ключ прив’язує телефон до каналу, де сервер публікує сповіщення.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ключ прив’язує телефон до каналу, де сервер публікує сповіщення."
           }
         }
       }
     },
-    "logs_api_request" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "API запит %{status}, код: %{statusCode}"
+    "Коли телефон перестає заряджатися, бот надсилає повідомлення про зникнення світла. Коли зарядка поновлюється — повідомлення про появу. Зміни мережі окремих повідомлень не створюють.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Коли телефон перестає заряджатися, бот надсилає повідомлення про зникнення світла. Коли зарядка поновлюється — повідомлення про появу. Зміни мережі окремих повідомлень не створюють."
           }
         }
       }
     },
-    "logs_api_request_failure" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "з помилкою"
+    "Команда": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Команда"
           }
         }
       }
     },
-    "logs_api_request_success" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "успішний"
+    "Мережа доступна": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мережа доступна"
           }
         }
       }
     },
-    "logs_auto_request" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Автоматичні запити: %{status}"
+    "Миттєве сповіщення про втрату зарядки": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Миттєве сповіщення про втрату зарядки"
           }
         }
       }
     },
-    "logs_auto_request_disabled" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вимкнені"
+    "На iPhone для регулярних сигналів залишайте застосунок відкритим. Екран буде затемнений, а автоматичне блокування вимкнене.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "На iPhone для регулярних сигналів залишайте застосунок відкритим. Екран буде затемнений, а автоматичне блокування вимкнене."
           }
         }
       }
     },
-    "logs_auto_request_enabled" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Увімкнені"
+    "Надсилає повідомлення в канал лише під час від’єднання або поновлення зарядки. У цьому режимі запити Світлобота вимкнені.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Надсилає повідомлення в канал лише під час від’єднання або поновлення зарядки. У цьому режимі запити Світлобота вимкнені."
           }
         }
       }
     },
-    "logs_charging" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пристрій %{status}"
+    "Надіслати тестовий запит": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Надіслати тестовий запит"
           }
         }
       }
     },
-    "logs_charging_status" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "заряджається"
+    "Назад": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Назад"
           }
         }
       }
     },
-    "logs_immediate_off_request" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Миттєвий запит про зникнення світла: %{status}, код: %{statusCode}"
+    "Налаштування": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налаштування"
           }
         }
       }
     },
-    "logs_internet_connected_status" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Підключено"
+    "Налаштування Telegram": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налаштування Telegram"
           }
         }
       }
     },
-    "logs_internet_disconnected_status" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не підключено"
+    "Не вдалося завантажити статус": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не вдалося завантажити статус"
           }
         }
       }
     },
-    "logs_internet_status" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Інтернет статус: %{status}"
+    "Не виконано": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не виконано"
           }
         }
       }
     },
-    "logs_not_charging_status" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "не заряджається"
+    "Останнє повідомлення: %@": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Останнє повідомлення: %@"
           }
         }
       }
     },
-    "logs_test_request_triggered" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Користувач зробив тестовий запит"
+    "Останній сигнал: %@": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Останній сигнал: %@"
           }
         }
       }
     },
-    "not_available" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "N/A"
+    "Отримати або переглянути ключ у боті": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отримати або переглянути ключ у боті"
           }
         }
       }
     },
-    "test_request_button" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тестовий запит"
+    "Очікують надсилання: %lld": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очікують надсилання: %lld"
           }
         }
       }
     },
-    "ui.install_shortcut_button" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Встановити Команду"
+    "Перевірити налаштування": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевірити налаштування"
           }
         }
       }
     },
-    "Встановити Команду" : {
-
+    "Перевірити умови моніторингу": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевірити умови моніторингу"
+          }
+        }
+      }
     },
-    "Введіть ключ каналу зараз або зробіть це пізніше в налаштуваннях. Без ключа можна ознайомитися із застосунком, але сигнали надсилатися не будуть." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Введіть ключ каналу зараз або зробіть це пізніше в налаштуваннях. Без ключа можна ознайомитися із застосунком, але сигнали надсилатися не будуть."
+    "Перевірка": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевірка"
           }
         }
       }
     },
-    "Вимкнено за замовчуванням. Опція доступна, коли моніторинг запущено." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вимкнено за замовчуванням. Опція доступна, коли моніторинг запущено."
+    "Переглянути дані сервера Світлобота": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переглянути дані сервера Світлобота"
           }
         }
       }
     },
-    "Встановити команду «Світлобот»" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Встановити команду «Світлобот»"
+    "Повертає true, коли телефон заряджається, автоматичні запити увімкнено й задано ключ каналу.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повертає true, коли телефон заряджається, автоматичні запити увімкнено й задано ключ каналу."
           }
         }
       }
     },
-    "Гаразд" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Гаразд"
+    "Повторити надсилання (%lld)": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повторити надсилання (%lld)"
           }
         }
       }
     },
-    "Готово" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Готово"
+    "Подій поки немає": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подій поки немає"
           }
         }
       }
     },
-    "Далі" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Далі"
+    "Поки телефон заряджається та має доступ до мережі, застосунок надсилає серверу сигнал приблизно раз на хвилину. Сервер визначає зміну стану й публікує сповіщення у вашому Telegram-каналі. Зазвичай сервер чекає близько чотирьох хвилин; миттєве повідомлення можна ввімкнути в налаштуваннях.": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поки телефон заряджається та має доступ до мережі, застосунок надсилає серверу сигнал приблизно раз на хвилину. Сервер визначає зміну стану й публікує сповіщення у вашому Telegram-каналі. Зазвичай сервер чекає близько чотирьох хвилин; миттєве повідомлення можна ввімкнути в налаштуваннях."
           }
         }
       }
     },
-    "Для моніторингу залиште застосунок відкритим, телефон під’єднаним до зарядки та мережі. На iPhone екран залишається увімкненим із мінімальною яскравістю." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Для моніторингу залиште застосунок відкритим, телефон під’єднаним до зарядки та мережі. На iPhone екран залишається увімкненим із мінімальною яскравістю."
+    "Потрібен ключ каналу": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Потрібен ключ каналу"
           }
         }
       }
     },
-    "Журнал подій" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Журнал подій"
+    "Почати": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Почати"
           }
         }
       }
     },
-    "Зупинити моніторинг" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Зупинити моніторинг"
+    "Пропустити": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пропустити"
           }
         }
       }
     },
-    "Зупиніть моніторинг, щоб змінити ключ." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Зупиніть моніторинг, щоб змінити ключ."
+    "Під час роботи моніторингу один раз повідомляє сервер одразу після від’єднання зарядки. Сервер може негайно опублікувати повідомлення про відсутність світла у каналі.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Під час роботи моніторингу один раз повідомляє сервер одразу після від’єднання зарядки. Сервер може негайно опублікувати повідомлення про відсутність світла у каналі."
           }
         }
       }
     },
-    "Канал Світлобота" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Канал Світлобота"
+    "Під’єднайте свій канал": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Під’єднайте свій канал"
           }
         }
       }
     },
-    "Ключ каналу" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ключ каналу"
+    "Світлобот": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Світлобот"
           }
         }
       }
     },
-    "Ключ каналу (необов’язково)" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ключ каналу (необов’язково)"
+    "Світлобот допомагає визначати наявність електроенергії у вашому помешканні. Цей застосунок перетворює старий iPhone на пристрій моніторингу.": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Світлобот допомагає визначати наявність електроенергії у вашому помешканні. Цей застосунок перетворює старий iPhone на пристрій моніторингу."
           }
         }
       }
     },
-    "Ключ прив’язує телефон до каналу, де сервер публікує сповіщення." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ключ прив’язує телефон до каналу, де сервер публікує сповіщення."
+    "Сигнал ще не надсилався": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сигнал ще не надсилався"
           }
         }
       }
     },
-    "Команда" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Команда"
+    "Сповіщення": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сповіщення"
           }
         }
       }
     },
-    "Миттєве сповіщення про втрату зарядки" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Миттєве сповіщення про втрату зарядки"
+    "Спробувати ще раз": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Спробувати ще раз"
           }
         }
       }
     },
-    "На iPhone для регулярних сигналів залишайте застосунок відкритим. Екран буде затемнений, а автоматичне блокування вимкнене." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "На iPhone для регулярних сигналів залишайте застосунок відкритим. Екран буде затемнений, а автоматичне блокування вимкнене."
+    "Стан": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Стан"
           }
         }
       }
     },
-    "Надіслати тестовий запит" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Надіслати тестовий запит"
+    "Статус каналу": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Статус каналу"
           }
         }
       }
     },
-    "Назад" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Назад"
+    "Створіть бота": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Створіть бота"
           }
         }
       }
     },
-    "Налаштування" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Налаштування"
+    "Телефон заряджається": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Телефон заряджається"
           }
         }
       }
     },
-    "Не виконано" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не виконано"
+    "Тестовий запит": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тестовий запит"
           }
         }
       }
     },
-    "Останній сигнал: %@" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Останній сигнал: %@"
+    "Токен Telegram-бота": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Токен Telegram-бота"
           }
         }
       }
     },
-    "Отримати або переглянути ключ у боті" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Отримати або переглянути ключ у боті"
+    "Тут з’являться записи про роботу моніторингу.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тут з’являться записи про роботу моніторингу."
           }
         }
       }
     },
-    "Перевірка" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Перевірка"
+    "У режимі Telegram-fallback запити до сервера Світлобота вимкнені. Застосунок має залишатися відкритим, щоб відстежувати зарядку.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "У режимі Telegram-fallback запити до сервера Світлобота вимкнені. Застосунок має залишатися відкритим, щоб відстежувати зарядку."
           }
         }
       }
     },
-    "Почати" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Почати"
+    "У черзі залишилося повідомлень: %lld. Черга призупинена, доки Telegram-fallback вимкнено.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "У черзі залишилося повідомлень: %lld. Черга призупинена, доки Telegram-fallback вимкнено."
           }
         }
       }
     },
-    "Пропустити" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пропустити"
+    "Увімкнено Telegram-fallback. Запити Світлобота не надсилаються.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Увімкнено Telegram-fallback. Запити Світлобота не надсилаються."
           }
         }
       }
     },
-    "Під час роботи моніторингу один раз повідомляє сервер одразу після від’єднання зарядки. Сервер може негайно опублікувати повідомлення про відсутність світла у каналі." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Під час роботи моніторингу один раз повідомляє сервер одразу після від’єднання зарядки. Сервер може негайно опублікувати повідомлення про відсутність світла у каналі."
+    "Увімкнути Telegram-fallback": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Увімкнути Telegram-fallback"
           }
         }
       }
     },
-    "Під’єднайте свій канал" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Під’єднайте свій канал"
+    "Увімкнути моніторинг": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Увімкнути моніторинг"
           }
         }
       }
     },
-    "Сигнал ще не надсилався" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сигнал ще не надсилався"
+    "Цей застосунок є клієнтом моніторингу. Він сам не надсилає сповіщення про відключення — це робить сервер Світлобота у Telegram.": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Цей застосунок є клієнтом моніторингу. Він сам не надсилає сповіщення про відключення — це робить сервер Світлобота у Telegram."
           }
         }
       }
     },
-    "Сповіщення" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сповіщення"
+    "Що таке Світлобот?": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Що таке Світлобот?"
           }
         }
       }
     },
-    "Стан" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Стан"
+    "Як налаштувати Telegram-fallback": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Як налаштувати Telegram-fallback"
           }
         }
       }
     },
-    "Тестовий запит" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тестовий запит"
+    "Як отримати ключ у боті Світлобота": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Як отримати ключ у боті Світлобота"
           }
         }
       }
     },
-    "Увімкнути моніторинг" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Увімкнути моніторинг"
+    "Як працює fallback": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Як працює fallback"
           }
         }
       }
     },
-    "Цей застосунок є клієнтом моніторингу. Він сам не надсилає сповіщення про відключення — це робить сервер Світлобота у Telegram." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Цей застосунок є клієнтом моніторингу. Він сам не надсилає сповіщення про відключення — це робить сервер Світлобота у Telegram."
+    "Як працює моніторинг": {
+      "extractionState": "manual",
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Як працює моніторинг"
           }
         }
       }
     },
-    "Як отримати ключ у боті Світлобота" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Як отримати ключ у боті Світлобота"
+    "Як це працює": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Як це працює"
           }
         }
       }
     },
-    "Як це працює" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Як це працює"
+    "Надіслати запит у %@": {
+      "localizations": {
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Надіслати запит у %@"
           }
         }
       }
     }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

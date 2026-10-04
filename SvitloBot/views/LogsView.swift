@@ -25,7 +25,7 @@ struct LogsView: View {
                 .listStyle(InsetGroupedListStyle())
             }
         }
-        .navigationTitle("Журнал подій")
+        .navigationTitle("logs.title".localized)
         .navigationBarTitleDisplayMode(.large)
         .onAppear(perform: reloadLogs)
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
@@ -39,9 +39,9 @@ struct LogsView: View {
                 .font(.system(size: 36, weight: .regular))
                 .foregroundColor(.secondary)
                 .accessibilityHidden(true)
-            Text("Подій поки немає")
+            Text("logs.empty.title".localized)
                 .font(.headline)
-            Text("Тут з’являться записи про роботу моніторингу.")
+            Text("logs.empty.description".localized)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -90,31 +90,31 @@ struct LogsView: View {
     private func eventPresentation(for eventType: String?) -> (title: String, symbol: String, color: Color) {
         switch eventType ?? "" {
         case EventLog.EventType.apiRequestSuccess.rawValue:
-            return ("Запит до сервера успішний", "checkmark.circle.fill", .green)
+            return ("logs.event.request_succeeded".localized, "checkmark.circle.fill", .green)
         case EventLog.EventType.apiRequestFailure.rawValue:
-            return ("Не вдалося надіслати запит", "exclamationmark.circle.fill", .red)
+            return ("logs.event.request_failed".localized, "exclamationmark.circle.fill", .red)
         case EventLog.EventType.chargingStatusChanged.rawValue:
-            return ("Змінився стан зарядки", "battery.100", .blue)
+            return ("logs.event.charging_changed".localized, "battery.100", .blue)
         case EventLog.EventType.internetStatusChanged.rawValue:
-            return ("Змінився стан мережі", "wifi", .blue)
+            return ("logs.event.network_changed".localized, "wifi", .blue)
         case EventLog.EventType.autoRequestToggled.rawValue:
-            return ("Змінено режим моніторингу", "gearshape.fill", .blue)
+            return ("logs.event.monitoring_changed".localized, "gearshape.fill", .blue)
         case EventLog.EventType.testRequestMade.rawValue:
-            return ("Виконано тестовий запит", "paperplane.fill", .blue)
+            return ("logs.event.test_request".localized, "paperplane.fill", .blue)
         case EventLog.EventType.telegramFallbackToggled.rawValue:
-            return ("Змінено режим Telegram-fallback", "paperplane.fill", .blue)
+            return ("logs.event.telegram_fallback_changed".localized, "paperplane.fill", .blue)
         case EventLog.EventType.telegramMessageSuccess.rawValue:
-            return ("Telegram-повідомлення надіслано", "checkmark.circle.fill", .green)
+            return ("logs.event.telegram_message_sent".localized, "checkmark.circle.fill", .green)
         case EventLog.EventType.telegramMessageFailure.rawValue:
-            return ("Не вдалося надіслати в Telegram", "exclamationmark.circle.fill", .red)
+            return ("logs.event.telegram_message_failed".localized, "exclamationmark.circle.fill", .red)
         case EventLog.EventType.telegramConfigurationSuccess.rawValue:
-            return ("Налаштування Telegram перевірено", "checkmark.shield.fill", .green)
+            return ("logs.event.telegram_configuration_checked".localized, "checkmark.shield.fill", .green)
         case EventLog.EventType.telegramConfigurationFailure.rawValue:
-            return ("Не вдалося перевірити Telegram", "exclamationmark.shield.fill", .red)
+            return ("logs.event.telegram_configuration_failed".localized, "exclamationmark.shield.fill", .red)
         case EventLog.EventType.telegramMessageQueued.rawValue:
-            return ("Повідомлення чекає на надсилання", "clock.arrow.circlepath", .orange)
+            return ("logs.event.telegram_message_queued".localized, "clock.arrow.circlepath", .orange)
         default:
-            return ("Подія застосунку", "circle.fill", .secondary)
+            return ("logs.event.generic".localized, "circle.fill", .secondary)
         }
     }
 
