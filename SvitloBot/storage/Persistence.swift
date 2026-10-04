@@ -14,6 +14,14 @@ struct PersistenceController {
     
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "SvitloBot")
+        container.persistentStoreDescriptions.first?.setOption(
+            true as NSNumber,
+            forKey: NSMigratePersistentStoresAutomaticallyOption
+        )
+        container.persistentStoreDescriptions.first?.setOption(
+            true as NSNumber,
+            forKey: NSInferMappingModelAutomaticallyOption
+        )
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }

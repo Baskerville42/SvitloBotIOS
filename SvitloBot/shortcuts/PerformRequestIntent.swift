@@ -26,6 +26,9 @@ struct PerformRequestIntent: AppIntent {
         guard UserDefaults.standard.bool(forKey: SharedMonitoringState.autoRequestsEnabledKey) else {
             return .result(dialog: IntentDialog("Автоматичні запити вимкнено в налаштуваннях Світлобота."))
         }
+        guard !UserDefaults.standard.bool(forKey: SharedMonitoringState.telegramFallbackEnabledKey) else {
+            return .result(dialog: IntentDialog("Увімкнено Telegram-fallback. Запити Світлобота не надсилаються."))
+        }
 
         let channelKey = UserDefaults.standard.string(forKey: "channelKey") ?? ""
         guard !channelKey.isEmpty else {

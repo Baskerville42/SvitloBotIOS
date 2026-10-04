@@ -77,6 +77,14 @@ private struct StatusHomeView: View {
     @State private var showingChannelStatus = false
 
     private var headline: String {
+        if viewModel.isTelegramFallbackEnabled {
+            if !viewModel.isTelegramConfigured { return "Налаштуйте Telegram-fallback" }
+            if !viewModel.isTelegramConfigurationVerified { return "Перевірте налаштування Telegram" }
+            if !viewModel.isConnected { return "Немає з’єднання з мережею" }
+            if viewModel.pendingTelegramMessageCount > 0 { return "Telegram-повідомлення очікують надсилання" }
+            if viewModel.telegramStatusMessage.hasPrefix("Не вдалося") { return "Telegram-fallback потребує уваги" }
+            return "Telegram-fallback увімкнено"
+        }
         if viewModel.channelKey.isEmpty { return "Додайте ключ каналу" }
         guard viewModel.isAutoRequestEnabled else { return "Моніторинг зупинено" }
         if !viewModel.isCharging { return "Очікується зарядка" }
@@ -86,6 +94,10 @@ private struct StatusHomeView: View {
     }
 
     private var statusSymbol: String {
+        if viewModel.isTelegramFallbackEnabled {
+            if viewModel.pendingTelegramMessageCount > 0 { return "clock.arrow.circlepath" }
+            return viewModel.isTelegramConfigurationVerified ? "paperplane.circle.fill" : "exclamationmark.bubble.fill"
+        }
         if viewModel.channelKey.isEmpty { return "key.fill" }
         guard viewModel.isAutoRequestEnabled else { return "pause.circle.fill" }
         if !viewModel.isCharging || !viewModel.isConnected { return "clock.fill" }
@@ -94,6 +106,10 @@ private struct StatusHomeView: View {
     }
 
     private var statusColor: Color {
+        if viewModel.isTelegramFallbackEnabled {
+            if viewModel.pendingTelegramMessageCount > 0 { return .orange }
+            return viewModel.isTelegramConfigurationVerified ? .green : .orange
+        }
         if viewModel.channelKey.isEmpty { return .orange }
         guard viewModel.isAutoRequestEnabled else { return .secondary }
         if case .warning = viewModel.requestStatus { return .orange }
@@ -102,6 +118,21 @@ private struct StatusHomeView: View {
     }
 
     private var statusDescription: String {
+        if viewModel.isTelegramFallbackEnabled {
+            if !viewModel.isTelegramConfigured {
+                return "Додайте токен бота й ID або @назву каналу в налаштуваннях. До цього часу автоматичні повідомлення не надсилатимуться."
+            }
+            if !viewModel.isTelegramConfigurationVerified {
+                return "Перевірте налаштування бота й каналу в розділі «Налаштування»."
+            }
+            if !viewModel.isConnected {
+                return viewModel.pendingTelegramMessageCount > 0
+                    ? "Немає доступу до мережі. Повідомлення збережені й будуть надіслані після відновлення зв’язку."
+                    : "Немає доступу до мережі. Наступні повідомлення буде збережено до відновлення зв’язку."
+            }
+            let chargingStatus = viewModel.isCharging ? "Телефон заряджається" : "Телефон не заряджається"
+            return "\(chargingStatus). \(viewModel.telegramStatusMessage). Повідомлення надсилаються лише під час зміни стану зарядки; запити Світлобота вимкнені."
+        }
         if viewModel.channelKey.isEmpty {
             return "Додайте ключ у налаштуваннях, щоб під’єднати цей телефон до вашого каналу Світлобота."
         }
@@ -142,16 +173,22 @@ private struct StatusHomeView: View {
                 .cornerRadius(18)
 
                 VStack(spacing: 0) {
-                    ConditionRow(title: "Телефон заряджається", detail: "Зарядка використовується як ознака наявності живлення", isActive: viewModel.isCharging, symbol: "battery.100")
+                    ConditionRow(title: "Телефон заряджається", detail: "\(viewModel.isTelegramFallbackEnabled ? "Зміна зарядки надсилає повідомлення" : "Зарядка використовується як ознака наявності живлення")", isActive: viewModel.isCharging, symbol: "battery.100")
                     Divider().padding(.leading, 56)
-                    ConditionRow(title: "Мережа доступна", detail: "Wi-Fi або мобільна мережа", isActive: viewModel.isConnected, symbol: "wifi")
-                    Divider().padding(.leading, 56)
-                    ConditionRow(title: "Ключ каналу", detail: viewModel.channelKey.isEmpty ? "Не додано" : "Збережено на цьому телефоні", isActive: !viewModel.channelKey.isEmpty, symbol: "key.fill")
+                    ConditionRow(title: "Мережа доступна", detail: "Потрібна для надсилання повідомлень", isActive: viewModel.isConnected, symbol: "wifi")
+                    if !viewModel.isTelegramFallbackEnabled {
+                        Divider().padding(.leading, 56)
+                        ConditionRow(title: "Ключ каналу", detail: viewModel.channelKey.isEmpty ? "Не додано" : "Збережено на цьому телефоні", isActive: !viewModel.channelKey.isEmpty, symbol: "key.fill")
+                    } else {
+                        Divider().padding(.leading, 56)
+                        ConditionRow(title: "Канал Telegram", detail: viewModel.telegramChatID.isEmpty ? "Не налаштовано" : viewModel.telegramChatID, isActive: viewModel.isTelegramConfigured, symbol: "paperplane.fill")
+                    }
                 }
                 .padding(.horizontal, 16)
                 .background(Color(UIColor.secondarySystemGroupedBackground))
                 .cornerRadius(16)
 
+                if !viewModel.isTelegramFallbackEnabled {
                 Button {
                     showingChannelStatus = true
                 } label: {
@@ -179,19 +216,33 @@ private struct StatusHomeView: View {
                 }
                 .buttonStyle(PlainButtonStyle())
                 .disabled(viewModel.channelKey.isEmpty)
+                }
 
-                if let lastDate = viewModel.lastRequestDate {
+                if viewModel.isTelegramFallbackEnabled, let lastDate = viewModel.lastTelegramMessageDate {
+                    Label("Останнє повідомлення: \(lastDateFormatter.string(from: lastDate))", systemImage: "clock")
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                } else if !viewModel.isTelegramFallbackEnabled, let lastDate = viewModel.lastRequestDate {
                     Label("Останній сигнал: \(lastDateFormatter.string(from: lastDate))", systemImage: "clock")
                         .font(.footnote)
                         .foregroundColor(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 } else {
-                    Label("Сигнал ще не надсилався", systemImage: "clock")
+                    Label(viewModel.isTelegramFallbackEnabled ? "Telegram-повідомлень ще не було" : "Сигнал ще не надсилався", systemImage: "clock")
                         .font(.footnote)
                         .foregroundColor(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
+                if viewModel.isTelegramFallbackEnabled && viewModel.pendingTelegramMessageCount > 0 {
+                    Label("Очікують надсилання: \(viewModel.pendingTelegramMessageCount)", systemImage: "clock.arrow.circlepath")
+                        .font(.footnote)
+                        .foregroundColor(.orange)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+
+                if !viewModel.isTelegramFallbackEnabled {
                 Button {
                     guard !viewModel.channelKey.isEmpty else { return }
                     viewModel.isAutoRequestEnabled.toggle()
@@ -204,8 +255,11 @@ private struct StatusHomeView: View {
                 }
                 .buttonStyle(PrimaryActionButtonStyle(color: viewModel.isAutoRequestEnabled ? .orange : .blue))
                 .disabled(viewModel.channelKey.isEmpty)
+                }
 
-                Text("Цей застосунок є клієнтом моніторингу. Він сам не надсилає сповіщення про відключення — це робить сервер Світлобота у Telegram.")
+                Text(viewModel.isTelegramFallbackEnabled
+                     ? "Telegram-fallback надсилає повідомлення безпосередньо від вашого бота. Світлобот у цьому режимі не використовується."
+                     : "Цей застосунок є клієнтом моніторингу. Він сам не надсилає сповіщення про відключення — це робить сервер Світлобота у Telegram.")
                     .font(.footnote)
                     .foregroundColor(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -216,7 +270,10 @@ private struct StatusHomeView: View {
             }
         }
         .background(Color(UIColor.systemGroupedBackground))
-        .onAppear { viewModel.updateChargingStatus() }
+        .onAppear {
+            viewModel.updateChargingStatus()
+            viewModel.refreshLastTelegramMessageDate()
+        }
     }
 
     private var lastDateFormatter: DateFormatter {
@@ -270,6 +327,8 @@ private struct SettingsView: View {
     @ObservedObject var viewModel: ContentViewModel
     @State private var showingTestResult = false
     @State private var testResultMessage = ""
+    @State private var showingTelegramGuide = false
+    @AppStorage("hasSeenTelegramFallbackGuide") private var hasSeenTelegramFallbackGuide = false
     private let botURL: URL = {
         var components = URLComponents(string: "https://t.me/SvitloUkraineBot")!
         components.queryItems = [URLQueryItem(name: "text", value: "📊 Статус")]
@@ -278,6 +337,7 @@ private struct SettingsView: View {
 
     var body: some View {
         Form {
+            if !viewModel.isTelegramFallbackEnabled {
             Section {
                 TextField("Ключ каналу", text: Binding(
                     get: { viewModel.channelKey },
@@ -307,8 +367,67 @@ private struct SettingsView: View {
             } footer: {
                 Text("Вимкнено за замовчуванням. Опція доступна, коли моніторинг запущено.")
             }
+            }
+
+            Section {
+                Toggle("Увімкнути Telegram-fallback", isOn: Binding(
+                    get: { viewModel.isTelegramFallbackEnabled },
+                    set: { enabled in
+                        viewModel.isTelegramFallbackEnabled = enabled
+                        if enabled && !hasSeenTelegramFallbackGuide {
+                            showingTelegramGuide = true
+                            hasSeenTelegramFallbackGuide = true
+                        }
+                    }
+                ))
+
+                if viewModel.isTelegramFallbackEnabled {
+                    SecureField("Токен Telegram-бота", text: $viewModel.telegramBotToken)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                    TextField("ID або @назва каналу", text: $viewModel.telegramChatID)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+
+                    Button("Перевірити налаштування") {
+                        viewModel.validateTelegramConfiguration()
+                    }
+                    .disabled(!viewModel.isTelegramConfigured)
+
+                    Text(viewModel.telegramStatusMessage)
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+
+                    if viewModel.pendingTelegramMessageCount > 0 {
+                        Button {
+                            viewModel.retryPendingTelegramMessages()
+                        } label: {
+                            Label("Повторити надсилання (\(viewModel.pendingTelegramMessageCount))", systemImage: "arrow.clockwise")
+                        }
+                        .disabled(!viewModel.isConnected)
+                    }
+
+                    Button {
+                        showingTelegramGuide = true
+                    } label: {
+                        Label("Як налаштувати Telegram-fallback", systemImage: "questionmark.circle")
+                    }
+                } else if viewModel.pendingTelegramMessageCount > 0 {
+                    Text("У черзі залишилося повідомлень: \(viewModel.pendingTelegramMessageCount). Черга призупинена, доки Telegram-fallback вимкнено.")
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                }
+            } header: {
+                Text("Telegram-fallback")
+            } footer: {
+                Text("Надсилає повідомлення в канал лише під час від’єднання або поновлення зарядки. У цьому режимі запити Світлобота вимкнені.")
+            }
+            .sheet(isPresented: $showingTelegramGuide) {
+                TelegramFallbackGuideView()
+            }
 
             Section(header: Text("Перевірка")) {
+                if !viewModel.isTelegramFallbackEnabled {
                 Button {
                     viewModel.performTestRequest()
                     testResultMessage = viewModel.isConnected ? "Тестовий запит надіслано. Перевірте результат у журналі подій." : "Немає підключення до мережі."
@@ -316,9 +435,10 @@ private struct SettingsView: View {
                 } label: {
                     Label("Надіслати тестовий запит", systemImage: "paperplane.fill")
                 }
-                .disabled(viewModel.channelKey.isEmpty || !viewModel.isConnected)
+                .disabled(viewModel.channelKey.isEmpty || !viewModel.isConnected || viewModel.isTelegramFallbackEnabled)
                 .alert(isPresented: $showingTestResult) {
                     Alert(title: Text("Тестовий запит"), message: Text(testResultMessage), dismissButton: .default(Text("Гаразд")))
+                }
                 }
 
                 NavigationLink(destination: LogsView(viewModel: viewModel)) {
@@ -344,6 +464,49 @@ private struct SettingsView: View {
                     .foregroundColor(.secondary)
             } header: {
                 Text("Як це працює")
+            }
+        }
+    }
+}
+
+private struct TelegramFallbackGuideView: View {
+    @Environment(\.presentationMode) private var presentationMode
+
+    private let botFatherURL = URL(string: "https://t.me/BotFather")!
+    private let botAPIDocsURL = URL(string: "https://core.telegram.org/bots/api")!
+
+    var body: some View {
+        NavigationView {
+            List {
+                Section(header: Text("Створіть бота")) {
+                    Text("1. Відкрийте BotFather у Telegram і надішліть команду /newbot.")
+                    Link(destination: botFatherURL) {
+                        Label("Відкрити BotFather", systemImage: "arrow.up.right.square")
+                    }
+                    Text("2. Задайте ім’я та username бота. BotFather видасть токен — скопіюйте його в поле «Токен Telegram-бота». Не передавайте токен іншим: він дає повний доступ до бота.")
+                }
+
+                Section(header: Text("Додайте бота до каналу")) {
+                    Text("3. Додайте бота до свого каналу як адміністратора з правом публікувати повідомлення.")
+                    Text("4. Для публічного каналу вкажіть його @username. Для приватного каналу скопіюйте посилання на будь-яке повідомлення: у посиланні формату t.me/c/1234567890/… використайте ID як -1001234567890.")
+                    Text("5. Натисніть «Перевірити налаштування». Перевірка підтвердить, що бот існує та може публікувати в цьому каналі.")
+                    Link(destination: botAPIDocsURL) {
+                        Label("Документація Telegram Bot API", systemImage: "book")
+                    }
+                }
+
+                Section(header: Text("Як працює fallback")) {
+                    Text("Коли телефон перестає заряджатися, бот надсилає повідомлення про зникнення світла. Коли зарядка поновлюється — повідомлення про появу. Зміни мережі окремих повідомлень не створюють.")
+                    Text("У режимі Telegram-fallback запити до сервера Світлобота вимкнені. Застосунок має залишатися відкритим, щоб відстежувати зарядку.")
+                }
+            }
+            .listStyle(InsetGroupedListStyle())
+            .navigationTitle("Налаштування Telegram")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Готово") { presentationMode.wrappedValue.dismiss() }
+                }
             }
         }
     }

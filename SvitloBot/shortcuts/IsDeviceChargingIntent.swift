@@ -25,7 +25,8 @@ struct IsDeviceChargingIntent: AppIntent {
 
         if isCharging {
             defaults.set(false, forKey: SharedMonitoringState.immediateOffSentKey)
-        } else if wasCharging == true,
+        } else if !defaults.bool(forKey: SharedMonitoringState.telegramFallbackEnabledKey),
+                  wasCharging == true,
                   defaults.bool(forKey: SharedMonitoringState.autoRequestsEnabledKey),
                   defaults.bool(forKey: SharedMonitoringState.immediateOffEnabledKey),
                   !defaults.bool(forKey: SharedMonitoringState.immediateOffSentKey),
@@ -36,6 +37,10 @@ struct IsDeviceChargingIntent: AppIntent {
             defaults.set(true, forKey: SharedMonitoringState.immediateOffSentKey)
             let api = SvitloBotAPI()
             _ = try? await api.sendChannelPingOff(channelKey)
+        }
+
+        if defaults.bool(forKey: SharedMonitoringState.telegramFallbackEnabledKey) {
+            return .result(value: false)
         }
 
         let hasChannelKey = !(defaults.string(forKey: "channelKey") ?? "").isEmpty

@@ -101,6 +101,18 @@ struct LogsView: View {
             return ("Змінено режим моніторингу", "gearshape.fill", .blue)
         case EventLog.EventType.testRequestMade.rawValue:
             return ("Виконано тестовий запит", "paperplane.fill", .blue)
+        case EventLog.EventType.telegramFallbackToggled.rawValue:
+            return ("Змінено режим Telegram-fallback", "paperplane.fill", .blue)
+        case EventLog.EventType.telegramMessageSuccess.rawValue:
+            return ("Telegram-повідомлення надіслано", "checkmark.circle.fill", .green)
+        case EventLog.EventType.telegramMessageFailure.rawValue:
+            return ("Не вдалося надіслати в Telegram", "exclamationmark.circle.fill", .red)
+        case EventLog.EventType.telegramConfigurationSuccess.rawValue:
+            return ("Налаштування Telegram перевірено", "checkmark.shield.fill", .green)
+        case EventLog.EventType.telegramConfigurationFailure.rawValue:
+            return ("Не вдалося перевірити Telegram", "exclamationmark.shield.fill", .red)
+        case EventLog.EventType.telegramMessageQueued.rawValue:
+            return ("Повідомлення чекає на надсилання", "clock.arrow.circlepath", .orange)
         default:
             return ("Подія застосунку", "circle.fill", .secondary)
         }
