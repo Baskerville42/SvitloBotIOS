@@ -9,8 +9,12 @@ import Foundation
 
 class BaseAPI {
     
-    func get(endpoint: String, params: [String: AnyHashable]? = nil) async throws -> (statusCode: Int, response: String) {
-        let request = APIUtils.createURLRequest(method: "GET", url: endpoint, params: params)
+    func get(
+        endpoint: String,
+        params: [String: AnyHashable]? = nil,
+        headers: [String: String]? = nil
+    ) async throws -> (statusCode: Int, response: String) {
+        let request = APIUtils.createURLRequest(method: "GET", url: endpoint, params: params, additionalHeaders: headers)
         return try await executeRequest(request: request)
     }
     
@@ -39,4 +43,3 @@ class BaseAPI {
         }
     }
 }
-

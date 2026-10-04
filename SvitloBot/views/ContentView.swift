@@ -4,22 +4,34 @@
 //
 
 import SwiftUI
+import WebKit
 
 struct ContentView: View {
     @StateObject private var viewModel = ContentViewModel()
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @State private var showingOnboarding = false
 
+    init() {
+        if #unavailable(iOS 26.0) {
+            let tabBarAppearance = UITabBarAppearance()
+            tabBarAppearance.configureWithOpaqueBackground()
+            tabBarAppearance.backgroundColor = UIColor.systemBackground
+            UITabBar.appearance().standardAppearance = tabBarAppearance
+            UITabBar.appearance().isTranslucent = false
+
+            if #available(iOS 15.0, *) {
+                UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+            }
+        }
+    }
+
     var body: some View {
         TabView {
-            NavigationView {
-                StatusHomeView(viewModel: viewModel)
-                    .navigationBarHidden(true)
-            }
-            .navigationViewStyle(StackNavigationViewStyle())
-            .tabItem {
-                Label("Стан", systemImage: "bolt.fill")
-            }
+            StatusHomeView(viewModel: viewModel)
+                .tabItem {
+                    Label("Стан", systemImage: "bolt.fill")
+                }
+                .modifier(HideGlassTabBarBackdrop())
 
             NavigationView {
                 SettingsView(viewModel: viewModel)
@@ -29,7 +41,9 @@ struct ContentView: View {
             .tabItem {
                 Label("Налаштування", systemImage: "gearshape.fill")
             }
+            .modifier(HideGlassTabBarBackdrop())
         }
+        .modifier(HideGlassTabBarBackdrop())
         .fullScreenCover(isPresented: $showingOnboarding, onDismiss: {
             hasCompletedOnboarding = true
         }) {
@@ -44,10 +58,23 @@ struct ContentView: View {
             }
         }
     }
+
+}
+
+private struct HideGlassTabBarBackdrop: ViewModifier {
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content.toolbarBackgroundVisibility(.hidden, for: .tabBar)
+        } else {
+            content
+        }
+    }
 }
 
 private struct StatusHomeView: View {
     @ObservedObject var viewModel: ContentViewModel
+    @State private var showingChannelStatus = false
 
     private var headline: String {
         if viewModel.channelKey.isEmpty { return "Додайте ключ каналу" }
@@ -125,6 +152,34 @@ private struct StatusHomeView: View {
                 .background(Color(UIColor.secondarySystemGroupedBackground))
                 .cornerRadius(16)
 
+                Button {
+                    showingChannelStatus = true
+                } label: {
+                    HStack(spacing: 14) {
+                        Image(systemName: "chart.bar.doc.horizontal")
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundColor(.blue)
+                            .frame(width: 28)
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text("Статус каналу")
+                                .font(.body.weight(.medium))
+                                .foregroundColor(.primary)
+                            Text("Переглянути дані сервера Світлобота")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        Spacer(minLength: 8)
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(Color(UIColor.tertiaryLabel))
+                    }
+                    .padding(16)
+                    .background(Color(UIColor.secondarySystemGroupedBackground))
+                    .cornerRadius(16)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .disabled(viewModel.channelKey.isEmpty)
+
                 if let lastDate = viewModel.lastRequestDate {
                     Label("Останній сигнал: \(lastDateFormatter.string(from: lastDate))", systemImage: "clock")
                         .font(.footnote)
@@ -156,6 +211,9 @@ private struct StatusHomeView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding()
+            .sheet(isPresented: $showingChannelStatus) {
+                ChannelStatusView(channelKey: viewModel.channelKey)
+            }
         }
         .background(Color(UIColor.systemGroupedBackground))
         .onAppear { viewModel.updateChargingStatus() }
@@ -212,7 +270,11 @@ private struct SettingsView: View {
     @ObservedObject var viewModel: ContentViewModel
     @State private var showingTestResult = false
     @State private var testResultMessage = ""
-    private let botURL = URL(string: "https://t.me/SvitloUkraineBot")!
+    private let botURL: URL = {
+        var components = URLComponents(string: "https://t.me/SvitloUkraineBot")!
+        components.queryItems = [URLQueryItem(name: "text", value: "📊 Статус")]
+        return components.url!
+    }()
 
     var body: some View {
         Form {
@@ -382,5 +444,280 @@ private struct OnboardingView: View {
             Spacer()
         }
         .padding(26)
+    }
+}
+
+private struct ChannelStatusView: View {
+    let channelKey: String
+
+    @State private var html: String?
+    @State private var errorMessage: String?
+    @State private var isLoading = false
+
+    var body: some View {
+        NavigationView {
+            Group {
+                if channelKey.isEmpty {
+                    messageView(
+                        symbol: "key.fill",
+                        title: "Потрібен ключ каналу",
+                        message: "Додайте ключ у налаштуваннях, щоб переглянути статус каналу."
+                    )
+                } else if let html {
+                    ChannelStatusHTMLView(html: html)
+                } else if isLoading {
+                    ProgressView("Завантаження статусу…")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if let errorMessage {
+                    VStack(spacing: 16) {
+                        Spacer()
+                        messageView(
+                            symbol: "exclamationmark.icloud",
+                            title: "Не вдалося завантажити статус",
+                            message: errorMessage
+                        )
+                        Button("Спробувати ще раз", action: loadStatus)
+                        Spacer(minLength: 80)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    Color(UIColor.systemGroupedBackground)
+                }
+            }
+            .background(Color(UIColor.systemGroupedBackground))
+            .navigationTitle("Статус каналу")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(trailing: Button(action: loadStatus) {
+                Image(systemName: "arrow.clockwise")
+            }.disabled(channelKey.isEmpty || isLoading))
+            .onAppear(perform: loadStatus)
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+
+    private func messageView(symbol: String, title: String, message: String) -> some View {
+        VStack(spacing: 12) {
+            Image(systemName: symbol)
+                .font(.system(size: 36, weight: .regular))
+                .foregroundColor(.secondary)
+                .accessibilityHidden(true)
+            Text(title)
+                .font(.headline)
+                .multilineTextAlignment(.center)
+            Text(message)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .padding(32)
+        .frame(maxWidth: .infinity)
+    }
+
+    @MainActor
+    private func loadStatus() {
+        guard !channelKey.isEmpty, !isLoading else { return }
+
+        isLoading = true
+        errorMessage = nil
+        html = nil
+
+        Task {
+            do {
+                let (_, response) = try await SvitloBotAPI().getChannelStatus(channelKey)
+                html = response
+                isLoading = false
+            } catch {
+                errorMessage = "Перевірте з’єднання та спробуйте ще раз."
+                isLoading = false
+            }
+        }
+    }
+}
+
+private struct ChannelStatusHTMLView: UIViewRepresentable {
+    let html: String
+
+    func makeUIView(context: Context) -> WKWebView {
+        let webView = WKWebView(frame: .zero)
+        webView.isOpaque = false
+        webView.backgroundColor = UIColor.systemGroupedBackground
+        webView.scrollView.backgroundColor = UIColor.systemGroupedBackground
+        webView.navigationDelegate = context.coordinator
+        return webView
+    }
+
+    func updateUIView(_ webView: WKWebView, context: Context) {
+        guard context.coordinator.loadedHTML != html else { return }
+        context.coordinator.loadedHTML = html
+        webView.loadHTMLString(document, baseURL: URL(string: "https://api.svitlobot.in.ua"))
+    }
+
+    private var document: String {
+        return """
+        <!doctype html>
+        <html lang="uk">
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+            <meta name="color-scheme" content="light">
+            <style>
+                :root { color-scheme: light; }
+                * { box-sizing: border-box; }
+                body {
+                    margin: 0;
+                    padding: 16px 16px 30px;
+                    font: 16px -apple-system, BlinkMacSystemFont, sans-serif;
+                    line-height: 1.42;
+                    letter-spacing: -0.2px;
+                    color: #1c1c1e;
+                    background: #f2f2f7;
+                    overflow-wrap: anywhere;
+                    -webkit-text-size-adjust: 100%;
+                }
+                hr { display: none !important; }
+                .status-list {
+                    display: flex;
+                    flex-direction: column;
+                    margin: 0;
+                    border: 1px solid rgba(60, 60, 67, 0.10);
+                    border-radius: 17px;
+                    background: #ffffff;
+                    overflow: hidden;
+                    box-shadow: 0 2px 8px rgba(31, 35, 41, 0.04);
+                }
+                .status-row, li, p {
+                    margin: 0;
+                    padding: 13px 16px;
+                    overflow-wrap: anywhere;
+                }
+                .status-row + .status-row, li + li { position: relative; }
+                .status-row + .status-row::before, li + li::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 16px;
+                    right: 0;
+                    height: 1px;
+                    background: rgba(60, 60, 67, 0.12);
+                }
+                .status-row:first-child {
+                    background: #f8faff;
+                    padding-top: 17px;
+                    padding-bottom: 17px;
+                    font-size: 18px;
+                    line-height: 1.38;
+                }
+                .status-row:empty { display: none; }
+                b, strong { font-weight: 650; color: #1c1c1e; }
+                ul, ol { margin: 0; padding: 0; list-style: none; }
+                .status-row li { padding: 11px 16px; }
+                a { color: #007aff !important; font-weight: 550; text-decoration: none; }
+                [style*="color:green"], [style*="color: green"], [color="green"] { color: #248a3d !important; }
+                [style*="color:red"], [style*="color: red"], [color="red"] { color: #d70015 !important; }
+                @media (prefers-color-scheme: dark) {
+                    body { color: #1c1c1e; background: #f2f2f7; }
+                }
+            </style>
+        </head>
+        <body><div class="status-list"><div class="status-row">\(statusContent)</div></div></body>
+        </html>
+        """
+    }
+
+    private var statusContent: String {
+        var content = html
+
+        if let bodyRange = content.range(of: #"(?is)<body[^>]*>(.*?)</body>"#, options: .regularExpression),
+           let match = try? NSRegularExpression(pattern: #"(?is)<body[^>]*>(.*?)</body>"#)
+            .firstMatch(in: content, range: NSRange(bodyRange, in: content)),
+           let innerRange = Range(match.range(at: 1), in: content) {
+            content = String(content[innerRange])
+        }
+
+        content = content.replacingOccurrences(
+            of: #"(?is)(?:<br\s*/?>\s*)*(?:[-–—_=*]\s*){4,}(?:\s*<br\s*/?>)*"#,
+            with: "",
+            options: .regularExpression
+        )
+        content = content.replacingOccurrences(
+            of: #"(?i)<hr\b[^>]*>"#,
+            with: "",
+            options: .regularExpression
+        )
+        content = content.replacingOccurrences(
+            of: #"(?i)(<(?:div class="status-row"|li)[^>]*>\s*)[•·]\s*"#,
+            with: "$1",
+            options: .regularExpression
+        )
+        content = content.replacingOccurrences(
+            of: #"(?i)(color\s*:\s*)(?:white|lightgray|#(?:fff|eee|fff(?:fff)?|f[0-9a-f]{5}|e[0-9a-f]{5})|rgb\(\s*(?:23\d|24\d|25\d)\s*,\s*(?:23\d|24\d|25\d)\s*,\s*(?:23\d|24\d|25\d)\s*\))"#,
+            with: "$1#8e8e93",
+            options: .regularExpression
+        )
+        content = content.replacingOccurrences(
+            of: #"(?i)\s*-\s*(?:&gt;|>)\s*"#,
+            with: ", ",
+            options: .regularExpression
+        )
+        return content.replacingOccurrences(
+            of: #"(?i)<br\s*/?>"#,
+            with: "</div><div class=\"status-row\">",
+            options: .regularExpression
+        )
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+
+    final class Coordinator: NSObject, WKNavigationDelegate {
+        var loadedHTML: String?
+
+        func webView(
+            _ webView: WKWebView,
+            decidePolicyFor navigationAction: WKNavigationAction,
+            decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
+        ) {
+            guard navigationAction.navigationType == .linkActivated,
+                  let url = navigationAction.request.url else {
+                decisionHandler(.allow)
+                return
+            }
+
+            decisionHandler(.cancel)
+            openExternally(url)
+        }
+
+        private func openExternally(_ url: URL) {
+            if let telegramURL = telegramDeepLink(for: url) {
+                UIApplication.shared.open(telegramURL, options: [:]) { opened in
+                    if !opened {
+                        UIApplication.shared.open(url, options: [:])
+                    }
+                }
+            } else {
+                UIApplication.shared.open(url, options: [:])
+            }
+        }
+
+        private func telegramDeepLink(for url: URL) -> URL? {
+            guard let host = url.host?.lowercased(),
+                  host == "t.me" || host == "www.t.me" || host == "telegram.me" || host == "www.telegram.me" else {
+                return nil
+            }
+
+            let pathComponents = url.pathComponents.filter { $0 != "/" }
+            guard let username = pathComponents.first,
+                  !username.hasPrefix("+"),
+                  username.lowercased() != "joinchat",
+                  username.lowercased() != "s" else {
+                return nil
+            }
+
+            var components = URLComponents()
+            components.scheme = "tg"
+            components.host = "resolve"
+            components.queryItems = [URLQueryItem(name: "domain", value: username)]
+            return components.url
+        }
     }
 }

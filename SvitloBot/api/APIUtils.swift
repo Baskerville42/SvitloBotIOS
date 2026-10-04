@@ -13,7 +13,8 @@ class APIUtils {
         method: String,
         url: String,
         body: Data? = nil,
-        params: [String: AnyHashable]? = nil
+        params: [String: AnyHashable]? = nil,
+        additionalHeaders: [String: String]? = nil
     ) -> URLRequest {
         let request = NSMutableURLRequest(url: createURL(path: url, params: params))
         request.httpMethod = method
@@ -21,6 +22,7 @@ class APIUtils {
             request.httpBody = uBody
         }
         request.allHTTPHeaderFields = commonHeaders()
+        additionalHeaders?.forEach { request.setValue($0.value, forHTTPHeaderField: $0.key) }
         return request as URLRequest
     }
     
