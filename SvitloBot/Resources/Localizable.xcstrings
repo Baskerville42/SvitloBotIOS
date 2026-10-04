@@ -456,6 +456,402 @@
     },
     "Встановити Команду" : {
 
+    },
+    "Введіть ключ каналу зараз або зробіть це пізніше в налаштуваннях. Без ключа можна ознайомитися із застосунком, але сигнали надсилатися не будуть." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введіть ключ каналу зараз або зробіть це пізніше в налаштуваннях. Без ключа можна ознайомитися із застосунком, але сигнали надсилатися не будуть."
+          }
+        }
+      }
+    },
+    "Вимкнено за замовчуванням. Опція доступна, коли моніторинг запущено." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вимкнено за замовчуванням. Опція доступна, коли моніторинг запущено."
+          }
+        }
+      }
+    },
+    "Встановити команду «Світлобот»" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Встановити команду «Світлобот»"
+          }
+        }
+      }
+    },
+    "Гаразд" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Гаразд"
+          }
+        }
+      }
+    },
+    "Готово" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
+          }
+        }
+      }
+    },
+    "Далі" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Далі"
+          }
+        }
+      }
+    },
+    "Для моніторингу залиште застосунок відкритим, телефон під’єднаним до зарядки та мережі. На iPhone екран залишається увімкненим із мінімальною яскравістю." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для моніторингу залиште застосунок відкритим, телефон під’єднаним до зарядки та мережі. На iPhone екран залишається увімкненим із мінімальною яскравістю."
+          }
+        }
+      }
+    },
+    "Журнал подій" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Журнал подій"
+          }
+        }
+      }
+    },
+    "Зупинити моніторинг" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зупинити моніторинг"
+          }
+        }
+      }
+    },
+    "Зупиніть моніторинг, щоб змінити ключ." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зупиніть моніторинг, щоб змінити ключ."
+          }
+        }
+      }
+    },
+    "Канал Світлобота" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Канал Світлобота"
+          }
+        }
+      }
+    },
+    "Ключ каналу" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ключ каналу"
+          }
+        }
+      }
+    },
+    "Ключ каналу (необов’язково)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ключ каналу (необов’язково)"
+          }
+        }
+      }
+    },
+    "Ключ прив’язує телефон до каналу, де сервер публікує сповіщення." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ключ прив’язує телефон до каналу, де сервер публікує сповіщення."
+          }
+        }
+      }
+    },
+    "Команда" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Команда"
+          }
+        }
+      }
+    },
+    "Миттєве сповіщення про втрату зарядки" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Миттєве сповіщення про втрату зарядки"
+          }
+        }
+      }
+    },
+    "На iPhone для регулярних сигналів залишайте застосунок відкритим. Екран буде затемнений, а автоматичне блокування вимкнене." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На iPhone для регулярних сигналів залишайте застосунок відкритим. Екран буде затемнений, а автоматичне блокування вимкнене."
+          }
+        }
+      }
+    },
+    "Надіслати тестовий запит" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Надіслати тестовий запит"
+          }
+        }
+      }
+    },
+    "Назад" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Назад"
+          }
+        }
+      }
+    },
+    "Налаштування" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Налаштування"
+          }
+        }
+      }
+    },
+    "Не виконано" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не виконано"
+          }
+        }
+      }
+    },
+    "Останній сигнал: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Останній сигнал: %@"
+          }
+        }
+      }
+    },
+    "Отримати або переглянути ключ у боті" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отримати або переглянути ключ у боті"
+          }
+        }
+      }
+    },
+    "Перевірка" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перевірка"
+          }
+        }
+      }
+    },
+    "Почати" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Почати"
+          }
+        }
+      }
+    },
+    "Пропустити" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пропустити"
+          }
+        }
+      }
+    },
+    "Під час роботи моніторингу один раз повідомляє сервер одразу після від’єднання зарядки. Сервер може негайно опублікувати повідомлення про відсутність світла у каналі." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Під час роботи моніторингу один раз повідомляє сервер одразу після від’єднання зарядки. Сервер може негайно опублікувати повідомлення про відсутність світла у каналі."
+          }
+        }
+      }
+    },
+    "Під’єднайте свій канал" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Під’єднайте свій канал"
+          }
+        }
+      }
+    },
+    "Сигнал ще не надсилався" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сигнал ще не надсилався"
+          }
+        }
+      }
+    },
+    "Сповіщення" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сповіщення"
+          }
+        }
+      }
+    },
+    "Стан" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Стан"
+          }
+        }
+      }
+    },
+    "Тестовий запит" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тестовий запит"
+          }
+        }
+      }
+    },
+    "Увімкнути моніторинг" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Увімкнути моніторинг"
+          }
+        }
+      }
+    },
+    "Цей застосунок є клієнтом моніторингу. Він сам не надсилає сповіщення про відключення — це робить сервер Світлобота у Telegram." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей застосунок є клієнтом моніторингу. Він сам не надсилає сповіщення про відключення — це робить сервер Світлобота у Telegram."
+          }
+        }
+      }
+    },
+    "Як отримати ключ у боті Світлобота" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Як отримати ключ у боті Світлобота"
+          }
+        }
+      }
+    },
+    "Як це працює" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Як це працює"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
