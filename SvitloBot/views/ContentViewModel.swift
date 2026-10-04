@@ -208,13 +208,10 @@ class ContentViewModel: ObservableObject {
             requestStatus = .error
             return
         }
-        
-        if isAutoRequestEnabled {
-            performAutoRequest()
-            startRequestTimer()
-        } else {
-            performApiRequest()
-        }
+
+        // A manual test checks the endpoint independently of charger state and
+        // must not restart or duplicate the automatic heartbeat timer.
+        performApiRequest()
         logTestRequest()
     }
     

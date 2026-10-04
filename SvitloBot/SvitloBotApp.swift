@@ -10,6 +10,16 @@ import SwiftUI
 @main
 struct SvitloBotApp: App {
     let persistenceController = PersistenceController.shared
+
+    init() {
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithTransparentBackground()
+        tabBarAppearance.shadowColor = .clear
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        if #available(iOS 15.0, *) {
+            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+        }
+    }
     
     var body: some Scene {
         WindowGroup {
