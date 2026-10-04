@@ -1,4 +1,10 @@
 import AppIntents
+import Foundation
+
+enum ShortcutRequestTiming {
+    static let interval: TimeInterval = 60
+    static let lastRequestStartedAtKey = "shortcutLastRequestStartedAt"
+}
 
 @available(iOS 16.0, *)
 struct PerformRequestIntent: AppIntent {
@@ -10,6 +16,17 @@ struct PerformRequestIntent: AppIntent {
 
     @MainActor
     func perform() async throws -> some IntentResult {
+        // Store the start time so the shortcut can compensate its wait for
+        // time spent checking the battery and completing the HTTP request.
+        UserDefaults.standard.set(
+            Date(),
+            forKey: ShortcutRequestTiming.lastRequestStartedAtKey
+        )
+
+        guard UserDefaults.standard.bool(forKey: SharedMonitoringState.autoRequestsEnabledKey) else {
+            return .result(dialog: IntentDialog("Автоматичні запити вимкнено в налаштуваннях Світлобота."))
+        }
+
         let channelKey = UserDefaults.standard.string(forKey: "channelKey") ?? ""
         guard !channelKey.isEmpty else {
             return .result(dialog: IntentDialog("intents.perform_request.no_channel_key"))

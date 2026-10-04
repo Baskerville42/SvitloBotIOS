@@ -14,6 +14,13 @@ enum RequestStatus {
     case success, warning, error, idle
 }
 
+enum SharedMonitoringState {
+    static let autoRequestsEnabledKey = "isAutoRequestEnabled"
+    static let immediateOffEnabledKey = "isImmediateOffRequestEnabled"
+    static let lastObservedChargingStateKey = "lastObservedChargingState"
+    static let immediateOffSentKey = "immediateOffSentForCurrentUnplug"
+}
+
 @objc(EventLog)
 public class EventLog: NSManagedObject {
     @NSManaged public var id: UUID
@@ -52,13 +59,13 @@ class ContentViewModel: ObservableObject {
     @Published var isAutoRequestEnabled: Bool {
         didSet {
             logAutoRequestStatus(isEnabled: isAutoRequestEnabled)
-            UserDefaults.standard.set(isAutoRequestEnabled, forKey: "isAutoRequestEnabled")
+            UserDefaults.standard.set(isAutoRequestEnabled, forKey: SharedMonitoringState.autoRequestsEnabledKey)
             validateConditions()
         }
     }
     @Published var isImmediateOffRequestEnabled: Bool {
         didSet {
-            UserDefaults.standard.set(isImmediateOffRequestEnabled, forKey: "isImmediateOffRequestEnabled")
+            UserDefaults.standard.set(isImmediateOffRequestEnabled, forKey: SharedMonitoringState.immediateOffEnabledKey)
         }
     }
     @Published var requestStatus: RequestStatus = .idle
@@ -69,12 +76,11 @@ class ContentViewModel: ObservableObject {
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "NetworkMonitor")
     private var hasInitialChargingStatus = false
-    private var hasSentOffRequestForCurrentUnplug = false
     
     init() {
         UIApplication.shared.isIdleTimerDisabled = true
-        self.isAutoRequestEnabled = UserDefaults.standard.bool(forKey: "isAutoRequestEnabled")
-        self.isImmediateOffRequestEnabled = UserDefaults.standard.bool(forKey: "isImmediateOffRequestEnabled")
+        self.isAutoRequestEnabled = UserDefaults.standard.bool(forKey: SharedMonitoringState.autoRequestsEnabledKey)
+        self.isImmediateOffRequestEnabled = UserDefaults.standard.bool(forKey: SharedMonitoringState.immediateOffEnabledKey)
         startMonitoringNetwork()
         startMonitoringBattery()
         validateChannelKey()
@@ -116,7 +122,17 @@ class ContentViewModel: ObservableObject {
     
     func updateChargingStatus() {
         let newChargingStatus = (UIDevice.current.batteryState == .charging || UIDevice.current.batteryState == .full)
+        let defaults = UserDefaults.standard
+
         guard isCharging != newChargingStatus else {
+            let lastObserved = defaults.object(forKey: SharedMonitoringState.lastObservedChargingStateKey) as? Bool
+            if !newChargingStatus, lastObserved == true {
+                sendImmediateOffRequestIfNeeded()
+            }
+            defaults.set(newChargingStatus, forKey: SharedMonitoringState.lastObservedChargingStateKey)
+            if newChargingStatus {
+                defaults.set(false, forKey: SharedMonitoringState.immediateOffSentKey)
+            }
             hasInitialChargingStatus = true
             return
         }
@@ -124,6 +140,10 @@ class ContentViewModel: ObservableObject {
         let wasCharging = isCharging
         isCharging = newChargingStatus
         logChargingStatus(isCharging: newChargingStatus)
+        defaults.set(newChargingStatus, forKey: SharedMonitoringState.lastObservedChargingStateKey)
+        if newChargingStatus {
+            defaults.set(false, forKey: SharedMonitoringState.immediateOffSentKey)
+        }
 
         guard hasInitialChargingStatus else {
             hasInitialChargingStatus = true
@@ -132,8 +152,6 @@ class ContentViewModel: ObservableObject {
 
         if wasCharging && !newChargingStatus {
             sendImmediateOffRequestIfNeeded()
-        } else if newChargingStatus {
-            hasSentOffRequestForCurrentUnplug = false
         }
     }
 
@@ -141,12 +159,12 @@ class ContentViewModel: ObservableObject {
         guard isAutoRequestEnabled,
               isImmediateOffRequestEnabled,
               !channelKey.isEmpty,
-              !hasSentOffRequestForCurrentUnplug else {
+              !UserDefaults.standard.bool(forKey: SharedMonitoringState.immediateOffSentKey) else {
             return
         }
 
         // Mark before starting the async request so one unplug event sends at most one OFF request.
-        hasSentOffRequestForCurrentUnplug = true
+        UserDefaults.standard.set(true, forKey: SharedMonitoringState.immediateOffSentKey)
         let api = SvitloBotAPI()
         let requestChannelKey = channelKey
 

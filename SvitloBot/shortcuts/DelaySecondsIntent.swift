@@ -1,4 +1,5 @@
 import AppIntents
+import Foundation
 
 @available(iOS 16.0, *)
 struct DelaySecondsIntent: AppIntent {
@@ -9,6 +10,17 @@ struct DelaySecondsIntent: AppIntent {
     typealias IntentResult = ReturnsValue<Int>
 
     func perform() async throws -> some IntentResult {
-        .result(value: 60)
+        guard let lastRequestStartedAt = UserDefaults.standard.object(
+            forKey: ShortcutRequestTiming.lastRequestStartedAtKey
+        ) as? Date else {
+            return .result(value: 1)
+        }
+
+        let elapsed = Date().timeIntervalSince(lastRequestStartedAt)
+        let remaining = min(
+            ShortcutRequestTiming.interval,
+            max(1, ceil(ShortcutRequestTiming.interval - elapsed))
+        )
+        return .result(value: Int(remaining))
     }
 }

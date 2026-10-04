@@ -9,6 +9,8 @@ struct CyclesNumberIntent: AppIntent {
     typealias IntentResult = ReturnsValue<Int>
 
     func perform() async throws -> some IntentResult {
-        .result(value: 10000)
+        // The shortcut exits when charging stops. Use the largest representable
+        // count so its own fixed repeat limit doesn't end monitoring after a week.
+        .result(value: Int.max)
     }
 }
