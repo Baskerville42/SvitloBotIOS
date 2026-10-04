@@ -56,6 +56,11 @@ class ContentViewModel: ObservableObject {
             validateConditions()
         }
     }
+    @Published var isImmediateOffRequestEnabled: Bool {
+        didSet {
+            UserDefaults.standard.set(isImmediateOffRequestEnabled, forKey: "isImmediateOffRequestEnabled")
+        }
+    }
     @Published var requestStatus: RequestStatus = .idle
     
     private let context = PersistenceController.shared.container.viewContext
@@ -63,10 +68,13 @@ class ContentViewModel: ObservableObject {
     private var batteryObserver: AnyCancellable?
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "NetworkMonitor")
+    private var hasInitialChargingStatus = false
+    private var hasSentOffRequestForCurrentUnplug = false
     
     init() {
         UIApplication.shared.isIdleTimerDisabled = true
         self.isAutoRequestEnabled = UserDefaults.standard.bool(forKey: "isAutoRequestEnabled")
+        self.isImmediateOffRequestEnabled = UserDefaults.standard.bool(forKey: "isImmediateOffRequestEnabled")
         startMonitoringNetwork()
         startMonitoringBattery()
         validateChannelKey()
@@ -108,9 +116,51 @@ class ContentViewModel: ObservableObject {
     
     func updateChargingStatus() {
         let newChargingStatus = (UIDevice.current.batteryState == .charging || UIDevice.current.batteryState == .full)
-        if isCharging != newChargingStatus {
-            isCharging = newChargingStatus
-            logChargingStatus(isCharging: isCharging)
+        guard isCharging != newChargingStatus else {
+            hasInitialChargingStatus = true
+            return
+        }
+
+        let wasCharging = isCharging
+        isCharging = newChargingStatus
+        logChargingStatus(isCharging: newChargingStatus)
+
+        guard hasInitialChargingStatus else {
+            hasInitialChargingStatus = true
+            return
+        }
+
+        if wasCharging && !newChargingStatus {
+            sendImmediateOffRequestIfNeeded()
+        } else if newChargingStatus {
+            hasSentOffRequestForCurrentUnplug = false
+        }
+    }
+
+    private func sendImmediateOffRequestIfNeeded() {
+        guard isAutoRequestEnabled,
+              isImmediateOffRequestEnabled,
+              !channelKey.isEmpty,
+              !hasSentOffRequestForCurrentUnplug else {
+            return
+        }
+
+        // Mark before starting the async request so one unplug event sends at most one OFF request.
+        hasSentOffRequestForCurrentUnplug = true
+        let api = SvitloBotAPI()
+        let requestChannelKey = channelKey
+
+        Task {
+            do {
+                let (statusCode, _) = try await api.sendChannelPingOff(requestChannelKey)
+                DispatchQueue.main.async {
+                    self.logImmediateOffRequest(success: true, statusCode: statusCode)
+                }
+            } catch let error as NSError {
+                DispatchQueue.main.async {
+                    self.logImmediateOffRequest(success: false, statusCode: error.code)
+                }
+            }
         }
     }
     
@@ -217,6 +267,17 @@ class ContentViewModel: ObservableObject {
         )
         self.lastRequestDate = Date()
         self.requestStatus = success ? .success : .warning
+    }
+
+    private func logImmediateOffRequest(success: Bool, statusCode: NSInteger?) {
+        logEvent(
+            eventType: success ? .apiRequestSuccess : .apiRequestFailure,
+            additionalInfo: "logs_immediate_off_request".localizedWithParams([
+                "status": success ? "logs_api_request_success".localized : "logs_api_request_failure".localized,
+                "statusCode": String(describing: statusCode)
+            ])
+        )
+        self.lastRequestDate = Date()
     }
     
     private func logChargingStatus(isCharging: Bool) {

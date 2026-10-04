@@ -57,6 +57,18 @@ struct ContentView: View {
                         .disabled(viewModel.channelKey.isEmpty)
                         .padding()
                         .font(.system(size: 16, weight: .regular))
+
+                    Toggle("instant_off_toggle".localized, isOn: $viewModel.isImmediateOffRequestEnabled)
+                        .disabled(viewModel.channelKey.isEmpty || !viewModel.isAutoRequestEnabled)
+                        .padding(.horizontal)
+                        .font(.system(size: 16, weight: .regular))
+
+                    Text("instant_off_description".localized)
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                        .padding(.bottom, 8)
                     
                     statusView(label: "internet_status".localized, isActive: viewModel.isConnected)
                     statusView(label: "charging_status".localized, isActive: viewModel.isCharging)

@@ -102,6 +102,28 @@
         }
       }
     },
+    "instant_off_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Працює разом з автоматичними запитами. При втраті зарядки одразу повідомляє сервер і сповіщає канал про відсутність світла."
+          }
+        }
+      }
+    },
+    "instant_off_toggle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Миттєво сповіщати про зникнення світла"
+          }
+        }
+      }
+    },
     "intents.cycles_number.description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -329,6 +351,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "заряджається"
+          }
+        }
+      }
+    },
+    "logs_immediate_off_request" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Миттєвий запит про зникнення світла: %{status}, код: %{statusCode}"
           }
         }
       }
