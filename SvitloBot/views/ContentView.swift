@@ -212,7 +212,6 @@ private struct SettingsView: View {
     @ObservedObject var viewModel: ContentViewModel
     @State private var showingTestResult = false
     @State private var testResultMessage = ""
-    private let shortcutURL = URL(string: "https://www.icloud.com/shortcuts/2dc277dd94c14fbcbaa1ec81fff50575")!
     private let botURL = URL(string: "https://t.me/SvitloUkraineBot")!
 
     var body: some View {
@@ -265,6 +264,7 @@ private struct SettingsView: View {
                 }
             }
 
+            /*
             if #available(iOS 16.0, *) {
                 Section(header: Text("Команда")) {
                     Button {
@@ -274,6 +274,7 @@ private struct SettingsView: View {
                     }
                 }
             }
+            */
 
             Section {
                 Text("Для моніторингу залиште застосунок відкритим, телефон під’єднаним до зарядки та мережі. На iPhone екран залишається увімкненим із мінімальною яскравістю.")
