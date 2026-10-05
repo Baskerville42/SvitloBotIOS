@@ -1,56 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Політика конфіденційності / Privacy Policy</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
-      line-height: 1.6;
-    }
-    h1, h2 {
-      margin-top: 2rem;
-    }
-    hr {
-      margin: 3rem 0;
-    }
-  </style>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Політика приватності застосунку СвітлоБот для iOS: локальне зберігання, сервер Світлобота та Telegram-fallback.">
+    <meta name="theme-color" content="#0f2538">
+    <title>Політика приватності — СвітлоБот для iOS</title>
+    <link rel="icon" type="image/png" href="assets/svitlobot-icon.png">
+    <link rel="stylesheet" href="assets/site.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Перейти до вмісту</a>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="СвітлоБот — головна сторінка"><img src="assets/svitlobot-icon.png" alt=""><span>СвітлоБот <small>для iOS</small></span></a><nav class="site-nav" aria-label="Головна навігація"><a href="index.html">Про застосунок</a><a href="guide.html">Інструкція</a><a href="faq.html">Питання й відповіді</a><a class="active" aria-current="page" href="privacy-policy.html">Приватність</a><a href="terms-of-use.html">Умови</a></nav></header>
+    <main id="main" class="document-page legal-page">
+      <div class="document-heading"><p class="eyebrow">Правила та прозорість</p><h1>Політика приватності</h1><p class="document-lead">Дата набрання чинності: 6 жовтня 2026 року</p></div>
+      <div class="legal-callout"><strong>Коротко.</strong> Застосунок не створює облікових записів і не має окремої системи аналітики. Налаштування й історія зберігаються на пристрої. Мережеві дані передаються лише відповідно до ввімкненого режиму — серверу Світлобота або Telegram.</div>
 
-<h1>Privacy Policy / Політика конфіденційності</h1>
-<p><strong>Effective date:</strong> March 16, 2025</p>
+      <nav class="contents-card" aria-label="Зміст політики"><strong>Зміст</strong><a href="#local-data">Дані на пристрої</a><a href="#svitlobot-data">Режим Світлобота</a><a href="#telegram-data">Telegram-fallback</a><a href="#retention">Зберігання й контроль</a><a href="#providers">Сторонні сервіси</a><a href="#contact">Контакт</a></nav>
 
-<h2>🇬🇧 English Version</h2>
-<p>This app is a client for the SvitloBot system and does not collect, store, or share any personal information.</p>
-<ul>
-  <li>The app does not require user registration or authentication.</li>
-  <li>No personal identifiers, contact details, or sensitive data are collected.</li>
-  <li>When automatic requests are enabled, the app sends a technical request to a remote server approximately every 60 seconds while internet access is available and the device is charging. If the user enables instant outage notifications, the app attempts to send one additional request when it detects that charging has stopped. The server uses these requests to determine whether electricity is available and may immediately notify the channel when an outage is reported.</li>
-  <li>No data is shared with third parties.</li>
-</ul>
-<p>This app is open-source and distributed under the MIT License.<br>
-Source code: <a href="https://github.com/Baskerville42/SvitloBotIOS">https://github.com/Baskerville42/SvitloBotIOS</a><br>
-Contact: <a href="mailto:svitlobot@gmail.com">svitlobot@gmail.com</a></p>
+      <section id="local-data" class="article-section"><h2>1. Дані, що зберігаються на пристрої</h2><p>Залежно від режиму застосунок зберігає ваші налаштування, ключ каналу Світлобота, ідентифікатор Telegram-каналу, журнал подій і чергу повідомлень для повторної доставки. Токен Telegram-бота зберігається в iOS Keychain. Ключ каналу та інші налаштування зберігаються у сховищах застосунку.</p><p>Застосунок не надсилає ці дані власній системі облікових записів, реклами чи аналітики. Резервне копіювання пристрою та його системні журнали контролюються iOS і вашими налаштуваннями системи.</p></section>
 
-<hr>
+      <section id="svitlobot-data" class="article-section"><h2>2. Режим Світлобота</h2><p>Коли ви вмикаєте моніторинг, застосунок надсилає серверу Світлобота запити про стан моніторингу. Запит містить ключ каналу та технічний сигнал про заряджання пристрою. Ключ передається як параметр URL-запиту. Сервер Світлобота отримує також мережеві метадані, потрібні для обробки запиту, наприклад IP-адресу. Застосунок може надсилати додатковий сигнал після припинення заряджання, якщо ви ввімкнули цю функцію.</p><p>Сервер Світлобота визначає статус каналу та, відповідно до своєї роботи, може створити повідомлення в Telegram. Його правила зберігання й використання даних регулюються політикою сервісу.</p></section>
 
-<h2>🇺🇦 Українська версія</h2>
-<p><strong>Дата набрання чинності:</strong> 16 березня 2025 року</p>
-<p>Цей застосунок є клієнтом системи СвітлоБот і не збирає, не зберігає та не передає жодної особистої інформації.</p>
-<ul>
-  <li>Додаток не вимагає реєстрації користувача або авторизації.</li>
-  <li>Особисті ідентифікатори, контактні дані або чутлива інформація не збираються.</li>
-  <li>Якщо автоматичні запити ввімкнені, додаток надсилає технічний запит на віддалений сервер приблизно кожні 60 секунд за наявності інтернету та підключення до зарядного пристрою. Якщо користувач увімкне миттєве сповіщення про зникнення світла, додаток спробує надіслати ще один запит, коли виявить припинення заряджання. Сервер використовує ці запити для визначення наявності електроенергії та може одразу сповістити канал про повідомлене зникнення світла.</li>
-  <li>Жодні дані не передаються третім сторонам.</li>
-</ul>
-<p>Додаток є open-source і поширюється згідно з ліцензією MIT.<br>
-Початковий код: <a href="https://github.com/Baskerville42/SvitloBotIOS">https://github.com/Baskerville42/SvitloBotIOS</a><br>
-Питання та підтримка: <a href="mailto:svitlobot@gmail.com">svitlobot@gmail.com</a></p>
+      <section id="telegram-data" class="article-section"><h2>3. Telegram-fallback</h2><p>Якщо ви ввімкнули fallback, застосунок звертається безпосередньо до Telegram Bot API для перевірки бота й каналу та для надсилання повідомлень. Telegram отримує токен бота, адресу каналу й текст повідомлення про зміну заряджання. Текст може містити час події та тривалість попереднього стану. Токен передається до офіційного Telegram API через HTTPS у шляху запиту.</p><p>Telegram зберігає й обробляє інформацію відповідно до власних правил. Учасники каналу можуть бачити надіслані туди повідомлення. Не використовуйте бот із токеном, який ви не маєте права застосовувати, і захищайте токен як пароль.</p><p>Якщо надсилання не вдається через мережу, текст повідомлення може залишатися в локальній черзі до повторної спроби. Повідомлення не надсилаються в режимі fallback через сервер Світлобота.</p></section>
 
-</body>
+      <section id="retention" class="article-section"><h2>4. Зберігання й контроль даних</h2><p>Локальні налаштування, журнал і черга залишаються на пристрої, доки їх не буде змінено чи видалено користувачем або операційною системою. Застосунок не встановлює власний період зберігання даних на серверах, оскільки не має серверного облікового запису чи власного сервера аналітики. Видалення мережевих даних із систем Світлобота або Telegram визначається відповідним постачальником.</p><p>Щоб припинити мережеві запити режиму Світлобота, вимкніть автоматичний моніторинг. Щоб зупинити Telegram-повідомлення, вимкніть fallback і відкличте токен у BotFather, якщо він вам більше не потрібен. Відкличте токен негайно, якщо вважаєте його розкритим.</p></section>
+
+      <section id="providers" class="article-section"><h2>5. Сторонні сервіси та вебсайт</h2><p>Режим Світлобота залежить від серверу <a href="https://svitlobot.in.ua">Світлобота</a>, а fallback — від <a href="https://telegram.org/privacy">Telegram</a>. Ця політика описує роботу iOS-застосунку, але не замінює правила цих сервісів.</p><p>Сайт документації розміщується GitHub Pages. Під час перегляду GitHub може обробляти технічні дані запиту за власною <a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement">політикою приватності</a>. Сайт не завантажує сторонні шрифти, рекламні трекери чи власний JavaScript-аналітики.</p><p>Apple й інші системні служби можуть обробляти діагностичні дані відповідно до ваших налаштувань пристрою та їхніх правил.</p></section>
+
+      <section class="article-section"><h2>6. Діти</h2><p>Застосунок є утилітою для моніторингу пристрою й не призначений для збору відомостей про дітей.</p></section>
+      <section class="article-section"><h2>7. Зміни політики</h2><p>Оновлена версія публікуватиметься на цій сторінці з новою датою набрання чинності. Значні зміни також можуть бути описані в примітках до відповідного оновлення застосунку.</p></section>
+      <section id="contact" class="article-section"><h2>8. Контакт</h2><p>Питання про цю політику надсилайте на <a href="mailto:svitlobot@gmail.com">svitlobot@gmail.com</a>. Повідомлення про вразливості надсилайте приватно згідно зі <a href="security.html">сторінкою безпеки</a>.</p></section>
+
+      <hr class="language-divider">
+      <section lang="en" class="english-policy">
+        <p class="eyebrow">English version</p><h2>Privacy Policy</h2><p class="muted">Effective date: 6 October 2026</p>
+        <div class="legal-callout"><strong>In short.</strong> The app has no user accounts or separate analytics system. Settings and history are stored on the device. Network data is sent according to the selected mode: to the SvitloBot service or to Telegram.</div>
+        <h3>Data stored on your device</h3><p>Depending on the enabled mode, the app stores your settings, SvitloBot channel key, Telegram destination, event history, and pending messages for retry. The Telegram bot token is stored in the iOS Keychain. The channel key and other preferences are stored in app storage. The app does not send this information to its own account, advertising, or analytics service. Device backups and system diagnostics are controlled by iOS and your device settings.</p>
+        <h3>SvitloBot mode</h3><p>When monitoring is enabled, the app sends monitoring requests to the SvitloBot server. A request contains the channel key and a technical signal about charging status. The key is sent as a URL query parameter. The server also receives network metadata needed to process the request, such as the device's IP address. If enabled, the app may send one additional signal when charging stops. The SvitloBot server determines channel status and may publish a Telegram message under its own service rules. Server-side retention and use are governed by the service operator.</p>
+        <h3>Telegram-fallback mode</h3><p>When fallback is enabled, the app contacts the Telegram Bot API to verify the bot and channel and to send messages. Telegram receives the bot token, channel destination, and message text describing a charging transition. A message may include the event time and the duration of the previous state. The token is sent over HTTPS in the request path to Telegram's official API. Telegram processes data under its own policies, and channel members can see messages posted there. Failed network sends may remain in a local queue until retried.</p>
+        <h3>Retention and control</h3><p>Local settings, history, and queued messages remain on the device until changed or removed by the user or operating system. The app does not set a server retention period because it has no account backend or app-operated analytics server. Deletion of data held by SvitloBot or Telegram is governed by each provider. Disable automatic monitoring to stop SvitloBot requests. Disable fallback and revoke the bot token through BotFather when you no longer need it or believe it has been exposed.</p>
+        <h3>Third-party services and this website</h3><p>SvitloBot mode depends on the <a href="https://svitlobot.in.ua">SvitloBot service</a>; fallback depends on <a href="https://telegram.org/privacy">Telegram</a>. This policy covers the iOS app and does not replace those services' policies. This documentation site is hosted by GitHub Pages. GitHub may process technical request data under its <a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement">privacy statement</a>. The site does not load third-party fonts, advertising trackers, or app-operated JavaScript analytics. Apple and other system services may process diagnostics according to device settings and their policies.</p>
+        <h3>Children, changes, and contact</h3><p>The app is a device-monitoring utility and is not designed to collect information about children. Updates to this policy will be published here with a revised effective date. Questions may be sent to <a href="mailto:svitlobot@gmail.com">svitlobot@gmail.com</a>. Report vulnerabilities privately using the <a href="security.html">security page</a>.</p>
+      </section>
+    </main>
+    <footer class="site-footer"><a class="footer-brand" href="index.html">СвітлоБот <span>для iOS</span></a><p><a href="guide.html">Інструкція</a> · <a href="terms-of-use.html">Умови</a> · <a href="security.html">Безпека</a></p><p class="footer-small">Дата оновлення: 6 жовтня 2026 року.</p></footer>
+  </body>
 </html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Інструкція до застосунку СвітлоБот для iPhone та iPad: моніторинг заряджання, режим Світлобота й Telegram-fallback.">
+    <meta name="theme-color" content="#0f2538">
+    <title>СвітлоБот для iOS — документація</title>
+    <link rel="icon" type="image/png" href="assets/svitlobot-icon.png">
+    <link rel="stylesheet" href="assets/site.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Перейти до вмісту</a>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="СвітлоБот — головна сторінка">
+        <img src="assets/svitlobot-icon.png" alt="">
+        <span>СвітлоБот <small>для iOS</small></span>
+      </a>
+      <nav class="site-nav" aria-label="Головна навігація">
+        <a class="active" aria-current="page" href="index.html">Про застосунок</a>
+        <a href="guide.html">Інструкція</a>
+        <a href="faq.html">Питання й відповіді</a>
+        <a href="privacy-policy.html">Приватність</a>
+        <a href="terms-of-use.html">Умови</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">iPhone та iPad · iOS 14+</p>
+          <h1>Слідкуйте за заряджанням. Залишайтеся в курсі.</h1>
+          <p class="hero-lead">СвітлоБот використовує стан заряджання пристрою як приблизний сигнал про наявність електроенергії й передає його вибраній системі сповіщень.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="guide.html">Відкрити інструкцію <span aria-hidden="true">→</span></a>
+            <a class="button button-quiet" href="https://github.com/Baskerville42/SvitloBotIOS">Переглянути код</a>
+          </div>
+          <p class="hero-note">Застосунок не вимірює електромережу й не призначений для критичних або аварійних сповіщень.</p>
+        </div>
+        <figure class="hero-shot">
+          <img src="assets/screenshots/monitoring-overview.png" alt="Екран стану СвітлоБота: моніторинг зупинено, мережа доступна, ключ каналу збережено">
+          <figcaption>На екрані стану видно готовність пристрою та керування моніторингом.</figcaption>
+        </figure>
+      </section>
+
+      <section class="section section-narrow">
+        <p class="eyebrow">Два окремі режими</p>
+        <h2>Оберіть, куди надсилати сигнали</h2>
+        <div class="mode-grid">
+          <article class="mode-card mode-blue">
+            <span class="mode-number">01</span>
+            <h3>Світлобот</h3>
+            <p>Застосунок повідомляє сервер Світлобота. Сервер визначає зміну стану та публікує повідомлення у Telegram-каналі.</p>
+            <a class="text-link" href="guide.html#svitlobot">Налаштувати режим <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="mode-card mode-yellow">
+            <span class="mode-number">02</span>
+            <h3>Telegram-fallback</h3>
+            <p>Застосунок сам надсилає повідомлення у ваш Telegram-канал через бота, якого ви налаштували. Цей режим замінює режим Світлобота.</p>
+            <a class="text-link" href="guide.html#telegram">Налаштувати режим <span aria-hidden="true">→</span></a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section-feature">
+        <div class="feature-copy">
+          <p class="eyebrow">Зрозумілий стан</p>
+          <h2>Події та доставка — в одному журналі</h2>
+          <p>Переглядайте зміну заряджання, сигнали серверу й стан доставки Telegram-повідомлень. Якщо fallback-повідомлення не вдалося надіслати через відсутність мережі, застосунок поставить його в чергу для повторної спроби.</p>
+          <a class="text-link" href="guide.html#history">Як читати журнал подій <span aria-hidden="true">→</span></a>
+        </div>
+        <figure class="feature-shot">
+          <img src="assets/screenshots/event-history.png" alt="Екран журналу подій зі змінами стану мережі й режиму моніторингу">
+          <figcaption>Приклад журналу подій застосунку.</figcaption>
+        </figure>
+      </section>
+
+      <section class="section section-callout">
+        <div>
+          <p class="eyebrow">Важливо знати</p>
+          <h2>Моніторинг працює найкраще, коли застосунок відкритий</h2>
+          <p>iOS обмежує регулярну фонову роботу. Для сигналів приблизно раз на хвилину залишайте застосунок відкритим, а пристрій — під’єднаним до зарядного пристрою та інтернету.</p>
+        </div>
+        <a class="button button-light" href="faq.html#background">Чому це потрібно?</a>
+      </section>
+
+      <section class="section section-bottom-links">
+        <a class="resource-card" href="privacy-policy.html"><span class="resource-icon" aria-hidden="true">◒</span><span><strong>Приватність</strong><small>Що зберігається на пристрої та надсилається сервісам</small></span><span aria-hidden="true">↗</span></a>
+        <a class="resource-card" href="terms-of-use.html"><span class="resource-icon" aria-hidden="true">§</span><span><strong>Умови використання</strong><small>Межі відповідальності та умови роботи застосунку</small></span><span aria-hidden="true">↗</span></a>
+        <a class="resource-card" href="security.html"><span class="resource-icon" aria-hidden="true">⌁</span><span><strong>Безпека</strong><small>Як приватно повідомити про вразливість</small></span><span aria-hidden="true">↗</span></a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="footer-brand" href="index.html">СвітлоБот <span>для iOS</span></a>
+      <p>Відкритий проєкт · <a href="https://github.com/Baskerville42/SvitloBotIOS">GitHub</a> · <a href="mailto:svitlobot@gmail.com">Зв’язатися</a></p>
+      <p class="footer-small">СвітлоБот не афілійований з Apple Inc. або Telegram. Повідомлення про доступність електроенергії мають довідковий характер.</p>
+    </footer>
+  </body>
+</html>

@@ -336,6 +336,8 @@ private struct SettingsView: View {
     @State private var showingTelegramGuide = false
     @AppStorage("hasSeenTelegramFallbackGuide") private var hasSeenTelegramFallbackGuide = false
     private let projectGitHubURL = URL(string: "https://github.com/Baskerville42/SvitloBotIOS")!
+    private let privacyPolicyURL = URL(string: "https://baskerville42.github.io/SvitloBotIOS/privacy-policy.html")!
+    private let termsOfUseURL = URL(string: "https://baskerville42.github.io/SvitloBotIOS/terms-of-use.html")!
     private let botURL: URL = {
         var components = URLComponents(string: "https://t.me/SvitloUkraineBot")!
         components.queryItems = [URLQueryItem(name: "text", value: "📊 Статус")]
@@ -496,6 +498,16 @@ private struct SettingsView: View {
 
                     Link(destination: projectGitHubURL) {
                         Text("Автор iOS-застосунку — Alexander Tartmin")
+                            .font(.footnote)
+                    }
+
+                    Link(destination: privacyPolicyURL) {
+                        Text("Політика приватності")
+                            .font(.footnote)
+                    }
+
+                    Link(destination: termsOfUseURL) {
+                        Text("Умови використання")
                             .font(.footnote)
                     }
 

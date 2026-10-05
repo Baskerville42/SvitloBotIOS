@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Покрокове налаштування моніторингу Світлобота та Telegram-fallback на iPhone або iPad.">
+    <meta name="theme-color" content="#0f2538">
+    <title>Інструкція — СвітлоБот для iOS</title>
+    <link rel="icon" type="image/png" href="assets/svitlobot-icon.png">
+    <link rel="stylesheet" href="assets/site.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Перейти до вмісту</a>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="СвітлоБот — головна сторінка"><img src="assets/svitlobot-icon.png" alt=""><span>СвітлоБот <small>для iOS</small></span></a>
+      <nav class="site-nav" aria-label="Головна навігація">
+        <a href="index.html">Про застосунок</a><a class="active" aria-current="page" href="guide.html">Інструкція</a><a href="faq.html">Питання й відповіді</a><a href="privacy-policy.html">Приватність</a><a href="terms-of-use.html">Умови</a>
+      </nav>
+    </header>
+    <main id="main" class="document-page">
+      <div class="document-heading">
+        <p class="eyebrow">Початок роботи</p>
+        <h1>Інструкція до СвітлоБота</h1>
+        <p class="document-lead">Налаштуйте один із двох режимів сповіщень. Вони взаємовиключні, тож одночасних однакових повідомлень не буде.</p>
+      </div>
+
+      <nav class="contents-card" aria-label="Зміст інструкції">
+        <strong>На цій сторінці</strong>
+        <a href="#requirements">Перед початком</a><a href="#svitlobot">Режим Світлобота</a><a href="#telegram">Telegram-fallback</a><a href="#monitoring">Моніторинг і швидкі команди</a><a href="#history">Журнал подій</a>
+      </nav>
+
+      <section id="requirements" class="article-section">
+        <p class="eyebrow">01 · Підготовка</p>
+        <h2>Перед початком</h2>
+        <ul class="check-list">
+          <li>Пристрій з iOS або iPadOS 14.0 чи новішої версії.</li>
+          <li>Доступ до інтернету під час передавання сигналів.</li>
+          <li>Для режиму Світлобота — ключ потрібного каналу.</li>
+          <li>Для Telegram-fallback — бот із правом публікувати в каналі.</li>
+        </ul>
+        <p>Застосунок визначає локальний стан заряджання телефона. Це приблизний індикатор, а не пряме вимірювання електропостачання.</p>
+      </section>
+
+      <section id="svitlobot" class="article-section">
+        <p class="eyebrow">02 · Режим Світлобота</p>
+        <h2>Надсилайте сигнали серверу Світлобота</h2>
+        <ol class="step-list">
+          <li><strong>Додайте ключ каналу.</strong> Введіть його під час першого запуску або відкрийте налаштування пізніше.</li>
+          <li><strong>Увімкніть автоматичний моніторинг.</strong> Під’єднайте iPhone або iPad до зарядного пристрою та залиште застосунок відкритим.</li>
+          <li><strong>За потреби ввімкніть миттєве сповіщення.</strong> Після припинення заряджання застосунок один раз надішле додатковий сигнал `channelPingOff`.</li>
+          <li><strong>Перевірте канал.</strong> Відкрийте екран статусу каналу, надішліть тестовий запит або перегляньте журнал подій.</li>
+        </ol>
+        <div class="note-card"><strong>Інтервал приблизний.</strong> Перший запит надсилається одразу, наступні — орієнтовно раз на 60 секунд. iOS може обмежити роботу застосунку, якщо його згорнути або заблокувати пристрій.</div>
+      </section>
+
+      <section id="telegram" class="article-section">
+        <p class="eyebrow">03 · Telegram-fallback</p>
+        <h2>Надсилайте повідомлення власним ботом</h2>
+        <ol class="step-list">
+          <li>Створіть Telegram-бота через <a href="https://t.me/BotFather">@BotFather</a> і скопіюйте токен.</li>
+          <li>Додайте бота до потрібного каналу й надайте йому дозвіл публікувати повідомлення.</li>
+          <li>Увімкніть Telegram-fallback у налаштуваннях застосунку й введіть токен бота. Токен зберігається у Keychain; не передавайте його іншим людям.</li>
+          <li>Вкажіть числовий ідентифікатор каналу або його публічний `@username`, натисніть «Перевірити налаштування» та підтвердьте ввімкнення.</li>
+        </ol>
+        <p>Fallback реагує на зміну заряджання. Втрата інтернету сама по собі не створює повідомлення, але невдалі спроби зберігаються в локальній черзі для повторної доставки після відновлення зв’язку.</p>
+        <p>У цьому режимі запити `channelPing` і `channelPingOff` до серверу Світлобота не надсилаються. Повідомлення йдуть від вашого бота безпосередньо до Telegram.</p>
+        <figure class="wide-shot"><img src="assets/screenshots/telegram-fallback.png" alt="Екран налаштування Telegram-fallback у СвітлоБоті"><figcaption>Налаштуйте бота й канал у параметрах fallback.</figcaption></figure>
+        <div class="note-card note-warning"><strong>Захистіть токен.</strong> Токен дає змогу керувати ботом. Якщо ви випадково опублікували його, відкличте через BotFather і створіть новий. Докладно: <a href="privacy-policy.html#telegram-data">що передається Telegram</a>.</div>
+      </section>
+
+      <section id="monitoring" class="article-section">
+        <p class="eyebrow">04 · Щоденне використання</p>
+        <h2>Моніторинг і швидкі команди</h2>
+        <p>На головному екрані переглядайте умови моніторингу, активний режим, останні сигнали та стан доставки Telegram-повідомлень. Доступні також команди для застосунку Apple «Швидкі команди»: затримка, кількість циклів, стан заряджання й ручний запит.</p>
+        <p>Під час моніторингу застосунок може зменшувати яскравість і не дозволяти екрану автоматично блокуватися, щоб підтримувати регулярні сигнали. Після закриття основного екрана це обмеження знімається.</p>
+      </section>
+
+      <section id="history" class="article-section">
+        <p class="eyebrow">05 · Журнал</p>
+        <h2>Переглядайте історію подій</h2>
+        <p>Журнал показує події моніторингу й результат доставки fallback-повідомлень. Дані журналу зберігаються локально на пристрої. Не додавайте до публічних звітів скриншоти з ключами каналу або приватними даними.</p>
+        <figure class="wide-shot"><img src="assets/screenshots/event-history.png" alt="Екран журналу подій СвітлоБота"><figcaption>Історія заряджання та результатів доставки.</figcaption></figure>
+      </section>
+
+      <section class="article-end">
+        <h2>Потрібна допомога?</h2>
+        <p>Перегляньте <a href="faq.html">поширені запитання</a> або напишіть на <a href="mailto:svitlobot@gmail.com">svitlobot@gmail.com</a>. Вразливості повідомляйте лише приватно через <a href="security.html">сторінку безпеки</a>.</p>
+      </section>
+    </main>
+    <footer class="site-footer"><a class="footer-brand" href="index.html">СвітлоБот <span>для iOS</span></a><p><a href="privacy-policy.html">Приватність</a> · <a href="terms-of-use.html">Умови</a> · <a href="https://github.com/Baskerville42/SvitloBotIOS">GitHub</a></p><p class="footer-small">Застосунок не є системою аварійного сповіщення чи засобом керування електропостачанням.</p></footer>
+  </body>
+</html>

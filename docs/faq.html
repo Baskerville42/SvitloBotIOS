@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Відповіді про моніторинг, заряджання, Telegram-fallback і приватність у застосунку СвітлоБот.">
+    <meta name="theme-color" content="#0f2538">
+    <title>Питання й відповіді — СвітлоБот для iOS</title>
+    <link rel="icon" type="image/png" href="assets/svitlobot-icon.png">
+    <link rel="stylesheet" href="assets/site.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Перейти до вмісту</a>
+    <header class="site-header"><a class="brand" href="index.html" aria-label="СвітлоБот — головна сторінка"><img src="assets/svitlobot-icon.png" alt=""><span>СвітлоБот <small>для iOS</small></span></a><nav class="site-nav" aria-label="Головна навігація"><a href="index.html">Про застосунок</a><a href="guide.html">Інструкція</a><a class="active" aria-current="page" href="faq.html">Питання й відповіді</a><a href="privacy-policy.html">Приватність</a><a href="terms-of-use.html">Умови</a></nav></header>
+    <main id="main" class="document-page">
+      <div class="document-heading"><p class="eyebrow">Допомога</p><h1>Питання й відповіді</h1><p class="document-lead">Коротко про режими роботи, мережу та дані застосунку.</p></div>
+      <nav class="contents-card" aria-label="Зміст"><strong>На цій сторінці</strong><a href="#modes">Режими</a><a href="#background">Робота у фоні</a><a href="#queue">Черга повідомлень</a><a href="#privacy">Приватність</a><a href="#accuracy">Точність</a></nav>
+      <section id="modes" class="faq-item"><h2>Чим відрізняються режими?</h2><p>У режимі Світлобота застосунок передає сигнали серверу, який визначає зміну стану й публікує її у Telegram. У Telegram-fallback застосунок надсилає повідомлення сам через вашого бота. Одночасно працює тільки один режим.</p><p><a href="guide.html#svitlobot">Інструкція до режиму Світлобота</a> · <a href="guide.html#telegram">Інструкція до Telegram-fallback</a></p></section>
+      <section id="background" class="faq-item"><h2>Чому застосунок потрібно залишати відкритим?</h2><p>iOS може призупиняти застосунки у фоні. Для регулярних сигналів приблизно раз на хвилину залишайте СвітлоБот відкритим і пристрій під’єднаним до інтернету й зарядного пристрою. Фактичний інтервал залежить від стану пристрою та мережі.</p></section>
+      <section id="queue" class="faq-item"><h2>Що станеться, якщо немає інтернету?</h2><p>У Telegram-fallback зміни заряджання, які не вдалося надіслати, можуть зберегтися в локальній черзі та надіслатися після відновлення зв’язку. Черга не гарантує доставку, якщо застосунок закрито, дані видалені, токен відкликаний або канал недоступний.</p><p>У режимі Світлобота сервер не отримає сигнал, поки пристрій не відновить підключення.</p></section>
+      <section id="privacy" class="faq-item"><h2>Чи передаються дані третім сторонам?</h2><p>Застосунок не має облікового запису чи окремої аналітики. У режимі Світлобота мережеві запити отримує сервер Світлобота. У режимі fallback токен бота, адресат і текст повідомлень передаються Telegram. Докладно: <a href="privacy-policy.html">політика приватності</a>.</p></section>
+      <section id="accuracy" class="faq-item"><h2>Чи показує застосунок точний стан електромережі?</h2><p>Ні. Він відстежує заряджання свого пристрою й використовує його як непрямий індикатор. На заряджання можуть впливати кабель, адаптер, батарея, налаштування пристрою й програмні обмеження. Не використовуйте застосунок для аварійних, критичних або безпекових рішень.</p></section>
+      <section class="article-end"><h2>Не знайшли відповіді?</h2><p>Напишіть на <a href="mailto:svitlobot@gmail.com">svitlobot@gmail.com</a> або створіть звичайне звернення в <a href="https://github.com/Baskerville42/SvitloBotIOS/issues">GitHub Issues</a>. Не надсилайте туди токени чи ключі.</p></section>
+    </main>
+    <footer class="site-footer"><a class="footer-brand" href="index.html">СвітлоБот <span>для iOS</span></a><p><a href="privacy-policy.html">Приватність</a> · <a href="terms-of-use.html">Умови</a> · <a href="security.html">Безпека</a></p><p class="footer-small">Моніторинг має довідковий характер.</p></footer>
+  </body>
+</html>

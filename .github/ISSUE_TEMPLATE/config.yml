@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/Baskerville42/SvitloBotIOS/security/advisories/new
+    about: Report a vulnerability privately. If private reporting is unavailable, use the contact instructions in SECURITY.md.
+  - name: Documentation and usage help
+    url: https://baskerville42.github.io/SvitloBotIOS/
+    about: Read the app guide, FAQ, privacy policy, and terms.

@@ -1,0 +1,57 @@
+name: Bug report
+description: Report a reproducible problem with the iOS app
+title: "Bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        For a suspected security issue, do not use this form. Follow [SECURITY.md](https://github.com/Baskerville42/SvitloBotIOS/blob/main/SECURITY.md).
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the behavior and what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. Open … 2. Enable … 3. Observe …"
+    validations:
+      required: true
+  - type: input
+    id: app-version
+    attributes:
+      label: App version
+    validations:
+      required: true
+  - type: input
+    id: os-version
+    attributes:
+      label: iOS or iPadOS version
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device model
+    validations:
+      required: false
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized logs or screenshots
+      description: Remove bot tokens, channel keys, private channel identifiers, and personal information before sharing.
+    validations:
+      required: false
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Before submitting
+      options:
+        - label: I removed credentials and private user information from this report.
+          required: true
+        - label: This is not a security vulnerability report.
+          required: true
