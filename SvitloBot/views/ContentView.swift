@@ -585,7 +585,7 @@ private struct OnboardingView: View {
                     Spacer(minLength: 0)
                 }
 
-                Button(Text((page == 2 ? "Почати" : "Далі").localized)) {
+                Button((page == 2 ? "Почати" : "Далі").localized) {
                     if page < 2 { withAnimation { page += 1 } } else { onFinish() }
                 }
                 .buttonStyle(PrimaryActionButtonStyle(color: .blue))
