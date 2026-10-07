@@ -6,7 +6,7 @@
 
 [Інструкція до застосунку](https://baskerville42.github.io/SvitloBotIOS/) · [Політика приватності](https://baskerville42.github.io/SvitloBotIOS/privacy-policy.html) · [Умови використання](https://baskerville42.github.io/SvitloBotIOS/terms-of-use.html) · [Повідомити про вразливість](SECURITY.md)
 
-[![CodeQL](https://github.com/Baskerville42/SvitloBotIOS/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/Baskerville42/SvitloBotIOS/actions/workflows/codeql.yml) [![Documentation](https://github.com/Baskerville42/SvitloBotIOS/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/Baskerville42/SvitloBotIOS/actions/workflows/pages.yml)
+[![CodeQL](https://github.com/Baskerville42/SvitloBotIOS/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/Baskerville42/SvitloBotIOS/actions/workflows/codeql.yml) [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/15272/badge)](https://www.bestpractices.dev/projects/15272) [![Documentation](https://github.com/Baskerville42/SvitloBotIOS/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/Baskerville42/SvitloBotIOS/actions/workflows/pages.yml)
 
 ![Піктограма СвітлоБота](docs/assets/svitlobot-icon.png)
 
