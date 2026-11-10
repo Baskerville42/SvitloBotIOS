@@ -22,6 +22,7 @@
 		37FFDB632C948E6D0063342C /* LogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FFDB5F2C948E6D0063342C /* LogsView.swift */; };
 		7A2B61D03000000000000001 /* TelegramAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2B61D03000000000000002 /* TelegramAPI.swift */; };
 		9FD3DEEB2F2406BF00859743 /* СвітлоБот.shortcut in Resources */ = {isa = PBXBuildFile; fileRef = 9FD3DEEA2F2406BF00859743 /* СвітлоБот.shortcut */; };
+		A59C8E51D57B4F298176C024 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A59C8E50D57B4F298176C024 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		7A2B61D03000000000000002 /* TelegramAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelegramAPI.swift; sourceTree = "<group>"; };
 		9FD3DEEA2F2406BF00859743 /* СвітлоБот.shortcut */ = {isa = PBXFileReference; lastKnownFileType = file; path = "СвітлоБот.shortcut"; sourceTree = "<group>"; };
 		A17E3A1A2C83649500B79923 /* SvitloBotV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SvitloBotV1.xcdatamodel"; sourceTree = "<group>"; };
+		A59C8E50D57B4F298176C024 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -87,6 +89,7 @@
 			children = (
 				37FFDB392C948CE00063342C /* Assets.xcassets */,
 				37599CBA2C937B2A00773C28 /* Localizable.xcstrings */,
+				A59C8E50D57B4F298176C024 /* PrivacyInfo.xcprivacy */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 			files = (
 				9FD3DEEB2F2406BF00859743 /* СвітлоБот.shortcut in Resources */,
 				37599CBB2C937B2A00773C28 /* Localizable.xcstrings in Resources */,
+				A59C8E51D57B4F298176C024 /* PrivacyInfo.xcprivacy in Resources */,
 				37FFDB3A2C948CE00063342C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -380,7 +384,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ua.in.svitlobot.SvitloBot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -418,7 +422,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ua.in.svitlobot.SvitloBot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
