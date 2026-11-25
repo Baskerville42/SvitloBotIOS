@@ -21,6 +21,13 @@ class SvitloBotAPI: BaseAPI {
         return try await get(endpoint: "/channelPingOff", params: params)
     }
 
+    func sendChannelBatteryLow(_ channelKey: String, level: Int) async throws -> (statusCode: Int, response: String) {
+        return try await get(
+            endpoint: "/channelBatteryLow",
+            params: ["channel_key": channelKey, "level": String(level)]
+        )
+    }
+
     func getChannelStatus(_ channelKey: String) async throws -> (statusCode: Int, response: String) {
         var params = [String: String]()
         params["channel_key"] = channelKey

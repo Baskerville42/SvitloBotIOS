@@ -6,9 +6,9 @@
 //
 
 import Combine
-import UIKit
-import Network
 import CoreData
+import Network
+import UIKit
 
 enum RequestStatus {
     case success, warning, error, idle
@@ -42,7 +42,7 @@ public class EventLog: NSManagedObject {
     @NSManaged public var timestamp: Date
     @NSManaged public var eventType: String
     @NSManaged public var additionalInfo: String?
-    
+
     enum EventType: String {
         case apiRequestSuccess
         case apiRequestFailure
@@ -86,18 +86,22 @@ class ContentViewModel: ObservableObject {
     }
     @Published var isImmediateOffRequestEnabled: Bool {
         didSet {
-            UserDefaults.standard.set(isImmediateOffRequestEnabled, forKey: SharedMonitoringState.immediateOffEnabledKey)
+            UserDefaults.standard.set(
+                isImmediateOffRequestEnabled, forKey: SharedMonitoringState.immediateOffEnabledKey)
         }
     }
     @Published var isTelegramFallbackEnabled: Bool {
         didSet {
-            UserDefaults.standard.set(isTelegramFallbackEnabled, forKey: SharedMonitoringState.telegramFallbackEnabledKey)
+            UserDefaults.standard.set(
+                isTelegramFallbackEnabled, forKey: SharedMonitoringState.telegramFallbackEnabledKey)
             updateAppIcon(forTelegramFallback: isTelegramFallbackEnabled)
             let toggleInfo: String
             if isTelegramFallbackEnabled {
                 toggleInfo = "telegram.fallback.enabled".localized
             } else if pendingTelegramMessageCount > 0 {
-                toggleInfo = "telegram.fallback.disabled_queue_paused".localizedWithParams(["count": String(pendingTelegramMessageCount)])
+                toggleInfo = "telegram.fallback.disabled_queue_paused".localizedWithParams([
+                    "count": String(pendingTelegramMessageCount)
+                ])
             } else {
                 toggleInfo = "telegram.fallback.disabled".localized
             }
@@ -137,7 +141,8 @@ class ContentViewModel: ObservableObject {
     @Published var isTelegramConfigurationCheckInProgress = false
     @Published var isTelegramConfigurationVerified = false {
         didSet {
-            UserDefaults.standard.set(isTelegramConfigurationVerified, forKey: SharedMonitoringState.telegramConfigurationVerifiedKey)
+            UserDefaults.standard.set(
+                isTelegramConfigurationVerified, forKey: SharedMonitoringState.telegramConfigurationVerifiedKey)
         }
     }
     @Published var telegramBotUsername: String?
@@ -149,7 +154,7 @@ class ContentViewModel: ObservableObject {
             && !telegramChatID.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
     @Published var requestStatus: RequestStatus = .idle
-    
+
     private let context = PersistenceController.shared.container.viewContext
     private let telegramStoreContext = PersistenceController.shared.container.newBackgroundContext()
     private var timer: AnyCancellable?
@@ -162,16 +167,19 @@ class ContentViewModel: ObservableObject {
     private var lastObservedChargingStatus: Bool?
     private var pendingChargingTransitions: [ChargingTransitionSnapshot] = []
     private var chargingTransitionRetryTimer: AnyCancellable?
-    
+
     init() {
         UIApplication.shared.isIdleTimerDisabled = true
         self.isAutoRequestEnabled = UserDefaults.standard.bool(forKey: SharedMonitoringState.autoRequestsEnabledKey)
-        self.isImmediateOffRequestEnabled = UserDefaults.standard.bool(forKey: SharedMonitoringState.immediateOffEnabledKey)
-        self.isTelegramFallbackEnabled = UserDefaults.standard.bool(forKey: SharedMonitoringState.telegramFallbackEnabledKey)
+        self.isImmediateOffRequestEnabled = UserDefaults.standard.bool(
+            forKey: SharedMonitoringState.immediateOffEnabledKey)
+        self.isTelegramFallbackEnabled = UserDefaults.standard.bool(
+            forKey: SharedMonitoringState.telegramFallbackEnabledKey)
         self.telegramBotToken = TelegramTokenStore.read()
         self.telegramChatID = UserDefaults.standard.string(forKey: SharedMonitoringState.telegramChatIDKey) ?? ""
         if let data = UserDefaults.standard.data(forKey: SharedMonitoringState.pendingChargingTransitionsKey),
-           let transitions = try? JSONDecoder().decode([ChargingTransitionSnapshot].self, from: data) {
+            let transitions = try? JSONDecoder().decode([ChargingTransitionSnapshot].self, from: data)
+        {
             self.pendingChargingTransitions = transitions
         }
         if let latestTransition = pendingChargingTransitions.last {
@@ -180,7 +188,8 @@ class ContentViewModel: ObservableObject {
             self.lastObservedChargingStatus = latestTransition.current
         }
         self.pendingTelegramMessageCount = pendingTelegramCount()
-        self.isTelegramConfigurationVerified = UserDefaults.standard.bool(forKey: SharedMonitoringState.telegramConfigurationVerifiedKey)
+        self.isTelegramConfigurationVerified = UserDefaults.standard.bool(
+            forKey: SharedMonitoringState.telegramConfigurationVerifiedKey)
         let savedTelegramMessageDate = UserDefaults.standard.object(forKey: "telegramLastMessageDate") as? Date
         let loggedTelegramMessageDate = Self.latestTelegramMessageDate(in: context)
         self.lastTelegramMessageDate = [savedTelegramMessageDate, loggedTelegramMessageDate].compactMap { $0 }.max()
@@ -192,7 +201,7 @@ class ContentViewModel: ObservableObject {
         validateChannelKey()
         validateConditions()
     }
-    
+
     private func canPerformAutoRequest() -> Bool {
         return !isTelegramFallbackEnabled && isCharging && isConnected && isAutoRequestEnabled && !channelKey.isEmpty
     }
@@ -201,7 +210,8 @@ class ContentViewModel: ObservableObject {
         let iconName = enabled ? "TelegramFallback" : nil
         DispatchQueue.main.async {
             guard UIApplication.shared.supportsAlternateIcons,
-                  UIApplication.shared.alternateIconName != iconName else { return }
+                UIApplication.shared.alternateIconName != iconName
+            else { return }
             UIApplication.shared.setAlternateIconName(iconName) { error in
                 if let error {
                     print("Failed to update app icon: \(error.localizedDescription)")
@@ -212,16 +222,18 @@ class ContentViewModel: ObservableObject {
 
     func saveChannelKey() {
         UserDefaults.standard.set(channelKey, forKey: "channelKey")
+        updateLowBatteryAlert()
     }
-    
+
     private func validateChannelKey() {
         if channelKey.isEmpty {
             isAutoRequestEnabled = false
             requestStatus = .error
         }
     }
-    
+
     private func validateConditions() {
+        updateLowBatteryAlert()
         if canPerformAutoRequest() {
             requestStatus = .idle
             startRequestTimerIfNeeded()
@@ -229,10 +241,12 @@ class ContentViewModel: ObservableObject {
             requestStatus = .error
         }
     }
-    
+
     func startMonitoringBattery() {
         UIDevice.current.isBatteryMonitoringEnabled = true
         batteryObserver = NotificationCenter.default.publisher(for: UIDevice.batteryStateDidChangeNotification)
+            .merge(with: NotificationCenter.default.publisher(for: UIDevice.batteryLevelDidChangeNotification))
+            .merge(with: NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.updateChargingStatus()
@@ -241,6 +255,7 @@ class ContentViewModel: ObservableObject {
     }
 
     func updateChargingStatus() {
+        updateLowBatteryAlert()
         let newChargingStatus = (UIDevice.current.batteryState == .charging || UIDevice.current.batteryState == .full)
         let defaults = UserDefaults.standard
 
@@ -301,6 +316,12 @@ class ContentViewModel: ObservableObject {
         }
     }
 
+    private func updateLowBatteryAlert() {
+        Task { @MainActor in
+            LowBatteryAlertMonitor.shared.update()
+        }
+    }
+
     private func savePendingChargingTransitions() {
         let key = SharedMonitoringState.pendingChargingTransitionsKey
         guard !pendingChargingTransitions.isEmpty else {
@@ -332,7 +353,9 @@ class ContentViewModel: ObservableObject {
                     savePendingChargingTransitions()
                     logEvent(
                         eventType: .telegramMessageFailure,
-                        additionalInfo: "telegram.charging_state.save_failed_details".localizedWithParams(["details": error.localizedDescription]),
+                        additionalInfo: "telegram.charging_state.save_failed_details".localizedWithParams([
+                            "details": error.localizedDescription
+                        ]),
                         timestamp: transition.occurredAt
                     )
                 }
@@ -349,7 +372,8 @@ class ContentViewModel: ObservableObject {
                 pendingTelegramMessageCount = pendingTelegramCount()
                 logEvent(
                     eventType: .telegramMessageQueued,
-                    additionalInfo: (transition.current ? "telegram.queue.light_restored" : "telegram.queue.power_lost").localized,
+                    additionalInfo: (transition.current ? "telegram.queue.light_restored" : "telegram.queue.power_lost")
+                        .localized,
                     timestamp: transition.occurredAt
                 )
                 drainPendingTelegramMessages()
@@ -386,7 +410,9 @@ class ContentViewModel: ObservableObject {
                 if telegramStoreContext.hasChanges { try telegramStoreContext.save() }
             } catch {
                 telegramStoreContext.rollback()
-                logEvent(eventType: .telegramMessageFailure, additionalInfo: "telegram.charging_state.initial_save_failed".localized)
+                logEvent(
+                    eventType: .telegramMessageFailure,
+                    additionalInfo: "telegram.charging_state.initial_save_failed".localized)
             }
         }
     }
@@ -415,15 +441,19 @@ class ContentViewModel: ObservableObject {
                 // is unreliable. Keep the event but mark its duration unknown instead of guessing.
                 let measuredElapsed = savedPrevious == transition.previous ? elapsed : nil
                 if transition.shouldSendTelegram {
-                    let existingMessageRequest = NSFetchRequest<PendingTelegramMessageItem>(entityName: "PendingTelegramMessageItem")
+                    let existingMessageRequest = NSFetchRequest<PendingTelegramMessageItem>(
+                        entityName: "PendingTelegramMessageItem")
                     existingMessageRequest.fetchLimit = 1
                     existingMessageRequest.predicate = NSPredicate(format: "id == %@", transition.id as NSUUID)
                     if try telegramStoreContext.fetch(existingMessageRequest).isEmpty {
-                        let sequenceRequest = NSFetchRequest<PendingTelegramMessageItem>(entityName: "PendingTelegramMessageItem")
+                        let sequenceRequest = NSFetchRequest<PendingTelegramMessageItem>(
+                            entityName: "PendingTelegramMessageItem")
                         sequenceRequest.sortDescriptors = [NSSortDescriptor(key: "sequence", ascending: false)]
                         sequenceRequest.fetchLimit = 1
-                        let sequence = (try telegramStoreContext.fetch(sequenceRequest).first?.sequence?.int64Value ?? 0) + 1
-                        let message = telegramMessage(isCharging: transition.current, duration: measuredElapsed, at: transition.occurredAt)
+                        let sequence =
+                            (try telegramStoreContext.fetch(sequenceRequest).first?.sequence?.int64Value ?? 0) + 1
+                        let message = telegramMessage(
+                            isCharging: transition.current, duration: measuredElapsed, at: transition.occurredAt)
                         let queued = PendingTelegramMessageItem(context: telegramStoreContext)
                         queued.id = transition.id
                         queued.createdAt = transition.occurredAt
@@ -455,12 +485,24 @@ class ContentViewModel: ObservableObject {
         clock.dateFormat = "HH:mm"
 
         if isCharging {
-            let durationText = duration.map { "telegram.message.light_restored.duration_known".localizedWithParams(["duration": formattedDuration($0)]) } ?? "telegram.message.light_restored.duration_unknown".localized
-            return "telegram.message.light_restored".localizedWithParams(["time": clock.string(from: date), "duration": durationText])
+            let durationText =
+                duration.map {
+                    "telegram.message.light_restored.duration_known".localizedWithParams([
+                        "duration": formattedDuration($0)
+                    ])
+                } ?? "telegram.message.light_restored.duration_unknown".localized
+            return "telegram.message.light_restored".localizedWithParams([
+                "time": clock.string(from: date), "duration": durationText,
+            ])
         }
 
-        let durationText = duration.map { "telegram.message.power_lost.duration_known".localizedWithParams(["duration": formattedDuration($0)]) } ?? "telegram.message.power_lost.duration_unknown".localized
-        return "telegram.message.power_lost".localizedWithParams(["time": clock.string(from: date), "duration": durationText])
+        let durationText =
+            duration.map {
+                "telegram.message.power_lost.duration_known".localizedWithParams(["duration": formattedDuration($0)])
+            } ?? "telegram.message.power_lost.duration_unknown".localized
+        return "telegram.message.power_lost".localizedWithParams([
+            "time": clock.string(from: date), "duration": durationText,
+        ])
     }
 
     private func formattedDuration(_ duration: TimeInterval) -> String {
@@ -471,7 +513,7 @@ class ContentViewModel: ObservableObject {
             (24 * 60 * 60, "telegram.duration.day"),
             (60 * 60, "telegram.duration.hour"),
             (60, "telegram.duration.minute"),
-            (1, "telegram.duration.second")
+            (1, "telegram.duration.second"),
         ]
 
         var remaining = max(0, Int(duration))
@@ -479,7 +521,8 @@ class ContentViewModel: ObservableObject {
         for unit in units {
             let value = remaining / Int(unit.seconds)
             guard value > 0 else { continue }
-            parts.append("telegram.duration.value".localizedWithParams(["value": String(value), "unit": unit.label.localized]))
+            parts.append(
+                "telegram.duration.value".localizedWithParams(["value": String(value), "unit": unit.label.localized]))
             remaining %= Int(unit.seconds)
             if parts.count == 2 { break }
         }
@@ -511,8 +554,9 @@ class ContentViewModel: ObservableObject {
 
     private func drainPendingTelegramMessages() {
         guard isTelegramFallbackEnabled,
-              !isSendingTelegramMessage,
-              !isTelegramConfigurationCheckInProgress else { return }
+            !isSendingTelegramMessage,
+            !isTelegramConfigurationCheckInProgress
+        else { return }
         guard isConnected else {
             if pendingTelegramMessageCount > 0 {
                 telegramStatusMessage = "telegram.delivery.offline_waiting".localized
@@ -529,9 +573,10 @@ class ContentViewModel: ObservableObject {
             request.fetchLimit = 1
             let results = (try? telegramStoreContext.fetch(request)) ?? []
             guard let item = results.first,
-                  let id = item.id,
-                  let text = item.text,
-                  let chatID = item.chatID else { return }
+                let id = item.id,
+                let text = item.text,
+                let chatID = item.chatID
+            else { return }
 
             item.deliveryState = "sending"
             next = (id, text, chatID, item.isCharging?.boolValue ?? false)
@@ -554,7 +599,8 @@ class ContentViewModel: ObservableObject {
             do {
                 _ = try await TelegramAPI().sendMessage(token: token, chatID: message.chatID, text: message.text)
                 await MainActor.run {
-                    let saved = self.finishTelegramDelivery(id: message.id, isCharging: message.isCharging, succeeded: true)
+                    let saved = self.finishTelegramDelivery(
+                        id: message.id, isCharging: message.isCharging, succeeded: true)
                     self.isSendingTelegramMessage = false
                     if saved {
                         self.drainPendingTelegramMessages()
@@ -605,18 +651,23 @@ class ContentViewModel: ObservableObject {
             lastTelegramMessageDate = deliveredAt
             UserDefaults.standard.set(deliveredAt, forKey: "telegramLastMessageDate")
             isTelegramConfigurationVerified = true
-            telegramStatusMessage = pendingTelegramMessageCount > 0
-                ? "telegram.delivery.sent_queue_remaining".localizedWithParams(["count": String(pendingTelegramMessageCount)])
+            telegramStatusMessage =
+                pendingTelegramMessageCount > 0
+                ? "telegram.delivery.sent_queue_remaining".localizedWithParams([
+                    "count": String(pendingTelegramMessageCount)
+                ])
                 : "telegram.delivery.sent".localized
             logEvent(
                 eventType: .telegramMessageSuccess,
-                additionalInfo: (isCharging ? "telegram.log.light_restored_sent" : "telegram.log.power_lost_sent").localized,
+                additionalInfo: (isCharging ? "telegram.log.light_restored_sent" : "telegram.log.power_lost_sent")
+                    .localized,
                 timestamp: deliveredAt
             )
         } else {
             telegramStatusMessage = "telegram.delivery.waiting_for_connection".localized
             if shouldLogFailure {
-                logEvent(eventType: .telegramMessageFailure, additionalInfo: "telegram.delivery.failed_queued".localized)
+                logEvent(
+                    eventType: .telegramMessageFailure, additionalInfo: "telegram.delivery.failed_queued".localized)
             }
         }
         return true
@@ -639,7 +690,9 @@ class ContentViewModel: ObservableObject {
                 let bot = try await api.getMe(token: token)
                 let chat = try await api.getChat(token: token, chatID: destination)
                 let member = try await api.getChatMember(token: token, chatID: String(chat.id), userID: bot.id)
-                guard member.status == "creator" || (member.status == "administrator" && member.canPostMessages != false) else {
+                guard
+                    member.status == "creator" || (member.status == "administrator" && member.canPostMessages != false)
+                else {
                     throw TelegramAPIError.apiFailure("telegram.configuration.bot_needs_admin_rights".localized)
                 }
                 await MainActor.run {
@@ -647,7 +700,9 @@ class ContentViewModel: ObservableObject {
                     self.telegramBotUsername = bot.username.map { "@\($0)" }
                     self.isTelegramConfigurationVerified = true
                     self.telegramStatusMessage = "telegram.configuration.bot_can_post".localized
-                    self.logEvent(eventType: .telegramConfigurationSuccess, additionalInfo: "telegram.configuration.bot_can_post".localized)
+                    self.logEvent(
+                        eventType: .telegramConfigurationSuccess,
+                        additionalInfo: "telegram.configuration.bot_can_post".localized)
                     self.retryPendingTelegramMessages()
                 }
             } catch {
@@ -662,10 +717,11 @@ class ContentViewModel: ObservableObject {
 
     private func sendImmediateOffRequestIfNeeded() {
         guard !isTelegramFallbackEnabled,
-              isAutoRequestEnabled,
-              isImmediateOffRequestEnabled,
-              !channelKey.isEmpty,
-              !UserDefaults.standard.bool(forKey: SharedMonitoringState.immediateOffSentKey) else {
+            isAutoRequestEnabled,
+            isImmediateOffRequestEnabled,
+            !channelKey.isEmpty,
+            !UserDefaults.standard.bool(forKey: SharedMonitoringState.immediateOffSentKey)
+        else {
             return
         }
 
@@ -687,7 +743,7 @@ class ContentViewModel: ObservableObject {
             }
         }
     }
-    
+
     func startMonitoringNetwork() {
         monitor.pathUpdateHandler = { [weak self] path in
             DispatchQueue.main.async {
@@ -705,7 +761,7 @@ class ContentViewModel: ObservableObject {
         }
         monitor.start(queue: queue)
     }
-    
+
     private func startRequestTimer() {
         timer?.cancel()
         timer = Timer.publish(every: 60, on: .main, in: .default)
@@ -714,7 +770,7 @@ class ContentViewModel: ObservableObject {
                 self?.performAutoRequest()
             }
     }
-    
+
     private func startRequestTimerIfNeeded() {
         if canPerformAutoRequest() {
             performAutoRequest()
@@ -723,7 +779,7 @@ class ContentViewModel: ObservableObject {
             timer?.cancel()
         }
     }
-    
+
     func performAutoRequest() {
         if canPerformAutoRequest() {
             performApiRequest()
@@ -731,7 +787,7 @@ class ContentViewModel: ObservableObject {
             requestStatus = .error
         }
     }
-    
+
     func performTestRequest() {
         guard !isTelegramFallbackEnabled else {
             requestStatus = .error
@@ -747,30 +803,30 @@ class ContentViewModel: ObservableObject {
         performApiRequest()
         logTestRequest()
     }
-    
+
     func performApiRequest() {
         requestStatus = .idle
         UIScreen.main.brightness = 0
-        
+
         let api = SvitloBotAPI()
-        
+
         Task {
             do {
                 let (statusCode, _) = try await api.getChannelPing(channelKey)
-                
+
                 DispatchQueue.main.async {
                     self.logApiRequest(success: true, statusCode: statusCode)
                 }
             } catch let error as NSError {
                 let statusCode = error.code
-                
+
                 DispatchQueue.main.async {
                     self.logApiRequest(success: false, statusCode: statusCode)
                 }
             }
         }
     }
-    
+
     private static func latestTelegramMessageDate(in context: NSManagedObjectContext) -> Date? {
         let request = NSFetchRequest<EventLogItem>(entityName: "EventLogItem")
         request.predicate = NSPredicate(format: "eventType == %@", EventLog.EventType.telegramMessageSuccess.rawValue)
@@ -786,7 +842,8 @@ class ContentViewModel: ObservableObject {
 
     func refreshLastTelegramMessageDate() {
         guard let loggedDate = Self.latestTelegramMessageDate(in: context),
-              loggedDate > (lastTelegramMessageDate ?? .distantPast) else { return }
+            loggedDate > (lastTelegramMessageDate ?? .distantPast)
+        else { return }
         lastTelegramMessageDate = loggedDate
         UserDefaults.standard.set(loggedDate, forKey: "telegramLastMessageDate")
     }
@@ -798,7 +855,7 @@ class ContentViewModel: ObservableObject {
             eventLog.timestamp = timestamp
             eventLog.eventType = eventType.rawValue
             eventLog.additionalInfo = additionalInfo
-            
+
             do {
                 try self.context.save()
             } catch {
@@ -806,13 +863,13 @@ class ContentViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func logApiRequest(success: Bool, statusCode: NSInteger?) {
         logEvent(
             eventType: success ? .apiRequestSuccess : .apiRequestFailure,
             additionalInfo: "logs_api_request".localizedWithParams([
                 "status": success ? "logs_api_request_success".localized : "logs_api_request_failure".localized,
-                "statusCode": String(describing: statusCode)
+                "statusCode": String(describing: statusCode),
             ])
         )
         self.lastRequestDate = Date()
@@ -824,12 +881,12 @@ class ContentViewModel: ObservableObject {
             eventType: success ? .apiRequestSuccess : .apiRequestFailure,
             additionalInfo: "logs_immediate_off_request".localizedWithParams([
                 "status": success ? "logs_api_request_success".localized : "logs_api_request_failure".localized,
-                "statusCode": String(describing: statusCode)
+                "statusCode": String(describing: statusCode),
             ])
         )
         self.lastRequestDate = Date()
     }
-    
+
     private func logChargingStatus(isCharging: Bool) {
         logEvent(
             eventType: .chargingStatusChanged,
@@ -838,17 +895,17 @@ class ContentViewModel: ObservableObject {
             ])
         )
     }
-    
-    
+
     private func logNetworkStatus(isConnected: Bool) {
         logEvent(
             eventType: .internetStatusChanged,
             additionalInfo: "logs_internet_status".localizedWithParams([
-                "status": isConnected ? "logs_internet_connected_status".localized : "logs_internet_disconnected_status".localized
+                "status": isConnected
+                    ? "logs_internet_connected_status".localized : "logs_internet_disconnected_status".localized
             ])
         )
     }
-    
+
     private func logAutoRequestStatus(isEnabled: Bool) {
         logEvent(
             eventType: .autoRequestToggled,
@@ -857,15 +914,15 @@ class ContentViewModel: ObservableObject {
             ])
         )
     }
-    
+
     private func logTestRequest() {
         logEvent(eventType: .testRequestMade, additionalInfo: "logs_test_request_triggered".localized)
     }
-    
+
     func fetchEventLogs() -> [EventLogItem] {
         let fetchRequest: NSFetchRequest<EventLogItem> = EventLogItem.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
-        
+
         do {
             return try context.fetch(fetchRequest)
         } catch {
