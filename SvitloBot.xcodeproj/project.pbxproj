@@ -23,6 +23,8 @@
 		7A2B61D03000000000000001 /* TelegramAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2B61D03000000000000002 /* TelegramAPI.swift */; };
 		9FD3DEEB2F2406BF00859743 /* СвітлоБот.shortcut in Resources */ = {isa = PBXBuildFile; fileRef = 9FD3DEEA2F2406BF00859743 /* СвітлоБот.shortcut */; };
 		A59C8E51D57B4F298176C024 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A59C8E50D57B4F298176C024 /* PrivacyInfo.xcprivacy */; };
+		A7B401012026112500000001 /* LowBatteryAlertMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B401012026112500000002 /* LowBatteryAlertMonitor.swift */; };
+		A7B401012026112500000003 /* SvitloBotBatteryMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B401012026112500000004 /* SvitloBotBatteryMonitor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +49,8 @@
 		9FD3DEEA2F2406BF00859743 /* СвітлоБот.shortcut */ = {isa = PBXFileReference; lastKnownFileType = file; path = "СвітлоБот.shortcut"; sourceTree = "<group>"; };
 		A17E3A1A2C83649500B79923 /* SvitloBotV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SvitloBotV1.xcdatamodel"; sourceTree = "<group>"; };
 		A59C8E50D57B4F298176C024 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7B401012026112500000002 /* LowBatteryAlertMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LowBatteryAlertMonitor.swift; sourceTree = "<group>"; };
+		A7B401012026112500000004 /* SvitloBotBatteryMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SvitloBotBatteryMonitor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -70,6 +74,8 @@
 				3711F2322C9039540010A51F /* APIUtils.swift */,
 				3711F23A2C9042450010A51F /* BaseAPI.swift */,
 				3711F23C2C9046BD0010A51F /* SvitloBotAPI.swift */,
+				A7B401012026112500000004 /* SvitloBotBatteryMonitor.swift */,
+				A7B401012026112500000002 /* LowBatteryAlertMonitor.swift */,
 				7A2B61D03000000000000002 /* TelegramAPI.swift */,
 			);
 			path = api;
@@ -229,6 +235,8 @@
 				37FFDB622C948E6D0063342C /* ContentViewModel.swift in Sources */,
 				37FFDB612C948E6D0063342C /* IconView.swift in Sources */,
 				3711F23D2C9046BD0010A51F /* SvitloBotAPI.swift in Sources */,
+				A7B401012026112500000003 /* SvitloBotBatteryMonitor.swift in Sources */,
+				A7B401012026112500000001 /* LowBatteryAlertMonitor.swift in Sources */,
 				7A2B61D03000000000000001 /* TelegramAPI.swift in Sources */,
 				3711F2332C9039540010A51F /* APIUtils.swift in Sources */,
 				37FFDB632C948E6D0063342C /* LogsView.swift in Sources */,

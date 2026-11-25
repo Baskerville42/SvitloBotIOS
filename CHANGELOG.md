@@ -8,4 +8,5 @@ This project follows the structure of [Keep a Changelog](https://keepachangelog.
 
 ### Added
 
+- Low-battery warnings for SvitloBot monitoring: notify the channel administrator privately at 15% or below while unplugged, once per outage, with bounded retries for temporary failures.
 - Repository security and quality workflows, contribution policies, and GitHub Pages documentation.

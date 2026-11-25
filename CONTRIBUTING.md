@@ -20,6 +20,10 @@ Thanks for helping improve SvitloBot for iOS. The project is maintained by one p
 
 There is no committed automated test target at this time. Do not describe an Xcode Cloud build, test, or release as complete unless its run confirms that result.
 
+Run the low-battery delivery tests locally on macOS with `bash tools/test_low_battery.sh`.
+This compiles the production monitoring state machine with a standalone Swift test harness,
+using simulated battery readings and network responses. GitHub Actions runs the same checks.
+
 ## Swift style
 
 The repository includes Apple's `swift-format` configuration. Format Swift files you change with:

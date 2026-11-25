@@ -23,6 +23,8 @@ struct PerformRequestIntent: AppIntent {
             forKey: ShortcutRequestTiming.lastRequestStartedAtKey
         )
 
+        await LowBatteryAlertMonitor.shared.update()?.value
+
         guard UserDefaults.standard.bool(forKey: SharedMonitoringState.autoRequestsEnabledKey) else {
             return .result(dialog: IntentDialog("Автоматичні запити вимкнено в налаштуваннях Світлобота."))
         }
@@ -42,7 +44,8 @@ struct PerformRequestIntent: AppIntent {
             let message = String(format: "intents.perform_request.success".localized, "\(statusCode)")
             return .result(dialog: IntentDialog(stringLiteral: message))
         } catch let error as NSError {
-            let message = String(format: "intents.perform_request.error".localized, "\(error.code)", error.localizedDescription)
+            let message = String(
+                format: "intents.perform_request.error".localized, "\(error.code)", error.localizedDescription)
             return .result(dialog: IntentDialog(stringLiteral: message))
         }
     }

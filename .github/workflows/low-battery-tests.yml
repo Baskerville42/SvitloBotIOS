@@ -1,0 +1,34 @@
+name: Low battery alerts
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "SvitloBot/api/LowBatteryAlertMonitor.swift"
+      - "tests/LowBatteryAlertMonitorTests.swift"
+      - "tools/test_low_battery.sh"
+      - ".github/workflows/low-battery-tests.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "SvitloBot/api/LowBatteryAlertMonitor.swift"
+      - "tests/LowBatteryAlertMonitorTests.swift"
+      - "tools/test_low_battery.sh"
+      - ".github/workflows/low-battery-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: macos-15
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Test low battery delivery
+        run: bash tools/test_low_battery.sh
